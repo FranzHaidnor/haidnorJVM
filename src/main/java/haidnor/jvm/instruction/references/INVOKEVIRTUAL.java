@@ -1,10 +1,11 @@
 package haidnor.jvm.instruction.references;
 
+import haidnor.jvm.classloader.ClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.Instance;
 import haidnor.jvm.rtda.heap.Klass;
 import haidnor.jvm.rtda.heap.KlassMethod;
+import haidnor.jvm.rtda.metaspace.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
@@ -76,20 +77,42 @@ public class INVOKEVIRTUAL extends Instruction {
         }
         // 调用自定义类的方法
         else {
-            // 获得栈顶对象实例,根据对象的实际类型进行分派(虚方法分派),支持多态
-            StackValue stackValue = frame.peek();
-            Instance instance = (Instance) stackValue.getValue();
-            Klass meteKlass = instance.klass;
-            JavaClass javaClass = meteKlass.getJavaClass();
-            for (org.apache.bcel.classfile.Method method : javaClass.getMethods()) {
-                if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
-                    KlassMethod klassMethod = new KlassMethod(meteKlass, method);
-                    JavaExecutionEngine.callMethod(frame, klassMethod);
-                    break;
-                }
+            Klass klass = Metaspace.getJavaClass(Utility.compactClassName(className));
+            JavaClass javaClass;
+            if (klass != null) {
+                javaClass = klass.getJavaClass();
+            } else {
+                ClassLoader classLoader = frame.getMetaClass().getClassLoader();
+                klass = classLoader.loadClass(className);
+                javaClass = klass.getJavaClass();
             }
+
+            org.apache.bcel.classfile.Method method = getMethod(javaClass, methodSignature, methodName);
+            if (method == null) {
+                throw new NoSuchMethodException();
+            }
+            KlassMethod klassMethod = new KlassMethod(klass, method);
+            JavaExecutionEngine.callMethod(frame, klassMethod);
         }
     }
 
+    /**
+     * 递归查找方法, 如果子类没有实现方法则向父类查找
+     */
+    private static org.apache.bcel.classfile.Method getMethod(JavaClass javaClass, String methodSignature,String methodName) throws ClassNotFoundException {
+        org.apache.bcel.classfile.Method m = null;
+        for (org.apache.bcel.classfile.Method method : javaClass.getMethods()) {
+            if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
+                m =  method;
+            }
+        }
+        if (m != null) {
+            return m;
+        }
+        if (javaClass.getSuperClass() == null) {
+            return null;
+        }
+        return getMethod(javaClass.getSuperClass(), methodSignature, methodName);
+    }
 
 }

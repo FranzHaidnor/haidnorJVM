@@ -1,10 +1,15 @@
 package haidnor.jvm.test.clazz;
 
-public class Student implements Person {
+public class Student extends Baby{
 
-    @Override
-    public void eat() {
-        System.out.println("学生只能在学校食堂吃饭");
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
 }

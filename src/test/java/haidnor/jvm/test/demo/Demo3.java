@@ -30,17 +30,5 @@ class Student {
         this.age = age;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        Student student = (Student) o;
-//        System.out.println("调用了 equals 方法, 将 age=" + age + " 与 age=" + student.age + " 的对象进行比较");
-//        return age == student.age;
-//    }
-
-    @Override
-    public int hashCode() {
-        System.out.println("调用了 hashCode 方法");
-        return 123;  // 这个 hashCode() 算法很糟糕, 100% hash冲突
-    }
 
 }

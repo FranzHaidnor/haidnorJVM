@@ -9,6 +9,7 @@ import haidnor.jvm.runtime.JvmThread;
 import haidnor.jvm.test.demo.Demo1;
 import haidnor.jvm.test.demo.Demo2;
 import haidnor.jvm.test.demo.Demo3;
+import haidnor.jvm.test.demo.Demo4;
 import haidnor.jvm.test.instruction.Array;
 import haidnor.jvm.test.instruction.DO_WHILE;
 import haidnor.jvm.test.instruction.math.ISUB;
@@ -49,6 +50,11 @@ public class TestJVM {
     @Test
     public void test_3() throws Exception {
         runMainClass(Demo3.class);
+    }
+
+    @Test
+    public void test_4() throws Exception {
+        runMainClass(Demo4.class);
     }
 
     @Test
