@@ -87,9 +87,10 @@ public class INVOKEVIRTUAL extends Instruction {
                 javaClass = klass.getJavaClass();
             }
 
+            // 按照继承关系从下往上找实现的方法 (实现多态)
             org.apache.bcel.classfile.Method method = getMethod(javaClass, methodSignature, methodName);
             if (method == null) {
-                throw new NoSuchMethodException();
+                throw new AbstractMethodError();
             }
             KlassMethod klassMethod = new KlassMethod(klass, method);
             JavaExecutionEngine.callMethod(frame, klassMethod);
