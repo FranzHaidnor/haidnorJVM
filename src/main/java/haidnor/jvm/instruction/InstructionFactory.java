@@ -547,7 +547,7 @@ public abstract class InstructionFactory {
                 return new DRETURN(codeStream);
             }
             case Const.ARETURN -> {
-                throw new Error("Not support JavaVM opcode ARETURN");
+                return new ARETURN(codeStream);
             }
             case Const.RETURN -> {
                 return new RETURN(codeStream);

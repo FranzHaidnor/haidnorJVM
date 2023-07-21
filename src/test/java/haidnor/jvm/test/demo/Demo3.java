@@ -1,16 +1,14 @@
 package haidnor.jvm.test.demo;
 
+import haidnor.jvm.test.clazz.Student;
+
 import java.util.HashMap;
 
 public class Demo3 {
 
     public static void main(String[] args) {
-        Student sut1 = new Student(1);
-        Student sut2 = new Student(2);
-
-        if (sut1 == sut2) {
-
-        }
+        Student sut1 = new Student();
+        Student sut2 = new Student();
 
         HashMap<Student, String> hashMap = new HashMap<>();
         hashMap.put(sut1, "张三");
@@ -22,13 +20,3 @@ public class Demo3 {
 
 }
 
-class Student {
-
-    public int age;
-
-    public Student(int age) {
-        this.age = age;
-    }
-
-
-}

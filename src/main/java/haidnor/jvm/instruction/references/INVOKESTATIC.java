@@ -53,7 +53,7 @@ public class INVOKESTATIC extends Instruction {
                 }
             }
 
-            Class<?> javaClass = Class.forName(Utility.compactClassName(className,false));
+            Class<?> javaClass = Class.forName(Utility.compactClassName(className, false));
             java.lang.reflect.Method method = javaClass.getMethod(methodName, parameterTypeArr);
             method.setAccessible(true);
             Object value = method.invoke(null, stacksValueArr);
@@ -63,17 +63,20 @@ public class INVOKESTATIC extends Instruction {
         }
         // 自定义类的方法
         else {
-            Klass meteKlass = Metaspace.getJavaClass(Utility.compactClassName(className));
-            if (meteKlass != null) {
-                JavaClass javaClass = meteKlass.getJavaClass();
-                for (Method method : javaClass.getMethods()) {
-                    if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
-                        KlassMethod klassMethod = new KlassMethod(meteKlass, method);
-                        JavaExecutionEngine.callMethod(frame, klassMethod);
-                        break;
-                    }
+            Klass klass = Metaspace.getJavaClass(Utility.compactClassName(className));
+            // 调用静态方法时加载类
+            if (klass == null) {
+                klass = frame.getMetaClass().getClassLoader().loadClass(className);
+            }
+            JavaClass javaClass = klass.getJavaClass();
+            for (Method method : javaClass.getMethods()) {
+                if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
+                    KlassMethod klassMethod = new KlassMethod(klass, method);
+                    JavaExecutionEngine.callMethod(frame, klassMethod);
+                    break;
                 }
             }
+
         }
 
     }
