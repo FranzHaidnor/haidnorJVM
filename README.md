@@ -55,7 +55,7 @@ public class Demo5 {
     
 }
 ```
-![](/readme/20230721203048.png)
+![](/readme/20230721204333.png)
 
 info 级别将不会看到任何 haidnorJVM 内部运行信息
 
