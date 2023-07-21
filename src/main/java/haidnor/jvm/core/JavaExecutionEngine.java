@@ -28,27 +28,31 @@ public class JavaExecutionEngine {
         JvmThread jvmThread = JvmThreadHolder.get();
         Frame newFrame = new Frame(jvmThread, klassMethod);
 
-        Method method = klassMethod.javaMethod;
-        String signature = method.getSignature();
-        String[] argumentTypes = Utility.methodSignatureArgumentTypes(signature);
+        // 如果有上一个栈帧, 代表需要传参
+        if (lastFrame != null) {
+            Method method = klassMethod.javaMethod;
+            String signature = method.getSignature();
+            String[] argumentTypes = Utility.methodSignatureArgumentTypes(signature);
 
-        int argumentSlotSize = argumentTypes.length;
-        if (!method.isStatic()) {
-            argumentSlotSize++;
-        }
+            int argumentSlotSize = argumentTypes.length;
+            if (!method.isStatic()) {
+                argumentSlotSize++;
+            }
 
-        // 静态方法调用传参
-        // 将上一个栈帧操作数栈中数据弹出,存入下一个栈帧的局部变量表中
-        LocalVariableTable localVariableTable = method.getLocalVariableTable();
-        if (localVariableTable != null) {
-            for (int i = argumentSlotSize - 1; i >= 0; i--) {
-                LocalVariable[] localVariableArr = localVariableTable.getLocalVariableTable();
-                LocalVariable localVariable = localVariableArr[i];
-                int slotIndex = localVariable.getIndex();
-                StackValue stackValue = lastFrame.pop();
-                newFrame.slotSet(slotIndex, stackValue);
+            // 方法调用传参
+            // 将上一个栈帧操作数栈中数据弹出,存入下一个栈帧的局部变量表中
+            LocalVariableTable localVariableTable = method.getLocalVariableTable();
+            if (localVariableTable != null) {
+                for (int i = argumentSlotSize - 1; i >= 0; i--) {
+                    LocalVariable[] localVariableArr = localVariableTable.getLocalVariableTable();
+                    LocalVariable localVariable = localVariableArr[i];
+                    int slotIndex = localVariable.getIndex();
+                    StackValue stackValue = lastFrame.pop();
+                    newFrame.slotSet(slotIndex, stackValue);
+                }
             }
         }
+
         jvmThread.push(newFrame);
         Interpreter.executeFrame(newFrame);
     }

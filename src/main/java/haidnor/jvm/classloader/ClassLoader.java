@@ -1,9 +1,12 @@
 package haidnor.jvm.classloader;
 
+import haidnor.jvm.core.JavaExecutionEngine;
 import haidnor.jvm.rtda.heap.Klass;
+import haidnor.jvm.rtda.heap.KlassMethod;
 import haidnor.jvm.rtda.metaspace.Metaspace;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
+/**
+ * @author wang xiang
+ */
 public class ClassLoader {
 
     public final String name;
@@ -46,7 +52,6 @@ public class ClassLoader {
     public Klass loadClass(String classPath) throws IOException {
         ClassParser classParser;
         if (classPath.startsWith("java/")) {
-
             if (!new File(rtJarPath).exists()) {
                 throw new IllegalStateException("rt.jar not found");
             }
@@ -60,6 +65,17 @@ public class ClassLoader {
         JavaClass javaClass = classParser.parse();
         Klass klass = new Klass(this, javaClass);
         Metaspace.registerJavaClass(klass);
+
+        if (!classPath.startsWith("java/")) {
+            // do clinit
+            for (Method method : javaClass.getMethods()) {
+                if (method.toString().equals("static void <clinit>()")) {
+                    KlassMethod klassMethod = new KlassMethod(klass, method);
+                    JavaExecutionEngine.callMethod(null, klassMethod);
+                    break;
+                }
+            }
+        }
         return klass;
     }
 
@@ -68,6 +84,14 @@ public class ClassLoader {
         JavaClass javaClass = classParser.parse();
         Klass klass = new Klass(this, javaClass);
         Metaspace.registerJavaClass(klass);
+        // do clinit
+        for (Method method : javaClass.getMethods()) {
+            if (method.toString().equals("static void <clinit>()")) {
+                KlassMethod klassMethod = new KlassMethod(klass, method);
+                JavaExecutionEngine.callMethod(null, klassMethod);
+                break;
+            }
+        }
         return klass;
     }
 

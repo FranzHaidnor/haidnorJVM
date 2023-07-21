@@ -6,7 +6,9 @@ import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类元信息
@@ -32,6 +34,11 @@ public class Klass {
 
     private Klass superKlass;
 
+    /**
+     * 静态字段
+     */
+    private Map<String, KlassField> staticFieldMap = new HashMap<>();
+
     @SneakyThrows
     public Klass(ClassLoader classLoader, JavaClass javaClass) {
         this.javaClass = javaClass;
@@ -39,10 +46,22 @@ public class Klass {
         this.className = javaClass.getClassName();
         this.superClassName = javaClass.getSuperclassName();
 
+        // init staticFieldMap
+        for (Field field : javaClass.getFields()) {
+            if (field.isStatic()) {
+                staticFieldMap.put(field.getName(), new KlassField(field));
+            }
+        }
+
+        // loader super class
         JavaClass superJavaClass = javaClass.getSuperClass();
         if (superJavaClass != null) {
             this.superKlass = new Klass(classLoader, superJavaClass);
         }
+    }
+
+    public KlassField getStaticField(String filedName) {
+        return staticFieldMap.get(filedName);
     }
 
     public Instance newInstance() {

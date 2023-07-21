@@ -5,27 +5,21 @@ import haidnor.jvm.rtda.heap.Klass;
 import haidnor.jvm.rtda.heap.KlassField;
 import haidnor.jvm.rtda.metaspace.Metaspace;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.ConstantPoolUtil;
 import lombok.SneakyThrows;
-import org.apache.bcel.Const;
 import org.apache.bcel.classfile.ConstantFieldref;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.Utility;
 
-import java.lang.reflect.Field;
-
 /**
- * 获取字段符号引用指定的对象或者值(类的静态字段 static 修饰),并将其压入操作数栈
- *
  * @author wang xiang
  */
-public class GETSTATIC extends Instruction {
+public class PUTSTATIC extends Instruction {
 
     private final int constantFieldrefIndex;
 
-    public GETSTATIC(CodeStream codeStream) {
+    public PUTSTATIC(CodeStream codeStream) {
         super(codeStream);
         this.constantFieldrefIndex = codeStream.readUnsignedShort(this);
     }
@@ -42,16 +36,9 @@ public class GETSTATIC extends Instruction {
         String fieldName = constantPoolUtil.getFieldName(constFieldref);
         // 以上代码体现了动态链接.Class文件的常量池中存有大量的符号引用,字节码中的方法调用指令就以常量池里指向方法的符号引用作为参数.
 
-        if (className.startsWith("java/")) {
-            Class<?> clazz = Class.forName(className.replace('/', '.'));
-            Field field = clazz.getField(fieldName);
-            Object staticFiledValue = field.get(null);       // 获取静态字段上的值
-            frame.push(new StackValue(Const.T_OBJECT, staticFiledValue));
-        } else {
-            Klass javaClass = Metaspace.getJavaClass(Utility.compactClassName(className));
-            KlassField staticField = javaClass.getStaticField(fieldName);
-            frame.push(new StackValue(Const.T_OBJECT, staticField.getValue()));
-        }
+        Klass javaClass = Metaspace.getJavaClass(Utility.compactClassName(className));
+        KlassField staticField = javaClass.getStaticField(fieldName);
+        staticField.setVal(frame.pop());
     }
 
 }

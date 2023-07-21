@@ -556,7 +556,7 @@ public abstract class InstructionFactory {
                 return new GETSTATIC(codeStream);
             }
             case Const.PUTSTATIC -> {
-                throw new Error("Not support JavaVM opcode PUTSTATIC");
+                return new PUTSTATIC(codeStream);
             }
             case Const.GETFIELD -> {
                 return new GETFIELD(codeStream);
