@@ -27,7 +27,6 @@ public class JavaExecutionEngine {
     public static void callMethod(Frame lastFrame, KlassMethod klassMethod) {
         JvmThread jvmThread = JvmThreadHolder.get();
         Frame newFrame = new Frame(jvmThread, klassMethod);
-
         // 如果有上一个栈帧, 代表需要传参
         if (lastFrame != null) {
             Method method = klassMethod.javaMethod;
