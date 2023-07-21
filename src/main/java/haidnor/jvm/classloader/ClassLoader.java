@@ -46,7 +46,6 @@ public class ClassLoader {
     public Klass loadClass(String classPath) throws IOException {
         ClassParser classParser;
         if (classPath.startsWith("java/")) {
-            String rtJarPath = getRtJarPath();
 
             if (!new File(rtJarPath).exists()) {
                 throw new IllegalStateException("rt.jar not found");
@@ -71,12 +70,5 @@ public class ClassLoader {
         Metaspace.registerJavaClass(klass);
         return klass;
     }
-
-    private String getRtJarPath() {
-        // String javaHome = System.getenv("JAVA_HOME");
-        //  Path rtJarPath = Paths.get(javaHome, "jre", "lib", "rt.jar");
-        return rtJarPath;
-    }
-
 
 }
