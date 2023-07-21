@@ -30,8 +30,32 @@
 ### 配置日志输出级别
 修改 `simplelogger.properties` 文件中的内容。配置日志输出级别，一般使用 `debug`、`info`
 
-debug 级别下运行将会非常友好的输出 JVM 正在执行的栈信息
-![](/readme/20230721180520.png)
+debug 级别下运行将会非常友好的输出 JVM 正在执行的栈信息   
+例如使用 haidnorJVM 执行以下代码
+```java
+public class Demo5 {
+
+    public static void main(String[] args) {
+        String str = method1("hello world");
+        method1(str);
+    }
+
+    public static String method1(String s) {
+        return method2(s);
+    }
+
+    public static String method2(String s) {
+        return method3(s);
+    }
+
+    public static String method3(String s) {
+        System.out.println(s);
+        return "你好 世界";
+    }
+    
+}
+```
+![](/readme/20230721203048.png)
 
 info 级别将不会看到任何 haidnorJVM 内部运行信息
 
