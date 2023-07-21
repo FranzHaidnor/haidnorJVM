@@ -4,6 +4,8 @@ import org.apache.bcel.classfile.Method;
 
 /**
  * 类元信息方法
+ *
+ * @author wang xiang
  */
 public class KlassMethod {
 

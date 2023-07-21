@@ -1,6 +1,8 @@
 package haidnor.jvm.runtime;
 
-
+/**
+ * @author wang xiang
+ */
 public class Slot {
     public Integer num;
     public Object ref;

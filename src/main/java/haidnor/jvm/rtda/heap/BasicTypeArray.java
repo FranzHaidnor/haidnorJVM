@@ -1,5 +1,8 @@
 package haidnor.jvm.rtda.heap;
 
+/**
+ * @author wang xiang
+ */
 public class BasicTypeArray extends ArrayInstance {
 
     public int[] ints;

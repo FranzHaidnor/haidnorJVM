@@ -3,6 +3,9 @@ package haidnor.jvm.util;
 import lombok.SneakyThrows;
 import org.apache.bcel.classfile.Utility;
 
+/**
+ * @author wang xiang
+ */
 public abstract class SignatureUtil {
 
     /**

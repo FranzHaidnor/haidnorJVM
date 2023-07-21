@@ -4,6 +4,9 @@ import haidnor.jvm.rtda.heap.Klass;
 import haidnor.jvm.rtda.heap.KlassMethod;
 import org.apache.bcel.classfile.JavaClass;
 
+/**
+ * @author wang xiang
+ */
 public abstract class JavaClassUtil {
 
     /**

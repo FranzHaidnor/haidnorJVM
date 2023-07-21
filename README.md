@@ -30,6 +30,9 @@
 ### 配置日志输出级别
 修改 `simplelogger.properties` 文件中的内容。配置日志输出级别，一般使用 `debug`、`info`
 
+在 debug 级别下运行将会非常友好的输出 JVM 正在执行的栈信息
+![](/readme/20230721180520.png)
+
 ### 配置 rt.jar
 修改 `haidnorJVM.properties` 文件中的内容。配置 rt.jar 的绝对路径，例如`rt.jar=D:/Program Files/Java/jdk1.8.0_361/jre/lib/rt.jar`
 

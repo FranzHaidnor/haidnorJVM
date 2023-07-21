@@ -3,6 +3,9 @@ package haidnor.jvm.util;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
+/**
+ * @author wang xiang
+ */
 public abstract class IoUtil {
 
     public static DataInputStream getDataInputStream(byte[] bytes) {

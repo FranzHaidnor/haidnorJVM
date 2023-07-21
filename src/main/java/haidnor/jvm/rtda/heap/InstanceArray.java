@@ -1,5 +1,8 @@
 package haidnor.jvm.rtda.heap;
 
+/**
+ * @author wang xiang
+ */
 public class InstanceArray extends ArrayInstance {
 
     public final Instance[] items;

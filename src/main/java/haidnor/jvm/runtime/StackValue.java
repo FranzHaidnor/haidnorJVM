@@ -4,6 +4,8 @@ import lombok.Data;
 
 /**
  * 操作数栈中的值对象
+ *
+ * @author wang xiang
  */
 @Data
 public class StackValue {

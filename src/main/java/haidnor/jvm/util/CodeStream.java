@@ -6,6 +6,9 @@ import org.apache.bcel.classfile.Code;
 
 import java.io.DataInputStream;
 
+/**
+ * @author wang xiang
+ */
 public class CodeStream {
 
     /**

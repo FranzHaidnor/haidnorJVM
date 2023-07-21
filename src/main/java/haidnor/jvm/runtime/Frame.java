@@ -14,6 +14,8 @@ import java.util.Stack;
 
 /**
  * JVM 线程栈帧
+ *
+ * @author wang xiang
  */
 public class Frame {
     /**

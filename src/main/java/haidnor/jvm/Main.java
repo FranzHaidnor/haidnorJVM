@@ -9,10 +9,11 @@ import haidnor.jvm.runtime.JvmThread;
 import haidnor.jvm.util.JavaClassUtil;
 import haidnor.jvm.util.JvmThreadHolder;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 
-@Slf4j
+/**
+ * @author wang xiang
+ */
 public class Main {
 
     @SneakyThrows

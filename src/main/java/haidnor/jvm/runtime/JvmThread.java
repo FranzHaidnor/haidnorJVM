@@ -4,6 +4,8 @@ import java.util.Stack;
 
 /**
  * JVM 线程
+ *
+ * @author wang xiang
  */
 public class JvmThread extends Thread {
 
@@ -25,7 +27,7 @@ public class JvmThread extends Thread {
     }
 
     public int stackSize() {
-       return this.stack.size();
+        return this.stack.size();
     }
 
 }

@@ -1,5 +1,8 @@
 package haidnor.jvm.rtda.heap;
 
+/**
+ * @author wang xiang
+ */
 public abstract class ArrayInstance extends Instance {
 
     public final int size;

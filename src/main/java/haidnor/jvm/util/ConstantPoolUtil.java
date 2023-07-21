@@ -3,7 +3,7 @@ package haidnor.jvm.util;
 import org.apache.bcel.classfile.*;
 
 /**
- * ConstantPoolUtil
+ * @author wang xiang
  */
 public class ConstantPoolUtil {
 
@@ -29,6 +29,14 @@ public class ConstantPoolUtil {
         return cp.getConstant(constantNameAndTypeIndex);
     }
 
+
+    //
+
+    public ConstantPool getCp() {
+        return cp;
+    }
+
+
     // ConstantClass ---------------------------------------------------------------------------------------------------
 
     /**
@@ -38,6 +46,14 @@ public class ConstantPoolUtil {
         ConstantUtf8 constantUtf8 = cp.getConstant(constantClass.getNameIndex());
         return constantUtf8.getBytes();
     }
+    /**
+     * 获取长类名, 例如 java/lang/String
+     */
+    public String getClassName(int index) {
+        ConstantClass constantClass = cp.getConstant(index);
+        return getClassName(constantClass);
+    }
+
 
     // ConstantFieldref ------------------------------------------------------------------------------------------------
 

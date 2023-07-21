@@ -6,6 +6,8 @@ import org.apache.bcel.classfile.Field;
 
 /**
  * 类元信息字段
+ *
+ * @author wang xiang
  */
 public class KlassField {
 

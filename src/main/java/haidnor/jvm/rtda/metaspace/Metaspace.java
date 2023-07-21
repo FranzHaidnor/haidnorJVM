@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 元空间
+ *
+ * @author wang xiang
  */
 public class Metaspace {
 

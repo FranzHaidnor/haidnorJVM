@@ -2,6 +2,9 @@ package haidnor.jvm.util;
 
 import haidnor.jvm.runtime.JvmThread;
 
+/**
+ * @author wang xiang
+ */
 public abstract class JvmThreadHolder {
 
     private static final ThreadLocal<JvmThread> holder = new ThreadLocal<>();

@@ -7,6 +7,8 @@ import java.util.Objects;
 
 /**
  * JVM 中的 Java 对象实例
+ *
+ * @author wang xiang
  */
 public class Instance {
 

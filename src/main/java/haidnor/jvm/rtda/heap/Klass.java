@@ -15,6 +15,8 @@ import java.util.Map;
 
 /**
  * 类元信息
+ *
+ * @author wang xiang
  */
 public class Klass {
 
