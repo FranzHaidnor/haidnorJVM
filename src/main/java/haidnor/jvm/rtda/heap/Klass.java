@@ -1,9 +1,12 @@
 package haidnor.jvm.rtda.heap;
 
 import haidnor.jvm.classloader.ClassLoader;
+import haidnor.jvm.core.JavaExecutionEngine;
+import haidnor.jvm.rtda.metaspace.Metaspace;
 import lombok.SneakyThrows;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +53,19 @@ public class Klass {
         for (Field field : javaClass.getFields()) {
             if (field.isStatic()) {
                 staticFieldMap.put(field.getName(), new KlassField(field));
+            }
+        }
+
+        Metaspace.registerJavaClass(this);
+
+        // execute <clinit> method
+        if (!javaClass.getClassName().startsWith("java.")) {
+            for (Method method : javaClass.getMethods()) {
+                if (method.toString().equals("static void <clinit>()")) {
+                    KlassMethod klassMethod = new KlassMethod(this, method);
+                    JavaExecutionEngine.callMethod(null, klassMethod);
+                    break;
+                }
             }
         }
 
