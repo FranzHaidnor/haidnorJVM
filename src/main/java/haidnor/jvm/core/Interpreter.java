@@ -54,7 +54,7 @@ public class Interpreter {
             }
             i += instruction.offSet();
         }
-        log.debug("{}└──────────────────", blank);
+        log.debug("{}└──────────────────[{}] {} | {} ", blank, frameCount + 1, frame.aKlass.getClassName(), frame.getMethod());
         frameCount--;
     }
 
