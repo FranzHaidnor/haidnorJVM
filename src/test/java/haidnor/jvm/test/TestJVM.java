@@ -22,11 +22,11 @@ public class TestJVM {
 
     @SneakyThrows
     public static void runMainClass(java.lang.Class<?> mainClass) {
+        JvmThreadHolder.set(new JvmThread());
         ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
         Klass mainMeteKlass = bootClassLoader.loadClass(mainClass.getName().replace('.', '/'));
         KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
         Metaspace.registerJavaClass(mainMeteKlass);
-        JvmThreadHolder.set(new JvmThread());
 
         JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
     }

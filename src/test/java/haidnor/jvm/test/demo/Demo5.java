@@ -2,6 +2,10 @@ package haidnor.jvm.test.demo;
 
 public class Demo5 {
 
+    static {
+        System.out.println("hello,world");
+    }
+
     public static void main(String[] args) {
         String str = method1("hello world");
         method1(str);

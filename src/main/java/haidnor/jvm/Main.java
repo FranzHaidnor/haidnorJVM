@@ -35,12 +35,12 @@ public class Main {
             // TODO
         }
         if (cmd.hasOption("class")) {
+            JvmThreadHolder.set(new JvmThread());
             String path = cmd.getOptionValue("class");
             ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
             Klass mainMeteKlass = bootClassLoader.loadClassWithAbsolutePath(path);
             KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
             Metaspace.registerJavaClass(mainMeteKlass);
-            JvmThreadHolder.set(new JvmThread());
 
             JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
         }
