@@ -376,10 +376,10 @@ public abstract class InstructionFactory {
                 return new DUP2(codeStream);
             }
             case Const.DUP2_X1 -> {
-                throw new Error("Not support JavaVM opcode DUP2_X1");
+               return new DUP2_X1(codeStream);
             }
             case Const.DUP2_X2 -> {
-                throw new Error("Not support JavaVM opcode DUP2_X2");
+               return new DUP2_X2(codeStream);
             }
             case Const.SWAP -> {
                 return new SWAP(codeStream);
