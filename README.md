@@ -10,12 +10,15 @@
 * [Apache Commons BCEL](https://commons.apache.org/proper/commons-bcel/)
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/)
 
-# 实现功能与局限性
+# 实现功能
 * 支持基本数据类型数学运算
 * 支持循环、条件结构代码
 * 支持创建对象，访问对象
 * 支持多态
+* 支持反射
 * 支持访问静态方法
+
+# 局限性
 * 不支持多线程
 * 垃圾回收依靠宿主 JVM
 
@@ -23,15 +26,15 @@
 ## 你需要准备什么
 1. 集成开发环境 (IDE)。你可以选择包括 IntelliJ IDEA、Spring Tools、Visual Studio Code 或 Eclipse 等等
 2. JDK 17。并配置 JAVA_HOME
-3. JDK 8。强烈推荐! haidnorJVM 的主要目标是运行 Java8 本版的字节码文件。(haidnorVM 没有强制要求字节码文件是 Java8 版本)
+3. JDK 8。haidnorJVM 的主要目标是运行 Java8 本版的字节码文件。(但 haidnorJVM 没有强制要求字节码文件是 Java8 版本)
 4. Maven
 
 ## 配置 haidnorJVM
 ### 配置日志输出级别
-修改 `simplelogger.properties` 文件中的内容。配置日志输出级别，一般使用 `debug`、`info`
+在 `resources\simplelogger.properties` 文件中修改日志输出级别，一般使用 `debug`、`info`
 
-debug 级别下运行将会非常友好的输出 JVM 正在执行的栈信息   
-例如使用 haidnorJVM 执行以下代码
+* 配置 info 级别将不会看到任何 haidnorJVM 内部运行信息
+* 配置 debug 级别下运行将会非常友好的输出 JVM 正在执行的栈信息 (例如使用 haidnorJVM 运行以下代码)
 ```java
 public class Demo5 {
 
@@ -57,8 +60,6 @@ public class Demo5 {
 ```
 ![](/readme/20230721204333.png)
 
-info 级别将不会看到任何 haidnorJVM 内部运行信息
-
 ### 配置 rt.jar
 修改 `haidnorJVM.properties` 文件中的内容。配置 rt.jar 的绝对路径，例如`rt.jar=D:/Program Files/Java/jdk1.8.0_361/jre/lib/rt.jar`
 
@@ -66,11 +67,11 @@ info 级别将不会看到任何 haidnorJVM 内部运行信息
 打开 test 目录下的 `haidnor.jvm.test.TestJVM` 类文件。 这是 haidnorJVM 功能的主要测试类。 里面的测试方法可以解析并加载一些class字节码文件。
 ```java
 @Test
-public void test_LSUB() throws Exception {
-    runMainClass(LSUB.class);
+public void test() throws Exception {
+    runMainClass(HelloWorld.class);
 }
 ```
-例如以上代码会加载 LSUB.class 类在 target 目录下的字节码文件，然后使用 haidnorJVM 运行其中的 main 函数。你可以使用打断点的方式看到 haidnorJVM 是如何解释运行 Java 字节码的。   
+例如以上代码会加载 HelloWorld.class 类在 target 目录下的字节码文件，然后使用 haidnorJVM 运行其中的 main 函数。你可以使用打断点的方式看到 haidnorJVM 是如何解释运行 Java 字节码的。   
 值得注意的是，这种方式编译运行的字节码文件是基于 java17 版本的。
 
 ## 运行 .class 文件

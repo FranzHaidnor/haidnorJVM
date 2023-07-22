@@ -58,12 +58,13 @@ public class Main {
                             KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
                             Metaspace.registerJavaClass(mainMeteKlass);
                             JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
-                            break;
+                            return;
                         }
                     }
                 }
             }
-        } else if (cmd.hasOption("class")) {
+        }
+        if (cmd.hasOption("class")) {
             JvmThreadHolder.set(new JvmThread());
             String path = cmd.getOptionValue("class");
             ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
