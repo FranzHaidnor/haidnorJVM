@@ -91,7 +91,7 @@ public void test_LSUB() throws Exception {
 2. 编写一个 java 项目编译打包成 .jar 文件，例如 demo.jar。要求 .jar 文件中的 META-INF/MANIFEST.MF 文件内有 `Main-Class` 属性 (含有 public static void main(String[] args) 方法的主类信息)
 3. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM-1.0-SNAPSHOT.jar -class R:\demo.jar`。注意需要 jar 文件的绝对路径
 
-# 完成度,已实现的 JVM 指令
+# 已实现的 JVM 指令
 ```java
 public abstract class InstructionFactory {
 
