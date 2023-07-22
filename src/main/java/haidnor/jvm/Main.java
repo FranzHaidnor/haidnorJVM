@@ -17,6 +17,10 @@ import haidnor.jvm.util.JavaClassUtil;
 import haidnor.jvm.util.JvmThreadHolder;
 import lombok.SneakyThrows;
 
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
 /**
  * @author wang xiang
  */
@@ -37,17 +41,36 @@ public class Main {
         CommandLine cmd = parser.parse(options, args);
 
         if (cmd.hasOption("jar")) {
-            String path = cmd.getOptionValue("jar");
-            // TODO
-        }
-        if (cmd.hasOption("class")) {
+            String jarFilePath = cmd.getOptionValue("jar");
+
+            try (JarFile jarFile = new JarFile(jarFilePath)) {
+                ClassLoader bootClassLoader = new ClassLoader(jarFile, "ApplicationClassLoader");
+                String mainClass = jarFile.getManifest().getMainAttributes().getValue("Main-Class");
+
+                Enumeration<JarEntry> entries = jarFile.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                        String className = entry.getName().replace('/', '.').substring(0, entry.getName().length() - 6);
+                        if (className.equals(mainClass)) {
+                            JvmThreadHolder.set(new JvmThread());
+                            Klass mainMeteKlass = bootClassLoader.loadClass(jarFile, entry);
+                            KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
+                            Metaspace.registerJavaClass(mainMeteKlass);
+                            JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else if (cmd.hasOption("class")) {
             JvmThreadHolder.set(new JvmThread());
             String path = cmd.getOptionValue("class");
             ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
             Klass mainMeteKlass = bootClassLoader.loadClassWithAbsolutePath(path);
             KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
             Metaspace.registerJavaClass(mainMeteKlass);
-            
+
             JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
         }
     }

@@ -74,7 +74,7 @@ public void test_LSUB() throws Exception {
 值得注意的是，这种方式编译运行的字节码文件是基于 java17 版本的。
 
 ## 运行 .class 文件
-1. 使用 maven 命令将项目编译打包，得到 `haidnorJVM-1.0.jar` 文件
+1. 使用 maven 命令将 haidnorJVM 编译打包，得到 `haidnorJVM-1.0.jar` 文件
 2. 编写一个简单的程序，例如以下代码
    ```java
    public class HelloWorld {
@@ -87,7 +87,9 @@ public void test_LSUB() throws Exception {
 4. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM-1.0-SNAPSHOT.jar -class R:\HelloWorld.class`。注意需要 class 文件的绝对路径
 
 ## 运行 .jar 文件
-开发中...
+1. 使用 maven 命令将 haidnorJVM 编译打包，得到 `haidnorJVM-1.0.jar` 文件
+2. 编写一个 java 项目编译打包成 .jar 文件，例如 demo.jar。要求 .jar 文件中的 META-INF/MANIFEST.MF 文件内有 `Main-Class` 属性 (含有 public static void main(String[] args) 方法的主类信息)
+3. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM-1.0-SNAPSHOT.jar -class R:\demo.jar`。注意需要 jar 文件的绝对路径
 
 # 完成度,已实现的 JVM 指令
 ```java
