@@ -11,7 +11,7 @@ public class ISTORE extends Instruction {
 
     public ISTORE(CodeStream codeStream) {
         super(codeStream);
-        this.index = codeStream.readUnsignedShort(this);
+        this.index = codeStream.readUnsignedByte(this);
     }
 
     @Override

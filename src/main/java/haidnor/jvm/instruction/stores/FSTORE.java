@@ -11,7 +11,7 @@ public class FSTORE extends Instruction {
 
     public FSTORE(CodeStream codeStream) {
         super(codeStream);
-        this.index = codeStream.readUnsignedShort(this);
+        this.index = codeStream.readUnsignedByte(this);
     }
 
     @Override
