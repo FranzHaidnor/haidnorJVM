@@ -60,6 +60,11 @@ public class TestJVM {
     }
 
     @Test
+    public void test_6() throws Exception {
+        runMainClass(Demo6.class);
+    }
+
+    @Test
     public void test_NEW() throws Exception {
         runMainClass(NEW.class);
     }

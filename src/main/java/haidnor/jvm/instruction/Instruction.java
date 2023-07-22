@@ -3,6 +3,9 @@ package haidnor.jvm.instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 
+/**
+ * @author wang xiang
+ */
 public abstract class Instruction {
     /**
      * 指令坐在 code 数组中的索引下标
@@ -10,7 +13,7 @@ public abstract class Instruction {
     private final int index;
 
     /**
-     * 执行下一个执行的偏移量
+     * 执行下一个指令的偏移量
      */
     private int offSet = 1;
 

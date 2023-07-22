@@ -598,7 +598,7 @@ public abstract class InstructionFactory {
                 return new CHECKCAST(codeStream);
             }
             case Const.INSTANCEOF -> {
-                throw new Error("Not support JavaVM opcode INSTANCEOF");
+                return new INSTANCEOF(codeStream);
             }
             case Const.MONITORENTER -> {
                 throw new Error("Not support JavaVM opcode MONITORENTER");

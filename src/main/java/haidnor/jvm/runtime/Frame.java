@@ -33,7 +33,7 @@ public class Frame {
 
     private final KlassMethod klassMethod;
 
-    public final Klass aKlass;
+    public final Klass klass;
 
     /**
      * 栈帧所属的方法代码对象
@@ -63,7 +63,7 @@ public class Frame {
 
     public Frame(JvmThread jvmThread, KlassMethod klassMethod) {
         this.jvmThread = jvmThread;
-        this.aKlass = klassMethod.aKlass;
+        this.klass = klassMethod.aKlass;
         this.klassMethod = klassMethod;
         this.method = klassMethod.javaMethod;
         this.code = method.getCode();
@@ -103,7 +103,7 @@ public class Frame {
     }
 
     public Klass getMetaClass() {
-        return aKlass;
+        return klass;
     }
 
     /* 操作数栈操作 --------------------------------------------------------------------------------------------------- */

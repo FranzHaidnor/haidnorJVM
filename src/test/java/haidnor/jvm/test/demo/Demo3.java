@@ -11,7 +11,7 @@ public class Demo3 {
         Student sut2 = new Student();
 
         HashMap<Student, String> hashMap = new HashMap<>();
-        hashMap.put(sut1, "张三");
+        hashMap.put(sut1, "张三123");
         hashMap.put(sut2, "张三");
 
         System.out.println(hashMap.get(sut1)); // 1

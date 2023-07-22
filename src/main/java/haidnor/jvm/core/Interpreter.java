@@ -19,30 +19,30 @@ import java.util.Map;
 @Slf4j
 public class Interpreter {
 
-    private static int frameCount = -1;
-
     @SneakyThrows
     public static void executeFrame(Frame frame) {
-        frameCount++;
+        int stackSize = frame.getJvmThread().stackSize();
+
         StringBuilder blank = new StringBuilder();
-        blank.append("                    ".repeat(Math.max(0, frameCount)));
+        blank.append("                    ".repeat(stackSize - 1));
         int index = 0;
-        for (int i = 0; i < frameCount; i++) {
+        for (int i = 0; i < stackSize - 1; i++) {
             blank.replace(index, index + 1, "│");
             index += 20;
         }
 
-        log.debug("{}┌──────────────────[{}] {} | {} ", blank, frameCount + 1, frame.aKlass.getClassName(), frame.getMethod());
-        Map<Integer, Instruction> instructionMap = new HashMap<>();
+        log.debug("{}┌──────────────────[{}] {} | {}", blank, stackSize, frame.klass.getClassName(), frame.getMethod());
 
         // 解析方法中的字节码指令
+        Map<Integer, Instruction> instructionMap = new HashMap<>();
         CodeStream codeStream = frame.getCodeStream();
         while (codeStream.available() > 0) {
             Instruction instruction = InstructionFactory.creatInstruction(codeStream);
-            // log.debug("{}│>{}", blank, instruction);
+            log.debug("{}│> {}", blank, instruction);
             instructionMap.put(instruction.index(), instruction);
         }
-        // log.debug("{}├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌", blank);
+
+        log.debug("{}├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌", blank);
 
         // 执行方法中的字节码指令 tip:(int i, 相当于程序计数器, 记录当前执行到的字节码指令的”行号“)
         for (int i = 0; i < frame.getCodeLength(); ) {
@@ -54,8 +54,8 @@ public class Interpreter {
             }
             i += instruction.offSet();
         }
-        log.debug("{}└──────────────────[{}] {} | {} ", blank, frameCount + 1, frame.aKlass.getClassName(), frame.getMethod());
-        frameCount--;
+
+        log.debug("{}└──────────────────[{}] {} | {}", blank, stackSize, frame.klass.getClassName(), frame.getMethod());
     }
 
 }
