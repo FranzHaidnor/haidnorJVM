@@ -1,7 +1,7 @@
 package haidnor.jvm.instruction.stores;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.BasicTypeArray;
+import haidnor.jvm.rtda.BasicTypeArray;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 

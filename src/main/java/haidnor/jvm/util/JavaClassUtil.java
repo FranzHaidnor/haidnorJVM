@@ -1,7 +1,7 @@
 package haidnor.jvm.util;
 
-import haidnor.jvm.rtda.heap.Klass;
-import haidnor.jvm.rtda.heap.KlassMethod;
+import haidnor.jvm.rtda.Klass;
+import haidnor.jvm.rtda.KlassMethod;
 import org.apache.bcel.classfile.JavaClass;
 
 /**

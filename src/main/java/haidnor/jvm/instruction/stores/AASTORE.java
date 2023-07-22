@@ -1,8 +1,8 @@
 package haidnor.jvm.instruction.stores;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.Instance;
-import haidnor.jvm.rtda.heap.InstanceArray;
+import haidnor.jvm.rtda.Instance;
+import haidnor.jvm.rtda.InstanceArray;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 

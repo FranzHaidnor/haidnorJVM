@@ -7,7 +7,7 @@ import java.util.Stack;
  *
  * @author wang xiang
  */
-public class JvmThread extends Thread {
+public class JVMThread extends Thread {
 
     /**
      * JVM 线程栈

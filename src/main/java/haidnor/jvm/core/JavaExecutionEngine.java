@@ -1,32 +1,41 @@
 package haidnor.jvm.core;
 
 
-import haidnor.jvm.rtda.heap.KlassMethod;
+import haidnor.jvm.instruction.Instruction;
+import haidnor.jvm.instruction.InstructionFactory;
+import haidnor.jvm.instruction.control.RETURN;
+import haidnor.jvm.rtda.KlassMethod;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.runtime.JvmThread;
+import haidnor.jvm.runtime.JVMThread;
 import haidnor.jvm.runtime.StackValue;
+import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.JvmThreadHolder;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.bcel.classfile.LocalVariable;
 import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Utility;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * JVM 执行引擎
+ *
+ * @author wang xiang
+ */
 @Slf4j
 public class JavaExecutionEngine {
 
-    public static void callMainStaticMethod(KlassMethod klassMethod) {
-        JvmThread jvmThread = JvmThreadHolder.get();
-        // 每个栈帧中包含一个指向运行时常量池中该栈帧所属的方法的引用。包含这个引用的目的就是为了支持当前方法实现动态链接
-        // 有了这个引用，执行引擎就可以找到指定的方法，加载字节码指令
-        Frame frame = new Frame(jvmThread, klassMethod);
-        jvmThread.push(frame);
-        Interpreter.executeFrame(frame);
+    public static void callMainMethod(KlassMethod klassMethod) {
+        callMethod(null, klassMethod);
     }
 
     public static void callMethod(Frame lastFrame, KlassMethod klassMethod) {
-        JvmThread jvmThread = JvmThreadHolder.get();
+        JVMThread jvmThread = JvmThreadHolder.get();
         Frame newFrame = new Frame(jvmThread, klassMethod);
+
         // 如果有上一个栈帧, 代表需要传参
         if (lastFrame != null) {
             Method method = klassMethod.javaMethod;
@@ -53,7 +62,46 @@ public class JavaExecutionEngine {
         }
 
         jvmThread.push(newFrame);
-        Interpreter.executeFrame(newFrame);
+        executeFrame(newFrame);
+    }
+
+    @SneakyThrows
+    public static void executeFrame(Frame frame) {
+        int stackSize = frame.getJvmThread().stackSize();
+
+        StringBuilder blank = new StringBuilder();
+        blank.append("                    ".repeat(stackSize - 1));
+        int index = 0;
+        for (int i = 0; i < stackSize - 1; i++) {
+            blank.replace(index, index + 1, "│");
+            index += 20;
+        }
+
+        log.debug("{}┌──────────────────[{}] {} | {}", blank, stackSize, frame.klass.getClassName(), frame.getMethod());
+
+        // 解析方法中的字节码指令
+        Map<Integer, Instruction> instructionMap = new HashMap<>();
+        CodeStream codeStream = frame.getCodeStream();
+        while (codeStream.available() > 0) {
+            Instruction instruction = InstructionFactory.creatInstruction(codeStream);
+            log.debug("{}│> {}", blank, instruction);
+            instructionMap.put(instruction.index(), instruction);
+        }
+
+        log.debug("{}├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌", blank);
+
+        // 执行方法中的字节码指令 tip:(int i, 相当于程序计数器, 记录当前执行到的字节码指令的”行号“)
+        for (int i = 0; i < frame.getCodeLength(); ) {
+            Instruction instruction = instructionMap.get(i);
+            log.debug("{}│ {}", blank, instruction);
+            instruction.execute(frame);
+            if (instruction instanceof RETURN) {
+                break;
+            }
+            i += instruction.offSet();
+        }
+
+        log.debug("{}└──────────────────[{}] {} | {}", blank, stackSize, frame.klass.getClassName(), frame.getMethod());
     }
 
 

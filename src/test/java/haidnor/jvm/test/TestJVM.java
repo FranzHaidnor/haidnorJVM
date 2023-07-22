@@ -2,10 +2,10 @@ package haidnor.jvm.test;
 
 import haidnor.jvm.classloader.ClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
-import haidnor.jvm.rtda.heap.Klass;
-import haidnor.jvm.rtda.heap.KlassMethod;
-import haidnor.jvm.rtda.metaspace.Metaspace;
-import haidnor.jvm.runtime.JvmThread;
+import haidnor.jvm.rtda.Klass;
+import haidnor.jvm.rtda.KlassMethod;
+import haidnor.jvm.rtda.Metaspace;
+import haidnor.jvm.runtime.JVMThread;
 import haidnor.jvm.test.demo.*;
 import haidnor.jvm.test.instruction.Array;
 import haidnor.jvm.test.instruction.DO_WHILE;
@@ -28,13 +28,13 @@ public class TestJVM {
 
     @SneakyThrows
     public static void runMainClass(java.lang.Class<?> mainClass) {
-        JvmThreadHolder.set(new JvmThread());
+        JvmThreadHolder.set(new JVMThread());
         ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
         Klass mainMeteKlass = bootClassLoader.loadClass(mainClass.getName().replace('.', '/'));
         KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
         Metaspace.registerJavaClass(mainMeteKlass);
 
-        JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
+        JavaExecutionEngine.callMainMethod(mainKlassMethod);
     }
 
     /**
@@ -118,7 +118,7 @@ public class TestJVM {
     public void test_jar() throws Exception {
         String jarFilePath = "D:/project_java/JvmDemo/target/JvmDemo-1.0-SNAPSHOT.jar";
 
-        JvmThreadHolder.set(new JvmThread());
+        JvmThreadHolder.set(new JVMThread());
         try (JarFile jarFile = new JarFile(jarFilePath)) {
 
             ClassLoader bootClassLoader = new ClassLoader(jarFile, "ApplicationClassLoader");
@@ -135,7 +135,7 @@ public class TestJVM {
                         Klass mainMeteKlass = bootClassLoader.loadClass(jarFile, entry);
                         KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
                         Metaspace.registerJavaClass(mainMeteKlass);
-                        JavaExecutionEngine.callMainStaticMethod(mainKlassMethod);
+                        JavaExecutionEngine.callMainMethod(mainKlassMethod);
                         break;
                     }
                 }

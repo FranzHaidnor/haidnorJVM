@@ -1,14 +1,13 @@
 package haidnor.jvm.runtime;
 
-import haidnor.jvm.rtda.heap.Instance;
-import haidnor.jvm.rtda.heap.Klass;
-import haidnor.jvm.rtda.heap.KlassMethod;
+import haidnor.jvm.rtda.Instance;
+import haidnor.jvm.rtda.Klass;
+import haidnor.jvm.rtda.KlassMethod;
 import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.ConstantPoolUtil;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.LocalVariableTable;
 
 import java.util.Stack;
 
@@ -21,7 +20,7 @@ public class Frame {
     /**
      * 当前栈帧所处于的 JVM 线程
      */
-    private final JvmThread jvmThread;
+    private final JVMThread jvmThread;
 
     /**
      * 栈帧所属的方法
@@ -33,6 +32,10 @@ public class Frame {
 
     private final KlassMethod klassMethod;
 
+    /**
+     * 每个栈帧中包含一个指向运行时常量池中该栈帧所属的方法的引用。包含这个引用的目的就是为了支持当前方法实现动态链接
+     * 有了这个引用，执行引擎就可以找到指定的方法，加载字节码指令
+     */
     public final Klass klass;
 
     /**
@@ -52,16 +55,11 @@ public class Frame {
     private final Stack<StackValue> operandStack = new Stack<>();
 
     /**
-     * 局部变量表
-     */
-    private final LocalVariableTable localVariableTable;
-
-    /**
      * 槽位
      */
     private final Slot[] slots;
 
-    public Frame(JvmThread jvmThread, KlassMethod klassMethod) {
+    public Frame(JVMThread jvmThread, KlassMethod klassMethod) {
         this.jvmThread = jvmThread;
         this.klass = klassMethod.aKlass;
         this.klassMethod = klassMethod;
@@ -70,11 +68,10 @@ public class Frame {
         this.constantPool = method.getConstantPool();
         this.constantPoolUtil = new ConstantPoolUtil(constantPool);
         this.codeStream = new CodeStream(method.getCode());
-        this.localVariableTable = code.getLocalVariableTable();
         this.slots = new Slot[code.getMaxLocals()];
     }
 
-    public JvmThread getJvmThread() {
+    public JVMThread getJvmThread() {
         return jvmThread;
     }
 

@@ -1,10 +1,10 @@
 package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.Instance;
-import haidnor.jvm.rtda.heap.InstanceArray;
-import haidnor.jvm.rtda.heap.Klass;
-import haidnor.jvm.rtda.metaspace.Metaspace;
+import haidnor.jvm.rtda.Instance;
+import haidnor.jvm.rtda.InstanceArray;
+import haidnor.jvm.rtda.Klass;
+import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;

@@ -1,7 +1,7 @@
 package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.Instance;
+import haidnor.jvm.rtda.Instance;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;

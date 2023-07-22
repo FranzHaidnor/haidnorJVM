@@ -1,6 +1,4 @@
-package haidnor.jvm.rtda.metaspace;
-
-import haidnor.jvm.rtda.heap.Klass;
+package haidnor.jvm.rtda;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

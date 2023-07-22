@@ -16,6 +16,9 @@ import haidnor.jvm.instruction.stores.*;
 import haidnor.jvm.util.CodeStream;
 import org.apache.bcel.Const;
 
+/**
+ * @author wang xiang
+ */
 public abstract class InstructionFactory {
 
     public static Instruction creatInstruction(CodeStream codeStream) {

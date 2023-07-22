@@ -1,6 +1,6 @@
 package haidnor.jvm.classloader;
 
-import haidnor.jvm.rtda.heap.Klass;
+import haidnor.jvm.rtda.Klass;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 

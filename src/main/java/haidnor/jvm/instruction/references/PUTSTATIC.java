@@ -1,9 +1,9 @@
 package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.Klass;
-import haidnor.jvm.rtda.heap.KlassField;
-import haidnor.jvm.rtda.metaspace.Metaspace;
+import haidnor.jvm.rtda.Klass;
+import haidnor.jvm.rtda.KlassField;
+import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.ConstantPoolUtil;

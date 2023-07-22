@@ -1,7 +1,7 @@
 package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.rtda.heap.ArrayInstance;
+import haidnor.jvm.rtda.ArrayInstance;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 import lombok.SneakyThrows;

@@ -1,4 +1,4 @@
-package haidnor.jvm.rtda.heap;
+package haidnor.jvm.rtda;
 
 import org.apache.bcel.classfile.Method;
 

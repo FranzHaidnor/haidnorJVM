@@ -1,8 +1,7 @@
-package haidnor.jvm.rtda.heap;
+package haidnor.jvm.rtda;
 
 import haidnor.jvm.classloader.ClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
-import haidnor.jvm.rtda.metaspace.Metaspace;
 import lombok.SneakyThrows;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
