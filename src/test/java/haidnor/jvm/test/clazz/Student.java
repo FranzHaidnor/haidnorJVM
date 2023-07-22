@@ -2,8 +2,6 @@ package haidnor.jvm.test.clazz;
 
 public class Student extends Human {
 
-    private int count = 1;
-
     public static String school = "Hello World!";
 
     static {

@@ -1,12 +1,19 @@
 package haidnor.jvm.test;
 
+import org.junit.Test;
+
 import haidnor.jvm.classloader.ClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
 import haidnor.jvm.rtda.heap.Klass;
 import haidnor.jvm.rtda.heap.KlassMethod;
 import haidnor.jvm.rtda.metaspace.Metaspace;
 import haidnor.jvm.runtime.JvmThread;
-import haidnor.jvm.test.demo.*;
+import haidnor.jvm.test.demo.Demo1;
+import haidnor.jvm.test.demo.Demo2;
+import haidnor.jvm.test.demo.Demo3;
+import haidnor.jvm.test.demo.Demo4;
+import haidnor.jvm.test.demo.Demo5;
+import haidnor.jvm.test.demo.Demo6;
 import haidnor.jvm.test.instruction.Array;
 import haidnor.jvm.test.instruction.DO_WHILE;
 import haidnor.jvm.test.instruction.math.ISUB;
@@ -16,7 +23,6 @@ import haidnor.jvm.test.instruction.references.NEW;
 import haidnor.jvm.util.JavaClassUtil;
 import haidnor.jvm.util.JvmThreadHolder;
 import lombok.SneakyThrows;
-import org.junit.Test;
 
 public class TestJVM {
 
@@ -78,7 +84,6 @@ public class TestJVM {
     public void test_LSUB() throws Exception {
         runMainClass(LSUB.class);
     }
-
 
     @Test
     public void test_DOWHILE() throws Exception {
