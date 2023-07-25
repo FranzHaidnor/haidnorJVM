@@ -3,7 +3,7 @@ package haidnor.jvm.core;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.instruction.InstructionFactory;
-import haidnor.jvm.instruction.control.RETURN;
+import haidnor.jvm.instruction.control.*;
 import haidnor.jvm.rtda.KlassMethod;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.JVMThread;
@@ -95,7 +95,7 @@ public class JavaExecutionEngine {
             Instruction instruction = instructionMap.get(i);
             log.debug("{}│ {}", blank, instruction);
             instruction.execute(frame);
-            if (instruction instanceof RETURN) {
+            if (instruction instanceof RETURN || instruction instanceof ARETURN || instruction instanceof DRETURN || instruction instanceof FRETURN || instruction instanceof IRETURN) {
                 break;
             }
             i += instruction.offSet();

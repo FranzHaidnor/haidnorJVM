@@ -595,7 +595,7 @@ public abstract class InstructionFactory {
                 return new ARRAYLENGTH(codeStream);
             }
             case Const.ATHROW -> {
-                throw new Error("Not support JavaVM opcode ATHROW");
+                return new ATHROW(codeStream);
             }
             case Const.CHECKCAST -> {
                 return new CHECKCAST(codeStream);
