@@ -29,7 +29,7 @@ public class NEW extends Instruction {
         ConstantPool constantPool = frame.getConstantPool();
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
         ConstantClass constantClass = constantPool.getConstant(constantClassIndex);
-        String className = constantPoolUtil.getClassName(constantClass);
+        String className = constantPoolUtil.getConstantClassClassName(constantClass);
 
         if (className.startsWith("java/")) {
             frame.push(new StackValue(Const.T_OBJECT, null));

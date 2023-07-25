@@ -2,6 +2,7 @@ package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
+import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
 import lombok.SneakyThrows;
 
@@ -14,7 +15,8 @@ public class ATHROW extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-
+        StackValue pop = frame.pop();
+        throw (Exception) pop.getValue();
     }
 
 }

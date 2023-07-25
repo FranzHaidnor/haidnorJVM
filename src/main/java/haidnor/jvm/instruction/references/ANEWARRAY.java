@@ -30,7 +30,7 @@ public class ANEWARRAY extends Instruction {
         ConstantPool constantPool = frame.getConstantPool();
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
         ConstantClass constantClass = constantPool.getConstant(constantClassIndex);
-        String className = constantPoolUtil.getClassName(constantClass);
+        String className = constantPoolUtil.getConstantClassClassName(constantClass);
 
         Klass klass = Metaspace.getJavaClass(Utility.compactClassName(className));
         if (klass == null) {

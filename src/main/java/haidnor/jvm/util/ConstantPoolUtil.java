@@ -42,16 +42,16 @@ public class ConstantPoolUtil {
     /**
      * 获取长类名, 例如 java/lang/String
      */
-    public String getClassName(final ConstantClass constantClass) {
+    public String getConstantClassClassName(final ConstantClass constantClass) {
         ConstantUtf8 constantUtf8 = cp.getConstant(constantClass.getNameIndex());
         return constantUtf8.getBytes();
     }
     /**
      * 获取长类名, 例如 java/lang/String
      */
-    public String getClassName(int index) {
-        ConstantClass constantClass = cp.getConstant(index);
-        return getClassName(constantClass);
+    public String getConstantClassClassName(int constantClassIndex) {
+        ConstantClass constantClass = cp.getConstant(constantClassIndex);
+        return getConstantClassClassName(constantClass);
     }
 
 

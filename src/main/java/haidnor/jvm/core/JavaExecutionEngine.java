@@ -12,10 +12,8 @@ import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.JvmThreadHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.bcel.classfile.LocalVariable;
-import org.apache.bcel.classfile.LocalVariableTable;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.Const;
+import org.apache.bcel.classfile.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,11 +92,42 @@ public class JavaExecutionEngine {
         for (int i = 0; i < frame.getCodeLength(); ) {
             Instruction instruction = instructionMap.get(i);
             log.debug("{}│ {}", blank, instruction);
-            instruction.execute(frame);
-            if (instruction instanceof RETURN || instruction instanceof ARETURN || instruction instanceof DRETURN || instruction instanceof FRETURN || instruction instanceof IRETURN) {
-                break;
+            try {
+                instruction.execute(frame);
+                if (instruction instanceof RETURN || instruction instanceof ARETURN || instruction instanceof DRETURN || instruction instanceof FRETURN || instruction instanceof IRETURN) {
+                    break;
+                }
+                i += instruction.offSet();
+            } catch (Exception exception) {
+                Integer handlerPC = null;
+
+                CodeException[] exceptionTable = frame.getMethod().getCode().getExceptionTable();
+                for (CodeException codeException : exceptionTable) {
+                    if (codeException.getStartPC() <= i & i <= codeException.getEndPC()) {
+                        int catchType = codeException.getCatchType();
+                        // 0, if the handler catches any exception, otherwise it points to the exception class which is to be caught.
+                        if (catchType == 0) {
+                            frame.push(new StackValue(Const.T_OBJECT, exception));
+                            handlerPC = codeException.getHandlerPC();
+                        } else {
+                            String exceptionClassName = frame.getConstantPoolUtil().getConstantClassClassName(catchType);
+                            exceptionClassName = Utility.compactClassName(exceptionClassName, false);
+                            Class<?> exceptionClass = Class.forName(exceptionClassName);
+                            if (exceptionClass.isAssignableFrom(exception.getClass())) {
+                                frame.push(new StackValue(Const.T_OBJECT, exception));
+                                handlerPC = codeException.getHandlerPC();
+                            }
+                        }
+                    }
+                }
+                if (handlerPC != null) {
+                    i = handlerPC;
+                } else {
+                    log.debug("{}└──────────────────[{}] No Exception Handler Return!", blank, stackSize);
+                    throw exception;
+                }
             }
-            i += instruction.offSet();
+
         }
 
         log.debug("{}└──────────────────[{}] {} | {}", blank, stackSize, frame.klass.getClassName(), frame.getMethod());
