@@ -4,10 +4,7 @@ import haidnor.jvm.instruction.comparisons.*;
 import haidnor.jvm.instruction.constants.*;
 import haidnor.jvm.instruction.control.*;
 import haidnor.jvm.instruction.conversions.*;
-import haidnor.jvm.instruction.extended.GOTO;
-import haidnor.jvm.instruction.extended.GOTO_W;
-import haidnor.jvm.instruction.extended.IFNONNULL;
-import haidnor.jvm.instruction.extended.IFNULL;
+import haidnor.jvm.instruction.extended.*;
 import haidnor.jvm.instruction.loads.*;
 import haidnor.jvm.instruction.math.*;
 import haidnor.jvm.instruction.references.*;
@@ -613,7 +610,7 @@ public abstract class InstructionFactory {
                 throw new Error("Not support JavaVM opcode WIDE");
             }
             case Const.MULTIANEWARRAY -> {
-                throw new Error("Not support JavaVM opcode MULTIANEWARRAY");
+                 return new MULTIANEWARRAY(codeStream);
             }
             case Const.IFNULL -> {
                 return new IFNULL(codeStream);
