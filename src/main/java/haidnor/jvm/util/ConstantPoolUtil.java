@@ -46,6 +46,7 @@ public class ConstantPoolUtil {
         ConstantUtf8 constantUtf8 = cp.getConstant(constantClass.getNameIndex());
         return constantUtf8.getBytes();
     }
+
     /**
      * 获取长类名, 例如 java/lang/String
      */
@@ -131,5 +132,25 @@ public class ConstantPoolUtil {
         ConstantNameAndType constNameAndType = cp.getConstant(methodref.getNameAndTypeIndex());
         return constNameAndType.getSignature(cp);
     }
+
+    // ConstantNameAndType -----------------------------------------------------------------------------------------------
+
+    /**
+     * ConstantNameAndType
+     */
+    public ConstantNameAndType constantNameAndType(int constantNameAndTypeIndex) {
+        return cp.getConstant(constantNameAndTypeIndex);
+    }
+
+    public String constantNameAndType_name(int constantNameAndTypeIndex) {
+        ConstantNameAndType constantNameAndType = constantNameAndType(constantNameAndTypeIndex);
+        return constantNameAndType.getName(cp);
+    }
+
+    public String constantNameAndType_signature(int constantNameAndTypeIndex) {
+        ConstantNameAndType constantNameAndType = constantNameAndType(constantNameAndTypeIndex);
+        return constantNameAndType.getSignature(cp);
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package haidnor.jvm.test.clazz;
 
-public class Human {
+public class Human implements Organism {
 
     public static final String HUMAN_NAME = "123";
 

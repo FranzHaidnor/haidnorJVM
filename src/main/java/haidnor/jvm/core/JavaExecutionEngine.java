@@ -88,22 +88,24 @@ public class JavaExecutionEngine {
 
         log.debug("{}├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌", blank);
 
-        // 执行方法中的字节码指令 tip:(int i, 相当于程序计数器, 记录当前执行到的字节码指令的”行号“)
-        for (int i = 0; i < frame.getCodeLength(); ) {
-            Instruction instruction = instructionMap.get(i);
+        // 执行方法中的字节码指令 tip:(int pc, 相当于程序计数器, 记录当前执行到的字节码指令的”行号“)
+        for (int pc = 0; pc < frame.getCodeLength(); ) {
+            Instruction instruction = instructionMap.get(pc);
             log.debug("{}│ {}", blank, instruction);
             try {
                 instruction.execute(frame);
                 if (instruction instanceof RETURN || instruction instanceof ARETURN || instruction instanceof DRETURN || instruction instanceof FRETURN || instruction instanceof IRETURN) {
                     break;
                 }
-                i += instruction.offSet();
-            } catch (Exception exception) {
+                pc += instruction.offSet();
+            }
+            // catch instruction.execute() Exception
+            catch (Exception exception) {
                 Integer handlerPC = null;
 
                 CodeException[] exceptionTable = frame.getMethod().getCode().getExceptionTable();
                 for (CodeException codeException : exceptionTable) {
-                    if (codeException.getStartPC() <= i & i <= codeException.getEndPC()) {
+                    if (codeException.getStartPC() <= pc & pc <= codeException.getEndPC()) {
                         int catchType = codeException.getCatchType();
                         // 0, if the handler catches any exception, otherwise it points to the exception class which is to be caught.
                         if (catchType == 0) {
@@ -121,7 +123,7 @@ public class JavaExecutionEngine {
                     }
                 }
                 if (handlerPC != null) {
-                    i = handlerPC;
+                    pc = handlerPC;
                 } else {
                     log.debug("{}└──────────────────[{}] No Exception Handler Return!", blank, stackSize);
                     throw exception;

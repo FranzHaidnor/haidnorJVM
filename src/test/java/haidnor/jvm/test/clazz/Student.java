@@ -1,13 +1,6 @@
 package haidnor.jvm.test.clazz;
 
-public class Student extends Human {
-
-    public static String school = "Hello World!";
-
-    static {
-        System.out.println(HUMAN_NAME);
-        System.out.println("student 类被加载了");
-    }
+public class Student implements Organism {
 
     public void method1() {
         System.out.println("method1");

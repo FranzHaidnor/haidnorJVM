@@ -11,7 +11,6 @@ import haidnor.jvm.test.instruction.Array;
 import haidnor.jvm.test.instruction.DO_WHILE;
 import haidnor.jvm.test.instruction.math.ISUB;
 import haidnor.jvm.test.instruction.math.LSUB;
-import haidnor.jvm.test.instruction.references.INVOKEINTERFACE;
 import haidnor.jvm.test.instruction.references.NEW;
 import haidnor.jvm.util.JavaClassUtil;
 import haidnor.jvm.util.JvmThreadHolder;
@@ -76,6 +75,11 @@ public class TestJVM {
     }
 
     @Test
+    public void test_8() throws Exception {
+        runMainClass(Demo8.class);
+    }
+
+    @Test
     public void test_NEW() throws Exception {
         runMainClass(NEW.class);
     }
@@ -98,11 +102,6 @@ public class TestJVM {
     @Test
     public void test_Array() throws Exception {
         runMainClass(Array.class);
-    }
-
-    @Test
-    public void test_INVOKEINTERFACE() throws Exception {
-        runMainClass(INVOKEINTERFACE.class);
     }
 
     @Test

@@ -577,7 +577,7 @@ public abstract class InstructionFactory {
                 return new INVOKESTATIC(codeStream);
             }
             case Const.INVOKEINTERFACE -> {
-                throw new Error("Not support JavaVM opcode INVOKEINTERFACE");
+                return new INVOKEINTERFACE(codeStream);
             }
             case Const.INVOKEDYNAMIC -> {
                 throw new Error("Not support JavaVM opcode INVOKEDYNAMIC");
@@ -604,10 +604,10 @@ public abstract class InstructionFactory {
                 return new INSTANCEOF(codeStream);
             }
             case Const.MONITORENTER -> {
-                throw new Error("Not support JavaVM opcode MONITORENTER");
+                return new MONITORENTER(codeStream);
             }
             case Const.MONITOREXIT -> {
-                throw new Error("Not support JavaVM opcode MONITOREXIT");
+                return new MONITOREXIT(codeStream);
             }
             case Const.WIDE -> {
                 throw new Error("Not support JavaVM opcode WIDE");
