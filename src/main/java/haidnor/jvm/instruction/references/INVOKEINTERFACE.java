@@ -22,9 +22,7 @@ import org.apache.bcel.classfile.Utility;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-/**
- * 调用对象实例方法,根据对象的实际类型进行分派(虚方法分派),支持多态
- */
+
 public class INVOKEINTERFACE extends Instruction {
 
     private final int constantMethodrefIndex;
@@ -132,10 +130,22 @@ public class INVOKEINTERFACE extends Instruction {
 
     private static org.apache.bcel.classfile.Method getMethodFromInterface(JavaClass javaClass, String methodSignature, String methodName) throws ClassNotFoundException {
         JavaClass[] interfaces = javaClass.getInterfaces();
-        for (JavaClass anInterface : interfaces) {
-            for (org.apache.bcel.classfile.Method method : anInterface.getMethods()) {
+        if (interfaces.length == 0) {
+            for (org.apache.bcel.classfile.Method method : javaClass.getMethods()) {
                 if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
                     return method;
+                }
+            }
+        }
+        for (JavaClass interfaceJavaClass : interfaces) {
+            for (org.apache.bcel.classfile.Method method : interfaceJavaClass.getMethods()) {
+                if (method.getSignature().equals(methodSignature) && method.getName().equals(methodName)) {
+                    return method;
+                }
+            }
+            if (interfaceJavaClass.getInterfaces() != null) {
+                for (JavaClass classInterface : interfaceJavaClass.getInterfaces()) {
+                    return getMethodFromInterface(classInterface, methodSignature, methodName);
                 }
             }
         }
