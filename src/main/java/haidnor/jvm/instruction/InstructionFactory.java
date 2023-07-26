@@ -607,7 +607,7 @@ public abstract class InstructionFactory {
                 return new MONITOREXIT(codeStream);
             }
             case Const.WIDE -> {
-                throw new Error("Not support JavaVM opcode WIDE");
+                return new WIDE(codeStream);
             }
             case Const.MULTIANEWARRAY -> {
                  return new MULTIANEWARRAY(codeStream);
