@@ -112,7 +112,7 @@ public class JavaExecutionEngine {
                             frame.push(new StackValue(Const.T_OBJECT, exception));
                             handlerPC = codeException.getHandlerPC();
                         } else {
-                            String exceptionClassName = frame.getConstantPoolUtil().getConstantClassClassName(catchType);
+                            String exceptionClassName = frame.getConstantPoolUtil().constantClass_ClassName(catchType);
                             exceptionClassName = Utility.compactClassName(exceptionClassName, false);
                             Class<?> exceptionClass = Class.forName(exceptionClassName);
                             if (exceptionClass.isAssignableFrom(exception.getClass())) {

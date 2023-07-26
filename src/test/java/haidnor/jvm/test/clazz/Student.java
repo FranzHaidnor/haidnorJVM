@@ -1,6 +1,6 @@
 package haidnor.jvm.test.clazz;
 
-public class Student implements Organism {
+public class Student extends Human implements Organism {
 
     public void method1() {
         System.out.println("method1");

@@ -8,11 +8,8 @@ import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
-import haidnor.jvm.util.ConstantPoolUtil;
 import lombok.SneakyThrows;
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ConstantClass;
-import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.Utility;
 
 public class ANEWARRAY extends Instruction {
@@ -27,10 +24,7 @@ public class ANEWARRAY extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getConstantPool();
-        ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
-        ConstantClass constantClass = constantPool.getConstant(constantClassIndex);
-        String className = constantPoolUtil.getConstantClassClassName(constantClass);
+        String className = frame.getConstantPoolUtil().constantClass_ClassName(constantClassIndex);
 
         Klass klass = Metaspace.getJavaClass(Utility.compactClassName(className));
         if (klass == null) {

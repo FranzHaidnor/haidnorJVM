@@ -8,8 +8,7 @@ import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.ConstantPoolUtil;
 import lombok.SneakyThrows;
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ConstantClass;
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Utility;
 
 /**
@@ -27,10 +26,9 @@ public class INSTANCEOF extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getConstantPool();
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
-        ConstantClass constantClass = constantPool.getConstant(constantClassIndex);
-        String className = constantPoolUtil.getConstantClassClassName(constantClass);
+
+        String className = constantPoolUtil.constantClass_ClassName(constantClassIndex);
         className = Utility.compactClassName(className);
 
         StackValue stackValue = frame.pop();
@@ -38,19 +36,43 @@ public class INSTANCEOF extends Instruction {
         Class<?> objClass = obj.getClass();
 
         if (obj instanceof Instance instance) {
-            String instanceClassName = instance.klass.getClassName();
-            if (instanceClassName.equals(className)) {
+            boolean result = findClassFromSuper(instance.klass.getJavaClass(), className);
+            if (!result)  {
+                result = findClassFromInterface(instance.klass.getJavaClass(), className);
+            }
+            if (result) {
                 frame.push(new StackValue(Const.T_INT, 1));
             } else {
                 frame.push(new StackValue(Const.T_INT, 0));
             }
         } else {
-            if (objClass.getName().equals(className)) {
+            if (Class.forName(className).isAssignableFrom(objClass)) {
                 frame.push(new StackValue(Const.T_INT, 1));
             } else {
                 frame.push(new StackValue(Const.T_INT, 0));
             }
         }
+    }
+
+    public boolean findClassFromSuper(JavaClass javaClass, String className) throws ClassNotFoundException {
+        if (javaClass.getClassName().equals(className)) {
+            return true;
+        }
+        for (JavaClass superClass : javaClass.getSuperClasses()) {
+            if (superClass.getClassName().equals(className)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean findClassFromInterface(JavaClass javaClass, String className) throws ClassNotFoundException {
+        for (JavaClass anInterface : javaClass.getInterfaces()) {
+            if (anInterface.getClassName().equals(className)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

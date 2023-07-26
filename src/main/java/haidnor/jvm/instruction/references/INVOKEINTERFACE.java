@@ -47,7 +47,7 @@ public class INVOKEINTERFACE extends Instruction {
         ConstantInterfaceMethodref interfaceMethodref = constantPool.getConstant(constantMethodrefIndex);
 
         int classIndex = interfaceMethodref.getClassIndex();
-        String interfaceName = constantPoolUtil.getConstantClassClassName(classIndex);
+        String interfaceName = constantPoolUtil.constantClass_ClassName(classIndex);
 
         int nameAndTypeIndex = interfaceMethodref.getNameAndTypeIndex();
         String methodName = constantPoolUtil.constantNameAndType_name(nameAndTypeIndex);

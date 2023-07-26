@@ -10,8 +10,6 @@ import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.ConstantPoolUtil;
 import lombok.SneakyThrows;
 import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ConstantClass;
-import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.Utility;
 
 public class NEW extends Instruction {
@@ -26,10 +24,8 @@ public class NEW extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getConstantPool();
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
-        ConstantClass constantClass = constantPool.getConstant(constantClassIndex);
-        String className = constantPoolUtil.getConstantClassClassName(constantClass);
+        String className = constantPoolUtil.constantClass_ClassName(constantClassIndex);
 
         if (className.startsWith("java/")) {
             frame.push(new StackValue(Const.T_OBJECT, null));

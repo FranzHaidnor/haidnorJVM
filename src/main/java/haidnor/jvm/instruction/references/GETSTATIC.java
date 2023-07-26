@@ -37,7 +37,7 @@ public class GETSTATIC extends Instruction {
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
         ConstantFieldref constFieldref = constantPool.getConstant(constantFieldrefIndex);
         // 动态链接. 找到字段所属的 Java 类
-        String className = constantPoolUtil.getFiledBelongClassName(constFieldref);
+        String className = constantPoolUtil.constantFieldref_ClassName(constFieldref);
         // 动态链接. 找到字段的名字
         String fieldName = constantPoolUtil.getFieldName(constFieldref);
         // 以上代码体现了动态链接.Class文件的常量池中存有大量的符号引用,字节码中的方法调用指令就以常量池里指向方法的符号引用作为参数.

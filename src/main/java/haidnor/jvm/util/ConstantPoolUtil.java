@@ -42,7 +42,7 @@ public class ConstantPoolUtil {
     /**
      * 获取长类名, 例如 java/lang/String
      */
-    public String getConstantClassClassName(final ConstantClass constantClass) {
+    public String constantClass_ClassName(final ConstantClass constantClass) {
         ConstantUtf8 constantUtf8 = cp.getConstant(constantClass.getNameIndex());
         return constantUtf8.getBytes();
     }
@@ -50,9 +50,9 @@ public class ConstantPoolUtil {
     /**
      * 获取长类名, 例如 java/lang/String
      */
-    public String getConstantClassClassName(int constantClassIndex) {
+    public String constantClass_ClassName(int constantClassIndex) {
         ConstantClass constantClass = cp.getConstant(constantClassIndex);
-        return getConstantClassClassName(constantClass);
+        return constantClass_ClassName(constantClass);
     }
 
 
@@ -61,7 +61,7 @@ public class ConstantPoolUtil {
     /**
      * 获取字段所处于Java类的类名, 例如 java/lang/String
      */
-    public String getFiledBelongClassName(final ConstantFieldref constantFieldref) {
+    public String constantFieldref_ClassName(final ConstantFieldref constantFieldref) {
         ConstantClass constClass = cp.getConstant(constantFieldref.getClassIndex());
         return (String) constClass.getConstantValue(cp);
     }
@@ -69,9 +69,9 @@ public class ConstantPoolUtil {
     /**
      * 获取字段所处于Java类的类名, 例如 java/lang/String
      */
-    public String getFiledBelongClassName(int constantFieldrefIndex) {
+    public String constantFieldref_ClassName(int constantFieldrefIndex) {
         ConstantFieldref constantFieldref = getConstantFieldref(constantFieldrefIndex);
-        return getFiledBelongClassName(constantFieldref);
+        return constantFieldref_ClassName(constantFieldref);
     }
 
     /**
