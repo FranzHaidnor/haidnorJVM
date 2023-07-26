@@ -529,10 +529,10 @@ public abstract class InstructionFactory {
                 return new RET(codeStream);
             }
             case Const.TABLESWITCH -> {
-                throw new Error("Not support JavaVM opcode TABLESWITCH");
+                return new TABLESWITCH(codeStream); // TODO
             }
             case Const.LOOKUPSWITCH -> {
-                throw new Error("Not support JavaVM opcode LOOKUPSWITCH");
+                return new LOOKUPSWITCH(codeStream); // TODO
             }
             case Const.IRETURN -> {
                 return new IRETURN(codeStream);
@@ -577,7 +577,7 @@ public abstract class InstructionFactory {
                 return new INVOKEINTERFACE(codeStream);
             }
             case Const.INVOKEDYNAMIC -> {
-                throw new Error("Not support JavaVM opcode INVOKEDYNAMIC");
+                return new INVOKEDYNAMIC(codeStream); // TODO
             }
             case Const.NEW -> {
                 return new NEW(codeStream);
