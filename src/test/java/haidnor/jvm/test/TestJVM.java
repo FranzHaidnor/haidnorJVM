@@ -73,6 +73,26 @@ public class TestJVM {
     }
 
     @Test
+    public void demo_while() throws Exception {
+        runMainClass(demo_while.class);
+    }
+
+    @Test
+    public void demo_doWhile() throws Exception {
+        runMainClass(demo_doWhile.class);
+    }
+
+    @Test
+    public void demo_for() throws Exception {
+        runMainClass(demo_for.class);
+    }
+
+    @Test
+    public void demo_foreach() throws Exception {
+        runMainClass(demo_foreach.class);
+    }
+
+    @Test
     public void test_8() throws Exception {
         runMainClass(Demo8.class);
     }
