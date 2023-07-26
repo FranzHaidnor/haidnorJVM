@@ -97,5 +97,5 @@ public void test() throws Exception {
 3. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM-1.0-SNAPSHOT.jar -class R:\demo.jar`。注意需要 jar 文件的绝对路径
 
 # 联系作者
-![](/readme/20230721181408.png )
+![](/readme/20230721181408.png )  
 微信号: haidnor
