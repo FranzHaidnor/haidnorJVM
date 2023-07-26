@@ -1,4 +1,4 @@
-package haidnor.jvm.test.instruction.extended;
+package haidnor.jvm.test.instruction;
 
 public class GOTO {
 

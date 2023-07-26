@@ -8,6 +8,7 @@ import haidnor.jvm.util.CodeStream;
 /**
  * Java VM opcode.
  *
+ * @author wang xiang
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.if_icmp_cond"> Opcode
  * definitions in The Java Virtual Machine Specification</a>
  */
@@ -36,6 +37,6 @@ public class IF_ICMPEQ extends Instruction {
 
     @Override
     public String toString() {
-        return super.index() + " " + this.getClass().getSimpleName() + " "  + offSet;
+        return super.index() + " " + this.getClass().getSimpleName() + " " + offSet;
     }
 }

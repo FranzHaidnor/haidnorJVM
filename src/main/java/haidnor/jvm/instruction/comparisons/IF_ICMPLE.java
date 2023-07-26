@@ -34,9 +34,4 @@ public class IF_ICMPLE extends Instruction {
         }
     }
 
-    @Override
-    public String toString() {
-        return super.index() + " " + this.getClass().getSimpleName() + " "  + offSet;
-    }
-
 }

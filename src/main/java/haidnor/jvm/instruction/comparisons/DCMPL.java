@@ -4,6 +4,9 @@ import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
 
+/**
+ * @author wang xiang
+ */
 public class DCMPL extends Instruction {
 
     public DCMPL(CodeStream codeStream) {

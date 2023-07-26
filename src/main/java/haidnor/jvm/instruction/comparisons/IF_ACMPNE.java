@@ -3,7 +3,9 @@ package haidnor.jvm.instruction.comparisons;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.util.CodeStream;
-
+/**
+ * @author wang xiang
+ */
 public class IF_ACMPNE extends Instruction {
     /**
      * 下次再执行的偏移量

@@ -14,7 +14,6 @@ import haidnor.jvm.test.instruction.math.LSUB;
 import haidnor.jvm.test.instruction.references.NEW;
 import haidnor.jvm.util.JavaClassUtil;
 import haidnor.jvm.util.JvmThreadHolder;
-import lombok.SneakyThrows;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,8 +24,7 @@ import java.util.jar.Manifest;
 
 public class TestJVM {
 
-    @SneakyThrows
-    public static void runMainClass(java.lang.Class<?> mainClass) {
+    public static void runMainClass(java.lang.Class<?> mainClass) throws IOException {
         JvmThreadHolder.set(new JVMThread());
         ClassLoader bootClassLoader = new ClassLoader("ApplicationClassLoader");
         Klass mainMeteKlass = bootClassLoader.loadClass(mainClass.getName().replace('.', '/'));
@@ -41,7 +39,7 @@ public class TestJVM {
      */
     @Test
     public void test_1() throws Exception {
-        runMainClass(Demo1.class);
+        runMainClass(demo_helloWorld.class);
     }
 
     @Test
@@ -78,6 +76,42 @@ public class TestJVM {
     public void test_8() throws Exception {
         runMainClass(Demo8.class);
     }
+
+    @Test(expected = ArithmeticException.class)
+    public void demo_exception_1() throws Exception {
+        runMainClass(demo_exception_1.class);
+    }
+
+    @Test
+    public void demo_exception_2() throws Exception {
+        runMainClass(demo_exception_2.class);
+    }
+
+    @Test
+    public void demo_exception_3() throws Exception {
+        runMainClass(demo_exception_3.class);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void demo_exception_4() throws Exception {
+        runMainClass(demo_exception_4.class);
+    }
+
+    @Test
+    public void demo_finally_1() throws Exception {
+        runMainClass(demo_finally_1.class);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void demo_finally_2() throws Exception {
+        runMainClass(demo_finally_2.class);
+    }
+
+    @Test
+    public void demo_finally_3() throws Exception {
+        runMainClass(demo_finally_3.class);
+    }
+
 
     @Test
     public void test_NEW() throws Exception {
