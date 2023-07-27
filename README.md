@@ -12,7 +12,8 @@
 
 # 实现功能
 * 支持基本数据类型数学运算
-* 支持循环、条件结构代码、switch 语法（开发中...）
+* 支持循环、条件结构代码
+* switch 语法（开发中...）
 * 支持创建对象，访问对象
 * 支持多态继承、接口
 * 支持反射
@@ -95,6 +96,9 @@ public void test() throws Exception {
 1. 使用 maven 命令将 haidnorJVM 编译打包，得到 `haidnorJVM.jar` 文件
 2. 编写一个 java 项目编译打包成 .jar 文件，例如 demo.jar。要求 .jar 文件中的 META-INF/MANIFEST.MF 文件内有 `Main-Class` 属性 (含有 public static void main(String[] args) 方法的主类信息)
 3. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM.jar -class R:\demo.jar`。注意需要 jar 文件的绝对路径
+
+# 代办
+目前运行 JDK 自带的类的方案是使用反射解决，并存在一些bug，计划将来完全不依赖反射运行。
 
 # 联系作者
 ![](/readme/20230721181408.png )  

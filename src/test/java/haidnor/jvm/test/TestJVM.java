@@ -89,7 +89,7 @@ public class TestJVM {
 
     @Test
     public void demo_foreach() throws Exception {
-        runMainClass(demo_foreach.class);
+        runMainClass(demo_foreach_1.class);
     }
 
     /**
