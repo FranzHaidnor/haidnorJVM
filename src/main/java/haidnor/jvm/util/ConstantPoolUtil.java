@@ -112,7 +112,7 @@ public class ConstantPoolUtil {
      * 获取方法所处于Java类的类名
      * 名称使用/分割,例如 haidnor/jvm/test/instruction/references/NEW
      */
-    public String getBelongClassName(final ConstantMethodref methodref) {
+    public String constantMethodref_ClassName(final ConstantMethodref methodref) {
         ConstantClass constClass = cp.getConstant(methodref.getClassIndex());
         return (String) constClass.getConstantValue(cp);
     }
@@ -120,7 +120,7 @@ public class ConstantPoolUtil {
     /**
      * 获取方法名
      */
-    public String getMethodName(final ConstantMethodref methodref) {
+    public String constantMethodref_MethodName(final ConstantMethodref methodref) {
         ConstantNameAndType constNameAndType = cp.getConstant(methodref.getNameAndTypeIndex());
         return constNameAndType.getName(cp);
     }
@@ -128,10 +128,34 @@ public class ConstantPoolUtil {
     /**
      * 获取方法签名
      */
-    public String getMethodSignature(final ConstantMethodref methodref) {
+    public String constantMethodref_MethodSignature(final ConstantMethodref methodref) {
         ConstantNameAndType constNameAndType = cp.getConstant(methodref.getNameAndTypeIndex());
         return constNameAndType.getSignature(cp);
     }
+
+    // ConstantInterfaceMethodref -----------------------------------------------------------------------------------------------
+
+    public String constantInterfaceMethodref_ClassName(final ConstantInterfaceMethodref methodref) {
+        ConstantClass constClass = cp.getConstant(methodref.getClassIndex());
+        return (String) constClass.getConstantValue(cp);
+    }
+
+    /**
+     * 获取方法名
+     */
+    public String constantInterfaceMethodref_MethodName(final ConstantInterfaceMethodref methodref) {
+        ConstantNameAndType constNameAndType = cp.getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getName(cp);
+    }
+
+    /**
+     * 获取方法签名
+     */
+    public String constantInterfaceMethodref_MethodSignature(final ConstantInterfaceMethodref methodref) {
+        ConstantNameAndType constNameAndType = cp.getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getSignature(cp);
+    }
+
 
     // ConstantNameAndType -----------------------------------------------------------------------------------------------
 

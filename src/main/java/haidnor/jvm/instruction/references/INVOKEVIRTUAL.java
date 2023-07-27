@@ -41,9 +41,9 @@ public class INVOKEVIRTUAL extends Instruction {
 
         ConstantMethodref methodref = constantPool.getConstant(constantMethodrefIndex);
 
-        String className = constantPoolUtil.getBelongClassName(methodref);
-        String methodName = constantPoolUtil.getMethodName(methodref);
-        String methodSignature = constantPoolUtil.getMethodSignature(methodref);
+        String className = constantPoolUtil.constantMethodref_ClassName(methodref);
+        String methodName = constantPoolUtil.constantMethodref_MethodName(methodref);
+        String methodSignature = constantPoolUtil.constantMethodref_MethodSignature(methodref);
 
         //  系统类反射 自定义类另外处理
         if (className.startsWith("java/")) {

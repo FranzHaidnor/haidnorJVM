@@ -21,11 +21,11 @@ import java.util.Objects;
  */
 public class INVOKESTATIC extends Instruction {
 
-    private final int constantMethodrefIndex;
+    private final int constantIndex;
 
     public INVOKESTATIC(CodeStream codeStream) {
         super(codeStream);
-        this.constantMethodrefIndex = codeStream.readUnsignedShort(this);
+        this.constantIndex = codeStream.readUnsignedShort(this);
     }
 
     @Override
@@ -34,10 +34,23 @@ public class INVOKESTATIC extends Instruction {
         ConstantPool constantPool = frame.getConstantPool();
         ConstantPoolUtil constantPoolUtil = frame.getConstantPoolUtil();
 
-        ConstantMethodref methodref = constantPool.getConstant(constantMethodrefIndex);
-        String className = constantPoolUtil.getBelongClassName(methodref);
-        String methodName = constantPoolUtil.getMethodName(methodref);
-        String methodSignature = constantPoolUtil.getMethodSignature(methodref);
+        String className;
+        String methodName;
+        String methodSignature;
+
+        Constant constant = constantPool.getConstant(constantIndex);
+        if (constant instanceof ConstantMethodref constantMethodref) {
+            className = constantPoolUtil.constantMethodref_ClassName(constantMethodref);
+            methodName = constantPoolUtil.constantMethodref_MethodName(constantMethodref);
+            methodSignature = constantPoolUtil.constantMethodref_MethodSignature(constantMethodref);
+
+        } else if (constant instanceof ConstantInterfaceMethodref interfaceMethodref) {
+            className = constantPoolUtil.constantInterfaceMethodref_ClassName(interfaceMethodref);
+            methodName = constantPoolUtil.constantInterfaceMethodref_MethodName(interfaceMethodref);
+            methodSignature = constantPoolUtil.constantInterfaceMethodref_MethodSignature(interfaceMethodref);
+        } else {
+            throw new ClassCastException();
+        }
 
         //  系统类反射 自定义类另外处理
         if (className.startsWith("java/")) {

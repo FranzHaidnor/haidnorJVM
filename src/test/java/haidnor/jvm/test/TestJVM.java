@@ -92,9 +92,20 @@ public class TestJVM {
         runMainClass(demo_foreach.class);
     }
 
+    /**
+     * --add-opens java.base/java.util=ALL-UNNAMED
+     */
     @Test
     public void demo_foreach_2() throws Exception {
         runMainClass(demo_foreach_2.class);
+    }
+
+    /**
+     * --add-opens java.base/java.util=ALL-UNNAMED
+     */
+    @Test
+    public void demo_foreach_3() throws Exception {
+        runMainClass(demo_foreach_3.class);
     }
 
     @Test
