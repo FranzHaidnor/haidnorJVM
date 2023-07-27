@@ -19,16 +19,24 @@ public class IFEQ extends Instruction {
     @Override
     public void execute(Frame frame) {
         StackValue v1 = frame.pop();
-        if ((int) v1.getValue() == 0) {
-            super.setOffSet(offSet);
+        if (v1.getValue() instanceof Boolean) {
+            if (!((boolean) v1.getValue())) {
+                super.setOffSet(offSet);
+            } else {
+                super.setOffSet(3);
+            }
         } else {
-            super.setOffSet(3);
+            if ((int) v1.getValue() == 0) {
+                super.setOffSet(offSet);
+            } else {
+                super.setOffSet(3);
+            }
         }
     }
 
     @Override
     public String toString() {
-        return super.index() + " " + this.getClass().getSimpleName() + " "  + offSet;
+        return super.index() + " " + this.getClass().getSimpleName() + " " + offSet;
     }
 
 }

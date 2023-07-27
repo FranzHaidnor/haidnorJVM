@@ -93,6 +93,11 @@ public class TestJVM {
     }
 
     @Test
+    public void demo_foreach_2() throws Exception {
+        runMainClass(demo_foreach_2.class);
+    }
+
+    @Test
     public void test_8() throws Exception {
         runMainClass(Demo8.class);
     }
