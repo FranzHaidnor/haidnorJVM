@@ -10,9 +10,11 @@ public class demo_foreach_3 {
 
     public static void main(String[] args) {
         List<Integer> list = List.of(1, 2, 3, 4, 5);
-        for (Integer integer : list) {
-            System.out.println(integer);
-        }
+        list.add(6);
+
+//        for (Integer integer : list) {
+//            System.out.println(integer);
+//        }
     }
 
 }

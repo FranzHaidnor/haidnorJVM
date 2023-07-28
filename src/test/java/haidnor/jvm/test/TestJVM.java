@@ -30,7 +30,6 @@ public class TestJVM {
         Klass mainMeteKlass = bootClassLoader.loadClass(mainClass.getName().replace('.', '/'));
         KlassMethod mainKlassMethod = JavaClassUtil.getMainMethod(mainMeteKlass);
         Metaspace.registerJavaClass(mainMeteKlass);
-
         JavaExecutionEngine.callMainMethod(mainKlassMethod);
     }
 
@@ -148,6 +147,10 @@ public class TestJVM {
         runMainClass(demo_finally_3.class);
     }
 
+    @Test
+    public void demo_enum_1() throws Exception {
+        runMainClass(demo_enum_1.class); // TODO support enum
+    }
 
     @Test
     public void test_NEW() throws Exception {

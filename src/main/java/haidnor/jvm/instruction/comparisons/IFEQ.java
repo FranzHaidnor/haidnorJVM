@@ -6,9 +6,7 @@ import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
 
 public class IFEQ extends Instruction {
-    /**
-     * 下次再执行的偏移量
-     */
+
     private final int offSet;
 
     public IFEQ(CodeStream codeStream) {
