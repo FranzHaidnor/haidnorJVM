@@ -8,7 +8,7 @@ import haidnor.jvm.util.CodeStream;
  */
 public abstract class Instruction {
     /**
-     * 指令坐在 code 数组中的索引下标
+     * 指令在字节码 code 数组中的索引下标 (可以理解为指令的行号)
      */
     private final int index;
 
@@ -21,6 +21,11 @@ public abstract class Instruction {
         this.index = codeStream.index();
     }
 
+    /**
+     * 执行执行
+     *
+     * @param frame 当前 JVM 线程栈的栈帧
+     */
     public abstract void execute(Frame frame);
 
     public int index() {

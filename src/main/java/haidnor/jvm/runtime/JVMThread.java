@@ -26,6 +26,9 @@ public class JVMThread extends Thread {
         this.stack.pop();
     }
 
+    /**
+     * 获取 JVM 线程栈的栈帧数量
+     */
     public int stackSize() {
         return this.stack.size();
     }
