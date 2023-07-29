@@ -1,11 +1,6 @@
 package haidnor.jvm;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 
 import haidnor.jvm.classloader.ClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
@@ -28,21 +23,11 @@ public class Main {
 
     @SneakyThrows
     public static void main(String[] args) {
-        Option jarOption = new Option("jar", true, "运行 jar 程序");
-        Option classOption = new Option("class", true, "运行 .class 字节码文件");
+        CommandLine cmd = initCommandLine(args);
 
-        OptionGroup optionGroup = new OptionGroup();
-        optionGroup.addOption(jarOption).addOption(classOption);
-
-        Options options = new Options();
-        options.addOptionGroup(optionGroup);
-
-        CommandLineParser parser = new DefaultParser();
-        CommandLine cmd = parser.parse(options, args);
-
+        // 指定从 .jar 文件运行
         if (cmd.hasOption("jar")) {
             String jarFilePath = cmd.getOptionValue("jar");
-
             try (JarFile jarFile = new JarFile(jarFilePath)) {
                 ClassLoader bootClassLoader = new ClassLoader(jarFile, "ApplicationClassLoader");
                 String mainClass = jarFile.getManifest().getMainAttributes().getValue("Main-Class");
@@ -64,6 +49,8 @@ public class Main {
                 }
             }
         }
+
+        // 指定从 .class 文件运行
         if (cmd.hasOption("class")) {
             JvmThreadHolder.set(new JVMThread());
             String path = cmd.getOptionValue("class");
@@ -74,6 +61,20 @@ public class Main {
 
             JavaExecutionEngine.callMainMethod(mainKlassMethod);
         }
+    }
+
+    private static  CommandLine initCommandLine(String[] args) throws ParseException {
+        Option jarOption = new Option("jar", true, "运行 jar 程序");
+        Option classOption = new Option("class", true, "运行 .class 字节码文件");
+
+        OptionGroup optionGroup = new OptionGroup();
+        optionGroup.addOption(jarOption).addOption(classOption);
+
+        Options options = new Options();
+        options.addOptionGroup(optionGroup);
+
+        CommandLineParser parser = new DefaultParser();
+        return parser.parse(options, args);
     }
 
 }

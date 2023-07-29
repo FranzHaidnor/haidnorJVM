@@ -18,34 +18,17 @@ public abstract class SignatureUtil {
         for (int i = 0; i < argumentTypeArr.length; i++) {
             Class<?> argumentClass;
             String argumentType = argumentTypeArr[i];
-            switch (argumentType) {
-                case "byte":
-                    argumentClass = byte.class;
-                    break;
-                case "short":
-                    argumentClass = short.class;
-                    break;
-                case "boolean":
-                    argumentClass = boolean.class;
-                    break;
-                case "char":
-                    argumentClass = char.class;
-                    break;
-                case "int":
-                    argumentClass = int.class;
-                    break;
-                case "long":
-                    argumentClass = long.class;
-                    break;
-                case "float":
-                    argumentClass = float.class;
-                    break;
-                case "double":
-                    argumentClass = double.class;
-                    break;
-                default:
-                    argumentClass = Class.forName(argumentType);
-            }
+            argumentClass = switch (argumentType) {
+                case "byte" -> byte.class;
+                case "short" -> short.class;
+                case "boolean" -> boolean.class;
+                case "char" -> char.class;
+                case "int" -> int.class;
+                case "long" -> long.class;
+                case "float" -> float.class;
+                case "double" -> double.class;
+                default -> Class.forName(argumentType);
+            };
             argumentClassArr[i] = argumentClass;
         }
         return argumentClassArr;

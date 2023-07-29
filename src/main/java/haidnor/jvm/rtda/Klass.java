@@ -41,7 +41,7 @@ public class Klass {
     /**
      * 静态字段
      */
-    private Map<String, KlassField> staticFieldMap = new HashMap<>();
+    private final Map<String, KlassField> staticFieldMap = new HashMap<>();
 
     /**
      * 加载类元数据并将类放入元空间

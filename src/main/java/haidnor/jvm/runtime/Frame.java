@@ -264,27 +264,14 @@ public class Frame {
 
     public void slotSet(int index, StackValue stackValue) {
         switch (stackValue.getType()) {
-            case Const.T_CHAR:
-                throw new Error("T_CHAR，未作处理");
-            case Const.T_INT:
-                slotSetInt(index, (int) stackValue.getValue());
-                break;
-            case Const.T_OBJECT:
-                slotSetRef(index, stackValue.getValue());
-                break;
-            case Const.T_LONG:
-                slotSetLong(index, (long) stackValue.getValue());
-                break;
-            case Const.T_DOUBLE:
-                slotSetDouble(index, (double) stackValue.getValue());
-                break;
-            case Const.T_FLOAT:
-                slotSetFloat(index, (float) stackValue.getValue());
-                break;
-            case Const.T_ARRAY:
-                throw new Error("T_ARRAY，未作处理");
-            default:
-                throw new Error("无法识别的参数类型");
+            case Const.T_CHAR -> throw new Error("T_CHAR，未作处理");
+            case Const.T_INT -> slotSetInt(index, (int) stackValue.getValue());
+            case Const.T_OBJECT -> slotSetRef(index, stackValue.getValue());
+            case Const.T_LONG -> slotSetLong(index, (long) stackValue.getValue());
+            case Const.T_DOUBLE -> slotSetDouble(index, (double) stackValue.getValue());
+            case Const.T_FLOAT -> slotSetFloat(index, (float) stackValue.getValue());
+            case Const.T_ARRAY -> throw new Error("T_ARRAY，未作处理");
+            default -> throw new Error("无法识别的参数类型");
         }
     }
 
