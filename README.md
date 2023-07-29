@@ -141,6 +141,15 @@ java.lang.reflect.InaccessibleObjectException: Unable to make public boolean jav
 **解决方法：**  
 启动 haidnorJVM 时添加 JVM 参数 `--add-opens java.base/java.util=ALL-UNNAMED` 绕过访问性限制
 
+# 后续计划
+1. 实现支持枚举、switch 语法、lambda 表达式
+2. 编写更多的单元测试代码, 对每一个已实现的功能做完善的单元测试
+3. 完善注释。（这一个学习项目，我希望尽可能的能让人快速理解原理。也计划写一些相关的博客或教程） 
+4. 优化代码，减少冗余、提高可读性
+5. 解决 BUG，目前 BUG 主要集中在运行 JDK 自带的类实现上
+
 # 联系作者
+如果您也有兴趣，我们可以一起完善这个项目！欢迎！ 😀
+
 ![](/readme/20230721181408.png )  
 微信号: haidnor

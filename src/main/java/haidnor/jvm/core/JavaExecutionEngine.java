@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JVM 执行引擎
+ * JVM 字节码执行引擎
  *
  * @author wang xiang
  */
