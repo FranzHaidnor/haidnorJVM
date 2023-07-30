@@ -80,6 +80,8 @@ public class Demo5 {
 ### 配置 rt.jar 路径
 修改 `haidnorJVM.properties` 文件中的内容。配置 rt.jar 的绝对路径，例如`rt.jar=D:/Program Files/Java/jdk1.8.0_361/jre/lib/rt.jar`
 
+**后续将废弃此配置。不再使用 JDK1.8 中的 rt.jar,而使用 JDK17 中的 jmod 文件. (此功能正在开发中...)**
+
 ## 运行单元测试用例
 在 IDE 中打开项目中 test 目录下的 `haidnor.jvm.test.TestJVM.java` 文件。 这是 haidnorJVM 的主要测试类, 里面的测试方法可以解析加载运行 .class 字节码文件。
 ```java
