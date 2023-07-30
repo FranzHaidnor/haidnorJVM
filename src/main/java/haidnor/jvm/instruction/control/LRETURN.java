@@ -1,12 +1,11 @@
 package haidnor.jvm.instruction.control;
 
-import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
 import haidnor.jvm.util.JvmThreadHolder;
 
-public class LRETURN extends Instruction {
+public class LRETURN extends ReturnableInstruction {
 
     public LRETURN(CodeStream codeStream) {
         super(codeStream);

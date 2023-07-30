@@ -102,8 +102,8 @@ public class JavaExecutionEngine {
             try {
                 // 执行字节码指令
                 instruction.execute(frame);
-                // 若为 return 系列指令则结束当前栈帧
-                if (instruction instanceof RETURN || instruction instanceof ARETURN || instruction instanceof DRETURN || instruction instanceof FRETURN || instruction instanceof IRETURN) {
+                // 若为 return 系列指令则结束当前栈帧 (RETURN,ARETURN,DRETURN,FRETURN,IRETURN)
+                if (instruction instanceof ReturnableInstruction) {
                     break;
                 }
                 // 程序计数器值增加. 指向下一次执行的字节码行号
