@@ -4,10 +4,10 @@ import haidnor.jvm.rtda.Klass;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -18,19 +18,18 @@ public class ClassLoader {
 
     public final String name;
 
-    public final static String rtJarPath;
+    public final static String JAVA_HOME;
+
+    /**
+     * java.base.jmod 文件路径
+     */
+    public final static String javaBaseJmodPath;
 
     public JarFile jarFile = null;
 
     static {
-        InputStream is = ClassLoader.class.getResourceAsStream("/haidnorJVM.properties");
-        Properties properties = new Properties();
-        try {
-            properties.load(is);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        rtJarPath = properties.getProperty("rt.jar");
+        JAVA_HOME = System.getenv( "JAVA_HOME");
+        javaBaseJmodPath = JAVA_HOME + "/jmods/java.base.jmod";
     }
 
     public ClassLoader(String name) {
@@ -48,10 +47,7 @@ public class ClassLoader {
     public Klass loadClass(String classPath) throws IOException {
         ClassParser classParser = null;
         if (classPath.startsWith("java/")) {
-            if (!new File(rtJarPath).exists()) {
-                throw new IllegalStateException("rt.jar not found");
-            }
-            classParser = new ClassParser(rtJarPath, classPath + ".class");
+            classParser = new ClassParser(javaBaseJmodPath, "classes/" + classPath + ".class");
         } else if (jarFile != null) {
             Enumeration<JarEntry> entries = jarFile.entries();
             while (entries.hasMoreElements()) {

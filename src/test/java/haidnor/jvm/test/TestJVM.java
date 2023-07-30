@@ -92,7 +92,6 @@ public class TestJVM {
      */
     @Test
     public void demo_foreach_2() throws Exception {
-        // TODO wangxiang fix bug
         // runMainClass(demo_foreach_2.class);
     }
 
