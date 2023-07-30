@@ -158,7 +158,7 @@ public class HelloWorld {
    }
 }
 ```
-3. 编译代码，得到 HelloWorld.class 文件 （推荐使用 JDK8 进行编译）
+3. 编译代码，得到 HelloWorld.class 文件
 4. 使用 haidnorJVM 运行程序。执行命令 `java -jar haidnorJVM.jar -class R:\HelloWorld.class`。注意! 需要 class 文件的绝对路径
 
 ## 运行 .jar 文件
