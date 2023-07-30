@@ -40,13 +40,11 @@
 
 # 快速体验
 ## 你需要准备什么
-1. 集成开发环境 (IDE)。你可以选择包括 IntelliJ IDEA、Visual Studio Code 或 Eclipse 等等
+1. 集成开发环境 (IDE)。例如 IntelliJ IDEA、Visual Studio Code 或 Eclipse 等等
 2. JDK 17。并配置 JAVA_HOME
-3. JDK 8。haidnorJVM 的主要目标是运行 Java8 本版的字节码文件。(但 haidnorJVM 没有强制要求字节码文件是 Java8 版本)
-4. Maven
+3. Maven
 
-## 配置 haidnorJVM
-### 配置日志输出级别
+## 配置日志输出级别
 在 `resources\simplelogger.properties` 文件中修改日志输出级别，一般使用 `debug`、`info`
 
 * 配置 info 级别将不会看到任何 haidnorJVM 内部运行信息
@@ -134,12 +132,6 @@ hello world
 [main] DEBUG haidnor.jvm.core.JavaExecutionEngine - └──────────────────[1] haidnor.jvm.test.demo.Demo5 | public static void main(String[] args)
 
 ```
-
-### 配置 rt.jar 路径
-修改 `haidnorJVM.properties` 文件中的内容。配置 rt.jar 的绝对路径，例如`rt.jar=D:/Program Files/Java/jdk1.8.0_361/jre/lib/rt.jar`
-
-**后续将废弃此配置。不再使用 JDK1.8 中的 rt.jar,而使用 JDK17 中的 jmod 文件. (此功能正在开发中...)**
-
 ## 运行单元测试用例
 在 IDE 中打开项目中 test 目录下的 `haidnor.jvm.test.TestJVM.java` 文件。 这是 haidnorJVM 的主要测试类, 里面的测试方法可以解析加载运行 .class 字节码文件。
 ```java
