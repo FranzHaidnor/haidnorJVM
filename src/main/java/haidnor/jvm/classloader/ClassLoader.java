@@ -23,17 +23,10 @@ public class ClassLoader {
     public JarFile jarFile = null;
 
     static {
-        URL resource = ClassLoader.class.getResource("/");
-        String path = resource.getPath();
-        FileInputStream fis;
-        try {
-            fis = new FileInputStream(path + "/haidnorJVM.properties");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        InputStream is = ClassLoader.class.getResourceAsStream("/haidnorJVM.properties");
         Properties properties = new Properties();
         try {
-            properties.load(fis);
+            properties.load(is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

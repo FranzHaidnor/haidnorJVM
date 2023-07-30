@@ -142,7 +142,7 @@ public class TestJVM {
         runMainClass(demo_finally_2.class);
     }
 
-    @Test
+    @Test(expected = ArithmeticException.class)
     public void demo_finally_3() throws Exception {
         runMainClass(demo_finally_3.class);
     }
