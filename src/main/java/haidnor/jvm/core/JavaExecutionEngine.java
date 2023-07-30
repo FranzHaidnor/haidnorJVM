@@ -90,10 +90,9 @@ public class JavaExecutionEngine {
         while (codeStream.available() > 0) {
             Instruction instruction = InstructionFactory.creatInstruction(codeStream);
             instructionMap.put(instruction.index(), instruction);
-            log.debug("{}│> {}", blank, instruction);
+            // log.debug("{}│> {}", blank, instruction);   // debug 输出解析字节码指令的内容
         }
-
-        log.debug("{}├ - - - - - - - - -", blank);
+        // log.debug("{}├ - - - - - - - - -", blank);
 
         // 执行方法中的字节码指令
         // 提示: 变量 pc 相当于程序计数器, 记录当前执行到的字节码指令的"行号"

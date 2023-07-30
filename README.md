@@ -54,6 +54,10 @@
 ```java
 public class Demo5 {
 
+    static {
+        System.out.println("Demo5 类被加载了");
+    }
+
     public static void main(String[] args) {
         String str = method1("hello world");
         method1(str);
@@ -71,11 +75,65 @@ public class Demo5 {
         System.out.println(s);
         return "你好 世界";
     }
-    
+
 }
 ```
-每一个 `匚` 结构图形，都表示一个 JVM 线程栈中的栈帧
-![](/readme/20230721204333.png)
+使用 haidnorJVM 运行以上程序将会在控制台输出以下内容。每一个 `匚` 结构图形，都表示一个 JVM 线程栈中的栈帧
+```cmd
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - ┌──────────────────[1] haidnor.jvm.test.demo.Demo5 | static void <clinit>()
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 0 GETSTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 3 LDC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 5 INVOKEVIRTUAL
+Demo5 类被加载了
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 8 RETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - └──────────────────[1] haidnor.jvm.test.demo.Demo5 | static void <clinit>()
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - ┌──────────────────[1] haidnor.jvm.test.demo.Demo5 | public static void main(String[] args)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 0 LDC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 2 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   ┌──────────────────[2] haidnor.jvm.test.demo.Demo5 | public static String method1(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 0 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 1 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   ┌──────────────────[3] haidnor.jvm.test.demo.Demo5 | public static String method2(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 0 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 1 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   ┌──────────────────[4] haidnor.jvm.test.demo.Demo5 | public static String method3(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 0 GETSTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 3 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 4 INVOKEVIRTUAL
+hello world
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 7 LDC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 9 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   └──────────────────[4] haidnor.jvm.test.demo.Demo5 | public static String method3(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 4 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   └──────────────────[3] haidnor.jvm.test.demo.Demo5 | public static String method2(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 4 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   └──────────────────[2] haidnor.jvm.test.demo.Demo5 | public static String method1(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 5 ASTORE_1
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 6 ALOAD_1
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 7 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   ┌──────────────────[2] haidnor.jvm.test.demo.Demo5 | public static String method1(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 0 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 1 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   ┌──────────────────[3] haidnor.jvm.test.demo.Demo5 | public static String method2(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 0 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 1 INVOKESTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   ┌──────────────────[4] haidnor.jvm.test.demo.Demo5 | public static String method3(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 0 GETSTATIC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 3 ALOAD_0
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 4 INVOKEVIRTUAL
+你好 世界
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 7 LDC
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   │ 9 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │                   └──────────────────[4] haidnor.jvm.test.demo.Demo5 | public static String method3(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   │ 4 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │                   └──────────────────[3] haidnor.jvm.test.demo.Demo5 | public static String method2(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   │ 4 ARETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │                   └──────────────────[2] haidnor.jvm.test.demo.Demo5 | public static String method1(String s)
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 10 POP
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - │ 11 RETURN
+[main] DEBUG haidnor.jvm.core.JavaExecutionEngine - └──────────────────[1] haidnor.jvm.test.demo.Demo5 | public static void main(String[] args)
+
+```
 
 ### 配置 rt.jar 路径
 修改 `haidnorJVM.properties` 文件中的内容。配置 rt.jar 的绝对路径，例如`rt.jar=D:/Program Files/Java/jdk1.8.0_361/jre/lib/rt.jar`
