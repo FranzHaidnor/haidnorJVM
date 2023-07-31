@@ -41,9 +41,10 @@ public class JavaExecutionEngine {
      */
     public static void callMethod(Frame lastFrame, KlassMethod klassMethod) {
         JVMThread jvmThread = JvmThreadHolder.get();
+        // 调用方法时会创建新的栈帧
         Frame newFrame = new Frame(jvmThread, klassMethod);
 
-        // 如果有上一个栈帧, 代表需要传参
+        // 如果线程栈内存在栈帧, 代表可能需要方法调用传参
         if (lastFrame != null) {
             Method method = klassMethod.javaMethod;
             String signature = method.getSignature();
@@ -54,8 +55,7 @@ public class JavaExecutionEngine {
                 argumentSlotSize++;
             }
 
-            // 方法调用传参
-            // 将上一个栈帧操作数栈中数据弹出,存入下一个栈帧的局部变量表中
+            // 方法调用传参 (原理: 将顶部栈帧的操作数栈中的数据弹出, 存入新栈帧的局部变量表中)
             LocalVariableTable localVariableTable = method.getLocalVariableTable();
             if (localVariableTable != null) {
                 for (int i = argumentSlotSize - 1; i >= 0; i--) {
@@ -68,6 +68,7 @@ public class JavaExecutionEngine {
             }
         }
 
+        // 将新栈帧压入线程栈顶部, 并执行新栈帧中的代码
         jvmThread.push(newFrame);
         executeFrame(newFrame);
     }
@@ -124,8 +125,11 @@ public class JavaExecutionEngine {
                             frame.push(new StackValue(Const.T_OBJECT, exception));
                             handlerPC = codeException.getHandlerPC();
                         } else {
+                            // 从常量池中查询异常表定义的异常类型
                             String exceptionClassName = frame.getConstantPoolUtil().constantClass_ClassName(catchType);
                             exceptionClassName = Utility.compactClassName(exceptionClassName, false);
+
+                            // 判断异常的泛型类型. 假如执行指令抛出的是 NullPointerException 类型, 异常表定义的是 Exception 类型, 则此异常可以被捕获
                             Class<?> exceptionClass = Class.forName(exceptionClassName);
                             if (exceptionClass.isAssignableFrom(exception.getClass())) {
                                 frame.push(new StackValue(Const.T_OBJECT, exception));
