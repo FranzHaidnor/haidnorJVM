@@ -4,6 +4,8 @@ import java.util.Stack;
 
 /**
  * JVM 线程
+ * <p>
+ * 目前这个 JVMThread 并没有真的被 start() 开启, 不继承 Thread 也可以
  *
  * @author wang xiang
  */

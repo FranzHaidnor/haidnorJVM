@@ -23,6 +23,16 @@ public class Main {
 
     @SneakyThrows
     public static void main(String[] args) {
+        String banner = """
+                ░░   ░░  ░░░░░  ░░ ░░░░░░  ░░░    ░░  ░░░░░░  ░░░░░░           ░░ ░░    ░░ ░░░    ░░░\s
+                ▒▒   ▒▒ ▒▒   ▒▒ ▒▒ ▒▒   ▒▒ ▒▒▒▒   ▒▒ ▒▒    ▒▒ ▒▒   ▒▒          ▒▒ ▒▒    ▒▒ ▒▒▒▒  ▒▒▒▒\s
+                ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒   ▒▒ ▒▒ ▒▒  ▒▒ ▒▒    ▒▒ ▒▒▒▒▒▒           ▒▒ ▒▒    ▒▒ ▒▒ ▒▒▒▒ ▒▒\s
+                ▓▓   ▓▓ ▓▓   ▓▓ ▓▓ ▓▓   ▓▓ ▓▓  ▓▓ ▓▓ ▓▓    ▓▓ ▓▓   ▓▓     ▓▓   ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓\s
+                ██   ██ ██   ██ ██ ██████  ██   ████  ██████  ██   ██      █████    ████   ██      ██\s
+                """;
+
+        System.out.println(banner);
+
         CommandLine cmd = initCommandLine(args);
 
         // 指定从 .jar 文件运行

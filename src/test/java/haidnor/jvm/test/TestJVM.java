@@ -68,6 +68,11 @@ public class TestJVM {
     }
 
     @Test
+    public void test_8() throws Exception {
+        runMainClass(Demo8.class);
+    }
+
+    @Test
     public void demo_while() throws Exception {
         runMainClass(demo_while.class);
     }
@@ -102,11 +107,6 @@ public class TestJVM {
     public void demo_foreach_3() throws Exception {
         // TODO wangxiang fix bug
         // runMainClass(demo_foreach_3.class);
-    }
-
-    @Test
-    public void test_8() throws Exception {
-        runMainClass(Demo8.class);
     }
 
     @Test(expected = ArithmeticException.class)
@@ -175,5 +175,16 @@ public class TestJVM {
     public void test_Array() throws Exception {
         runMainClass(Array.class);
     }
-    
+
+    @Test
+    public void test_() throws Exception {
+        long longNum = 922337203685477580L;  // Long Max
+
+        int[] arr = new int[2];
+        arr[0] = (int) (longNum >> 32); // 获取高位部分
+        arr[1] = (int) (longNum & 0xFFFFFFFFL); // 获取低位部分
+
+        long result = ((long) arr[0] << 32) | ((long) arr[1] & 0xFFFFFFFFL);
+        System.out.println(result);
+    }
 }
