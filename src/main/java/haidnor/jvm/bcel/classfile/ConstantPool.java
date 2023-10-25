@@ -318,6 +318,9 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
                 throw new ClassFormatException("Constant pool at index " + index + " is null.");
             }
         }
+        if (c != null) {
+            c.setConstantPool(this);
+        }
         return c;
     }
 

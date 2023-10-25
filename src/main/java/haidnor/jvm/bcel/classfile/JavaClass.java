@@ -24,8 +24,10 @@ import haidnor.jvm.bcel.util.ClassQueue;
 import haidnor.jvm.bcel.util.Repository;
 import haidnor.jvm.bcel.util.SyntheticRepository;
 import haidnor.jvm.classloader.JVMClassLoader;
+import haidnor.jvm.rtda.Instance;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
@@ -896,5 +898,18 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return null;
     }
 
+    @SneakyThrows
+    public Instance newInstance() {
+        // 创建对象存放字段的内存空间
+        List<JavaField> javaFieldList = Arrays.asList(getFields());
+
+        // 创建 JVM 中的对象实例
+        Instance obj = new Instance(javaFieldList, this);
+        // 加载父类
+        if (this.getSuperClass() != null) {
+            obj.setSuperInstance(this.getSuperClass().newInstance());
+        }
+        return obj;
+    }
 
 }

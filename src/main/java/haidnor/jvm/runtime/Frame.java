@@ -64,9 +64,6 @@ public class Frame {
         return this.code.getCode().length;
     }
 
-    public JavaMethod getMetaMethod() {
-        return javaMethod;
-    }
 
     /* 操作数栈操作 --------------------------------------------------------------------------------------------------- */
 

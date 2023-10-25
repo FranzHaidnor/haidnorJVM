@@ -14,11 +14,17 @@ public class Instance {
     @Getter
     private final JavaClass javaClass;
 
-    private final List<JavaField> javaFieldList = new ArrayList<>();
+    private final List<JavaField> javaFieldList;
 
     private Instance superInstance;
 
     public Instance(JavaClass javaClass) {
+        this.javaClass = javaClass;
+        this.javaFieldList = new ArrayList<>();
+    }
+
+    public Instance(List<JavaField> javaFieldList, JavaClass javaClass) {
+        this.javaFieldList = javaFieldList;
         this.javaClass = javaClass;
     }
 

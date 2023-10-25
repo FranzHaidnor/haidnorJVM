@@ -5,7 +5,7 @@ import haidnor.jvm.bcel.Const;
 import haidnor.jvm.bcel.classfile.*;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.instruction.InstructionFactory;
-import haidnor.jvm.instruction.ReturnableInstruction;
+import haidnor.jvm.instruction.control.ReturnableInstruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.JVMThread;
 import haidnor.jvm.runtime.StackValue;
@@ -26,8 +26,8 @@ public class JavaExecutionEngine {
     /**
      * 执行  public static void main(String[] args) 方法
      */
-    public static void callMainMethod(JavaClass javaClass) {
-        JavaMethod mainMethod = javaClass.getMainMethod();
+    public static void callMain(JavaClass clazz) {
+        JavaMethod mainMethod = clazz.getMainMethod();
         callMethod(null, mainMethod);
     }
 

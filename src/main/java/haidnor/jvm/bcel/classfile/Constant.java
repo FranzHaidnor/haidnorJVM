@@ -29,6 +29,7 @@ import java.util.Objects;
  * classes keep closely to the JVM specification.
  */
 public abstract class Constant implements Cloneable, Node {
+    public ConstantPool constantPool;
 
     private static BCELComparator bcelComparator = new BCELComparator() {
 
@@ -159,6 +160,10 @@ public abstract class Constant implements Cloneable, Node {
     }
 
     public abstract void dump(DataOutputStream file) throws IOException;
+
+    public void setConstantPool(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
 
     /**
      * Returns value as defined by given BCELComparator strategy. By default two Constant objects are said to be equal when

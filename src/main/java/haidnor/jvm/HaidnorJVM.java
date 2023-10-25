@@ -48,7 +48,7 @@ public class HaidnorJVM {
                             JVMThreadHolder.set(new JVMThread());
                             JavaClass javaClass = classLoader.loadWithJar(jarFile, entry);
                             Metaspace.registerJavaClass(javaClass);
-                            JavaExecutionEngine.callMainMethod(javaClass);
+                            JavaExecutionEngine.callMain(javaClass);
                             return;
                         }
                     }
@@ -62,7 +62,7 @@ public class HaidnorJVM {
             String path = cmd.getOptionValue("class");
             JVMClassLoader bootClassLoader = new JVMClassLoader("ApplicationClassLoader");
             JavaClass javaClass = bootClassLoader.loadWithAbsolutePath(path);
-            JavaExecutionEngine.callMainMethod(javaClass);
+            JavaExecutionEngine.callMain(javaClass);
         }
     }
 
@@ -80,4 +80,11 @@ public class HaidnorJVM {
         return parser.parse(options, args);
     }
 
+
+    public static void testRun(Class<?> mainClass) {
+        JVMThreadHolder.set(new JVMThread());
+        JVMClassLoader bootClassLoader = new JVMClassLoader("ApplicationClassLoader");
+        JavaClass mainMeteKlass = bootClassLoader.loadWithClassPath(mainClass.getName().replace('.', '/'));
+        JavaExecutionEngine.callMain(mainMeteKlass);
+    }
 }
