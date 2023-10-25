@@ -3,6 +3,7 @@ package haidnor.jvm.classloader;
 import haidnor.jvm.bcel.classfile.ClassParser;
 import haidnor.jvm.bcel.classfile.JavaClass;
 import haidnor.jvm.bcel.classfile.JavaMethod;
+import haidnor.jvm.core.JavaExecutionEngine;
 import haidnor.jvm.rtda.Metaspace;
 import lombok.SneakyThrows;
 
@@ -98,7 +99,7 @@ public class JVMClassLoader {
         }
         for (JavaMethod method : javaClass.getMethods()) {
             if (method.toString().equals("static void <clinit>()")) {
-                // JavaExecutionEngine.callMethod(null, method);
+                JavaExecutionEngine.callMethod(null, method);
                 break;
             }
         }
