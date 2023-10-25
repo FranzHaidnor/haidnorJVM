@@ -46,7 +46,7 @@ public final class ConstantFieldref extends ConstantCP {
     }
 
     /**
-     * @param classIndex Reference to the class containing the Field
+     * @param classIndex       Reference to the class containing the Field
      * @param nameAndTypeIndex and the Field signature
      */
     public ConstantFieldref(final int classIndex, final int nameAndTypeIndex) {

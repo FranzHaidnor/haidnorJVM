@@ -24,6 +24,58 @@ import java.util.Arrays;
  */
 public final class SWITCH implements CompoundInstruction {
 
+    private final Select instruction;
+
+    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target) {
+        this(match, targets, target, 1);
+    }
+
+    /**
+     * Template for switch() constructs. If the match array can be sorted in ascending order with gaps no larger than
+     * maxGap between the numbers, a TABLESWITCH instruction is generated, and a LOOKUPSWITCH otherwise. The former may be
+     * more efficient, but needs more space.
+     * <p>
+     * Note, that the key array always will be sorted, though we leave the original arrays unaltered.
+     *
+     * @param match   array of match values (case 2: ... case 7: ..., etc.)
+     * @param targets the instructions to be branched to for each case
+     * @param target  the default target
+     * @param maxGap  maximum gap that may between case branches
+     */
+    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target, final int maxGap) {
+        int[] matchClone = match.clone();
+        final InstructionHandle[] targetsClone = targets.clone();
+        final int matchLength = match.length;
+        if (matchLength < 2) {
+            instruction = new TABLESWITCH(match, targets, target);
+        } else {
+            sort(0, matchLength - 1, matchClone, targetsClone);
+            if (matchIsOrdered(matchClone, matchLength, maxGap)) {
+                final int maxSize = matchLength + matchLength * maxGap;
+                final int[] mVec = new int[maxSize];
+                final InstructionHandle[] tVec = new InstructionHandle[maxSize];
+                int count = 1;
+                mVec[0] = match[0];
+                tVec[0] = targets[0];
+                for (int i = 1; i < matchLength; i++) {
+                    final int prev = match[i - 1];
+                    final int gap = match[i] - prev;
+                    for (int j = 1; j < gap; j++) {
+                        mVec[count] = prev + j;
+                        tVec[count] = target;
+                        count++;
+                    }
+                    mVec[count] = match[i];
+                    tVec[count] = targets[i];
+                    count++;
+                }
+                instruction = new TABLESWITCH(Arrays.copyOf(mVec, count), Arrays.copyOf(tVec, count), target);
+            } else {
+                instruction = new LOOKUPSWITCH(matchClone, targetsClone, target);
+            }
+        }
+    }
+
     /**
      * @return match is sorted in ascending order with no gap bigger than maxGap?
      */
@@ -68,58 +120,6 @@ public final class SWITCH implements CompoundInstruction {
         }
         if (i < r) {
             sort(i, r, match, targets);
-        }
-    }
-
-    private final Select instruction;
-
-    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target) {
-        this(match, targets, target, 1);
-    }
-
-    /**
-     * Template for switch() constructs. If the match array can be sorted in ascending order with gaps no larger than
-     * maxGap between the numbers, a TABLESWITCH instruction is generated, and a LOOKUPSWITCH otherwise. The former may be
-     * more efficient, but needs more space.
-     *
-     * Note, that the key array always will be sorted, though we leave the original arrays unaltered.
-     *
-     * @param match array of match values (case 2: ... case 7: ..., etc.)
-     * @param targets the instructions to be branched to for each case
-     * @param target the default target
-     * @param maxGap maximum gap that may between case branches
-     */
-    public SWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle target, final int maxGap) {
-        int[] matchClone = match.clone();
-        final InstructionHandle[] targetsClone = targets.clone();
-        final int matchLength = match.length;
-        if (matchLength < 2) {
-            instruction = new TABLESWITCH(match, targets, target);
-        } else {
-            sort(0, matchLength - 1, matchClone, targetsClone);
-            if (matchIsOrdered(matchClone, matchLength, maxGap)) {
-                final int maxSize = matchLength + matchLength * maxGap;
-                final int[] mVec = new int[maxSize];
-                final InstructionHandle[] tVec = new InstructionHandle[maxSize];
-                int count = 1;
-                mVec[0] = match[0];
-                tVec[0] = targets[0];
-                for (int i = 1; i < matchLength; i++) {
-                    final int prev = match[i - 1];
-                    final int gap = match[i] - prev;
-                    for (int j = 1; j < gap; j++) {
-                        mVec[count] = prev + j;
-                        tVec[count] = target;
-                        count++;
-                    }
-                    mVec[count] = match[i];
-                    tVec[count] = targets[i];
-                    count++;
-                }
-                instruction = new TABLESWITCH(Arrays.copyOf(mVec, count), Arrays.copyOf(tVec, count), target);
-            } else {
-                instruction = new LOOKUPSWITCH(matchClone, targetsClone, target);
-            }
         }
     }
 

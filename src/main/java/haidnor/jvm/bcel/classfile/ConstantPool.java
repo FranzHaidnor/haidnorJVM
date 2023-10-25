@@ -35,34 +35,6 @@ import java.util.Iterator;
  */
 public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
 
-    private static String escape(final String str) {
-        final int len = str.length();
-        final StringBuilder buf = new StringBuilder(len + 5);
-        final char[] ch = str.toCharArray();
-        for (int i = 0; i < len; i++) {
-            switch (ch[i]) {
-            case '\n':
-                buf.append("\\n");
-                break;
-            case '\r':
-                buf.append("\\r");
-                break;
-            case '\t':
-                buf.append("\\t");
-                break;
-            case '\b':
-                buf.append("\\b");
-                break;
-            case '"':
-                buf.append("\\\"");
-                break;
-            default:
-                buf.append(ch[i]);
-            }
-        }
-        return buf.toString();
-    }
-
     private Constant[] constantPool;
 
     /**
@@ -100,6 +72,34 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
         }
     }
 
+    private static String escape(final String str) {
+        final int len = str.length();
+        final StringBuilder buf = new StringBuilder(len + 5);
+        final char[] ch = str.toCharArray();
+        for (int i = 0; i < len; i++) {
+            switch (ch[i]) {
+                case '\n':
+                    buf.append("\\n");
+                    break;
+                case '\r':
+                    buf.append("\\r");
+                    break;
+                case '\t':
+                    buf.append("\\t");
+                    break;
+                case '\b':
+                    buf.append("\\b");
+                    break;
+                case '"':
+                    buf.append("\\\"");
+                    break;
+                default:
+                    buf.append(ch[i]);
+            }
+        }
+        return buf.toString();
+    }
+
     /**
      * Called by objects that are traversing the nodes of the tree implicitly defined by the contents of a Java class. I.e., the hierarchy of methods, fields,
      * attributes, etc. spawns a tree of objects.
@@ -123,72 +123,72 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
         int i;
         final byte tag = c.getTag();
         switch (tag) {
-        case Const.CONSTANT_Class:
-            i = ((ConstantClass) c).getNameIndex();
-            c = getConstantUtf8(i);
-            str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
-            break;
-        case Const.CONSTANT_String:
-            i = ((ConstantString) c).getStringIndex();
-            c = getConstantUtf8(i);
-            str = "\"" + escape(((ConstantUtf8) c).getBytes()) + "\"";
-            break;
-        case Const.CONSTANT_Utf8:
-            str = ((ConstantUtf8) c).getBytes();
-            break;
-        case Const.CONSTANT_Double:
-            str = String.valueOf(((ConstantDouble) c).getBytes());
-            break;
-        case Const.CONSTANT_Float:
-            str = String.valueOf(((ConstantFloat) c).getBytes());
-            break;
-        case Const.CONSTANT_Long:
-            str = String.valueOf(((ConstantLong) c).getBytes());
-            break;
-        case Const.CONSTANT_Integer:
-            str = String.valueOf(((ConstantInteger) c).getBytes());
-            break;
-        case Const.CONSTANT_NameAndType:
-            str = constantToString(((ConstantNameAndType) c).getNameIndex(), Const.CONSTANT_Utf8) + " "
-                    + constantToString(((ConstantNameAndType) c).getSignatureIndex(), Const.CONSTANT_Utf8);
-            break;
-        case Const.CONSTANT_InterfaceMethodref:
-        case Const.CONSTANT_Methodref:
-        case Const.CONSTANT_Fieldref:
-            str = constantToString(((ConstantCP) c).getClassIndex(), Const.CONSTANT_Class) + "."
-                    + constantToString(((ConstantCP) c).getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
-            break;
-        case Const.CONSTANT_MethodHandle:
-            // Note that the ReferenceIndex may point to a Fieldref, Methodref or
-            // InterfaceMethodref - so we need to peek ahead to get the actual type.
-            final ConstantMethodHandle cmh = (ConstantMethodHandle) c;
-            str = Const.getMethodHandleName(cmh.getReferenceKind()) + " "
-                    + constantToString(cmh.getReferenceIndex(), getConstant(cmh.getReferenceIndex()).getTag());
-            break;
-        case Const.CONSTANT_MethodType:
-            final ConstantMethodType cmt = (ConstantMethodType) c;
-            str = constantToString(cmt.getDescriptorIndex(), Const.CONSTANT_Utf8);
-            break;
-        case Const.CONSTANT_InvokeDynamic:
-            final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
-            str = cid.getBootstrapMethodAttrIndex() + ":" + constantToString(cid.getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
-            break;
-        case Const.CONSTANT_Dynamic:
-            final ConstantDynamic cd = (ConstantDynamic) c;
-            str = cd.getBootstrapMethodAttrIndex() + ":" + constantToString(cd.getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
-            break;
-        case Const.CONSTANT_Module:
-            i = ((ConstantModule) c).getNameIndex();
-            c = getConstantUtf8(i);
-            str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
-            break;
-        case Const.CONSTANT_Package:
-            i = ((ConstantPackage) c).getNameIndex();
-            c = getConstantUtf8(i);
-            str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
-            break;
-        default: // Never reached
-            throw new IllegalArgumentException("Unknown constant type " + tag);
+            case Const.CONSTANT_Class:
+                i = ((ConstantClass) c).getNameIndex();
+                c = getConstantUtf8(i);
+                str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+                break;
+            case Const.CONSTANT_String:
+                i = ((ConstantString) c).getStringIndex();
+                c = getConstantUtf8(i);
+                str = "\"" + escape(((ConstantUtf8) c).getBytes()) + "\"";
+                break;
+            case Const.CONSTANT_Utf8:
+                str = ((ConstantUtf8) c).getBytes();
+                break;
+            case Const.CONSTANT_Double:
+                str = String.valueOf(((ConstantDouble) c).getBytes());
+                break;
+            case Const.CONSTANT_Float:
+                str = String.valueOf(((ConstantFloat) c).getBytes());
+                break;
+            case Const.CONSTANT_Long:
+                str = String.valueOf(((ConstantLong) c).getBytes());
+                break;
+            case Const.CONSTANT_Integer:
+                str = String.valueOf(((ConstantInteger) c).getBytes());
+                break;
+            case Const.CONSTANT_NameAndType:
+                str = constantToString(((ConstantNameAndType) c).getNameIndex(), Const.CONSTANT_Utf8) + " "
+                        + constantToString(((ConstantNameAndType) c).getSignatureIndex(), Const.CONSTANT_Utf8);
+                break;
+            case Const.CONSTANT_InterfaceMethodref:
+            case Const.CONSTANT_Methodref:
+            case Const.CONSTANT_Fieldref:
+                str = constantToString(((ConstantCP) c).getClassIndex(), Const.CONSTANT_Class) + "."
+                        + constantToString(((ConstantCP) c).getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
+                break;
+            case Const.CONSTANT_MethodHandle:
+                // Note that the ReferenceIndex may point to a Fieldref, Methodref or
+                // InterfaceMethodref - so we need to peek ahead to get the actual type.
+                final ConstantMethodHandle cmh = (ConstantMethodHandle) c;
+                str = Const.getMethodHandleName(cmh.getReferenceKind()) + " "
+                        + constantToString(cmh.getReferenceIndex(), getConstant(cmh.getReferenceIndex()).getTag());
+                break;
+            case Const.CONSTANT_MethodType:
+                final ConstantMethodType cmt = (ConstantMethodType) c;
+                str = constantToString(cmt.getDescriptorIndex(), Const.CONSTANT_Utf8);
+                break;
+            case Const.CONSTANT_InvokeDynamic:
+                final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
+                str = cid.getBootstrapMethodAttrIndex() + ":" + constantToString(cid.getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
+                break;
+            case Const.CONSTANT_Dynamic:
+                final ConstantDynamic cd = (ConstantDynamic) c;
+                str = cd.getBootstrapMethodAttrIndex() + ":" + constantToString(cd.getNameAndTypeIndex(), Const.CONSTANT_NameAndType);
+                break;
+            case Const.CONSTANT_Module:
+                i = ((ConstantModule) c).getNameIndex();
+                c = getConstantUtf8(i);
+                str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+                break;
+            case Const.CONSTANT_Package:
+                i = ((ConstantPackage) c).getNameIndex();
+                c = getConstantUtf8(i);
+                str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+                break;
+            default: // Never reached
+                throw new IllegalArgumentException("Unknown constant type " + tag);
         }
         return str;
     }
@@ -249,8 +249,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
      *
      * @param index Index in constant pool
      * @return Constant value
-     * @see Constant
      * @throws ClassFormatException if index is invalid
+     * @see Constant
      */
     @SuppressWarnings("unchecked")
     public <T extends Constant> T getConstant(final int index) throws ClassFormatException {
@@ -263,8 +263,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
      * @param index Index in constant pool
      * @param tag   Tag of expected constant, i.e., its type
      * @return Constant value
-     * @see Constant
      * @throws ClassFormatException if constant type does not match tag
+     * @see Constant
      */
     @SuppressWarnings("unchecked")
     public <T extends Constant> T getConstant(final int index, final byte tag) throws ClassFormatException {
@@ -277,8 +277,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
      * @param index Index in constant pool
      * @param tag   Tag of expected constant, i.e., its type
      * @return Constant value
-     * @see Constant
      * @throws ClassFormatException if constant type does not match tag
+     * @see Constant
      * @since 6.6.0
      */
     public <T extends Constant> T getConstant(final int index, final byte tag, final Class<T> castTo) throws ClassFormatException {
@@ -292,12 +292,12 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
     /**
      * Gets constant from constant pool.
      *
-     * @param <T> A {@link Constant} subclass
-     * @param index Index in constant pool
+     * @param <T>    A {@link Constant} subclass
+     * @param index  Index in constant pool
      * @param castTo The {@link Constant} subclass to cast to.
      * @return Constant value
-     * @see Constant
      * @throws ClassFormatException if index is invalid
+     * @see Constant
      * @since 6.6.0
      */
     public <T extends Constant> T getConstant(final int index, final Class<T> castTo) throws ClassFormatException {
@@ -311,8 +311,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
         // Previous check ensures this won't throw a ClassCastException
         final T c = castTo.cast(constantPool[index]);
         if (c == null
-            // the 0th element is always null
-            && index != 0) {
+                // the 0th element is always null
+                && index != 0) {
             final Constant prev = constantPool[index - 1];
             if (prev == null || prev.getTag() != Const.CONSTANT_Double && prev.getTag() != Const.CONSTANT_Long) {
                 throw new ClassFormatException("Constant pool at index " + index + " is null.");
@@ -326,8 +326,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
      *
      * @param index Index in constant pool
      * @return ConstantInteger value
-     * @see ConstantInteger
      * @throws ClassFormatException if constant type does not match tag
+     * @see ConstantInteger
      */
     public ConstantInteger getConstantInteger(final int index) {
         return getConstant(index, Const.CONSTANT_Integer, ConstantInteger.class);
@@ -342,15 +342,22 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
     }
 
     /**
+     * @param constantPool
+     */
+    public void setConstantPool(final Constant[] constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    /**
      * Gets string from constant pool and bypass the indirection of 'ConstantClass' and 'ConstantString' objects. I.e. these classes have an index field that
      * points to another entry of the constant pool of type 'ConstantUtf8' which contains the real data.
      *
      * @param index Index in constant pool
      * @param tag   Tag of expected constant, either ConstantClass or ConstantString
      * @return Contents of string reference
+     * @throws IllegalArgumentException if tag is invalid
      * @see ConstantClass
      * @see ConstantString
-     * @throws IllegalArgumentException if tag is invalid
      */
     public String getConstantString(final int index, final byte tag) throws IllegalArgumentException {
         int i;
@@ -360,22 +367,22 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
          * subclassing.
          */
         switch (tag) {
-        case Const.CONSTANT_Class:
-            i = getConstant(index, ConstantClass.class).getNameIndex();
-            break;
-        case Const.CONSTANT_String:
-            i = getConstant(index, ConstantString.class).getStringIndex();
-            break;
-        case Const.CONSTANT_Module:
-            i = getConstant(index, ConstantModule.class).getNameIndex();
-            break;
-        case Const.CONSTANT_Package:
-            i = getConstant(index, ConstantPackage.class).getNameIndex();
-            break;
-        case Const.CONSTANT_Utf8:
-            return getConstantUtf8(index).getBytes();
-        default:
-            throw new IllegalArgumentException("getConstantString called with illegal tag " + tag);
+            case Const.CONSTANT_Class:
+                i = getConstant(index, ConstantClass.class).getNameIndex();
+                break;
+            case Const.CONSTANT_String:
+                i = getConstant(index, ConstantString.class).getStringIndex();
+                break;
+            case Const.CONSTANT_Module:
+                i = getConstant(index, ConstantModule.class).getNameIndex();
+                break;
+            case Const.CONSTANT_Package:
+                i = getConstant(index, ConstantPackage.class).getNameIndex();
+                break;
+            case Const.CONSTANT_Utf8:
+                return getConstantUtf8(index).getBytes();
+            default:
+                throw new IllegalArgumentException("getConstantString called with illegal tag " + tag);
         }
         // Finally get the string from the constant pool
         return getConstantUtf8(i).getBytes();
@@ -386,8 +393,8 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
      *
      * @param index Index in constant pool
      * @return ConstantUtf8 value
-     * @see ConstantUtf8
      * @throws ClassFormatException if constant type does not match tag
+     * @see ConstantUtf8
      */
     public ConstantUtf8 getConstantUtf8(final int index) throws ClassFormatException {
         return getConstant(index, Const.CONSTANT_Utf8, ConstantUtf8.class);
@@ -413,13 +420,6 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
     }
 
     /**
-     * @param constantPool
-     */
-    public void setConstantPool(final Constant[] constantPool) {
-        this.constantPool = constantPool;
-    }
-
-    /**
      * @return String representation.
      */
     @Override
@@ -430,4 +430,164 @@ public class ConstantPool implements Cloneable, Node, Iterable<Constant> {
         }
         return buf.toString();
     }
+
+
+    // ---------------------------------------------- haidnorJVM
+
+    public ConstantFieldref getConstantFieldref(int constantFieldrefIndex) {
+        return getConstant(constantFieldrefIndex);
+    }
+
+    public ConstantMethodref getConstantMethodref(int constantMethodrefIndex) {
+        return getConstant(constantMethodrefIndex);
+    }
+
+    public ConstantClass getConstantClass(int constantClassIndex) {
+        return getConstant(constantClassIndex);
+    }
+
+    public ConstantNameAndType getConstantNameAndType(int constantNameAndTypeIndex) {
+        return getConstant(constantNameAndTypeIndex);
+    }
+
+
+    // ConstantClass ---------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取长类名, 例如 java/lang/String
+     */
+    public String constantClass_ClassName(final ConstantClass constantClass) {
+        ConstantUtf8 constantUtf8 = getConstant(constantClass.getNameIndex());
+        return constantUtf8.getBytes();
+    }
+
+    /**
+     * 获取长类名, 例如 java/lang/String
+     */
+    public String constantClass_ClassName(int constantClassIndex) {
+        ConstantClass constantClass = getConstant(constantClassIndex);
+        return constantClass_ClassName(constantClass);
+    }
+
+
+    // ConstantFieldref ------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取字段所处于Java类的类名, 例如 java/lang/String
+     */
+    public String constantFieldref_ClassName(final ConstantFieldref constantFieldref) {
+        ConstantClass constClass = getConstant(constantFieldref.getClassIndex());
+        return (String) constClass.getConstantValue(this);
+    }
+
+    /**
+     * 获取字段所处于Java类的类名, 例如 java/lang/String
+     */
+    public String constantFieldref_ClassName(int constantFieldrefIndex) {
+        ConstantFieldref constantFieldref = getConstantFieldref(constantFieldrefIndex);
+        return constantFieldref_ClassName(constantFieldref);
+    }
+
+    /**
+     * 获取字段名称
+     */
+    public String getFieldName(final ConstantFieldref constantFieldref) {
+        ConstantNameAndType constNameAndType = getConstant(constantFieldref.getNameAndTypeIndex());
+        return constNameAndType.getName(this);
+    }
+
+    /**
+     * 获取字段名称
+     */
+    public String getFieldName(int constantFieldrefIndex) {
+        ConstantFieldref constantFieldref = getConstantFieldref(constantFieldrefIndex);
+        return getFieldName(constantFieldref);
+    }
+
+    /**
+     * 获取字段类型签名
+     */
+    public String getFieldSignature(final ConstantFieldref constantFieldref) {
+        ConstantNameAndType constNameAndType = getConstant(constantFieldref.getNameAndTypeIndex());
+        return constNameAndType.getSignature(this);
+    }
+
+    /**
+     * 获取字段类型签名
+     */
+    public String getFieldSignature(int constantFieldrefIndex) {
+        ConstantFieldref constantFieldref = getConstantFieldref(constantFieldrefIndex);
+        return getFieldSignature(constantFieldref);
+    }
+
+    // ConstantMethodref -----------------------------------------------------------------------------------------------
+
+    /**
+     * 获取方法所处于Java类的类名
+     * 名称使用/分割,例如 haidnor/jvm/test/instruction/references/NEW
+     */
+    public String constantMethodref_ClassName(final ConstantMethodref methodref) {
+        ConstantClass constClass = getConstant(methodref.getClassIndex());
+        return (String) constClass.getConstantValue(this);
+    }
+
+    /**
+     * 获取方法名
+     */
+    public String constantMethodref_MethodName(final ConstantMethodref methodref) {
+        ConstantNameAndType constNameAndType = getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getName(this);
+    }
+
+    /**
+     * 获取方法签名
+     */
+    public String constantMethodref_MethodSignature(final ConstantMethodref methodref) {
+        ConstantNameAndType constNameAndType = getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getSignature(this);
+    }
+
+    // ConstantInterfaceMethodref -----------------------------------------------------------------------------------------------
+
+    public String constantInterfaceMethodref_ClassName(final ConstantInterfaceMethodref methodref) {
+        ConstantClass constClass = getConstant(methodref.getClassIndex());
+        return (String) constClass.getConstantValue(this);
+    }
+
+    /**
+     * 获取方法名
+     */
+    public String constantInterfaceMethodref_MethodName(final ConstantInterfaceMethodref methodref) {
+        ConstantNameAndType constNameAndType = getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getName(this);
+    }
+
+    /**
+     * 获取方法签名
+     */
+    public String constantInterfaceMethodref_MethodSignature(final ConstantInterfaceMethodref methodref) {
+        ConstantNameAndType constNameAndType = getConstant(methodref.getNameAndTypeIndex());
+        return constNameAndType.getSignature(this);
+    }
+
+
+    // ConstantNameAndType -----------------------------------------------------------------------------------------------
+
+    /**
+     * ConstantNameAndType
+     */
+    public ConstantNameAndType constantNameAndType(int constantNameAndTypeIndex) {
+        return getConstant(constantNameAndTypeIndex);
+    }
+
+    public String constantNameAndType_name(int constantNameAndTypeIndex) {
+        ConstantNameAndType constantNameAndType = constantNameAndType(constantNameAndTypeIndex);
+        return constantNameAndType.getName(this);
+    }
+
+    public String constantNameAndType_signature(int constantNameAndTypeIndex) {
+        ConstantNameAndType constantNameAndType = constantNameAndType(constantNameAndTypeIndex);
+        return constantNameAndType.getSignature(this);
+    }
+
 }

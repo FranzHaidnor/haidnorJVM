@@ -83,36 +83,36 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     @Override
     public Type getType(final ConstantPoolGen cpg) {
         switch (cpg.getConstantPool().getConstant(super.getIndex()).getTag()) {
-        case Const.CONSTANT_String:
-            return Type.STRING;
-        case Const.CONSTANT_Float:
-            return Type.FLOAT;
-        case Const.CONSTANT_Integer:
-            return Type.INT;
-        case Const.CONSTANT_Class:
-            return Type.CLASS;
-        default: // Never reached
-            throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
+            case Const.CONSTANT_String:
+                return Type.STRING;
+            case Const.CONSTANT_Float:
+                return Type.FLOAT;
+            case Const.CONSTANT_Integer:
+                return Type.INT;
+            case Const.CONSTANT_Class:
+                return Type.CLASS;
+            default: // Never reached
+                throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }
 
     public Object getValue(final ConstantPoolGen cpg) {
         Constant c = cpg.getConstantPool().getConstant(super.getIndex());
         switch (c.getTag()) {
-        case Const.CONSTANT_String:
-            final int i = ((ConstantString) c).getStringIndex();
-            c = cpg.getConstantPool().getConstant(i);
-            return ((ConstantUtf8) c).getBytes();
-        case Const.CONSTANT_Float:
-            return Float.valueOf(((ConstantFloat) c).getBytes());
-        case Const.CONSTANT_Integer:
-            return Integer.valueOf(((ConstantInteger) c).getBytes());
-        case Const.CONSTANT_Class:
-            final int nameIndex = ((ConstantClass) c).getNameIndex();
-            c = cpg.getConstantPool().getConstant(nameIndex);
-            return Type.getType(((ConstantUtf8) c).getBytes());
-        default: // Never reached
-            throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
+            case Const.CONSTANT_String:
+                final int i = ((ConstantString) c).getStringIndex();
+                c = cpg.getConstantPool().getConstant(i);
+                return ((ConstantUtf8) c).getBytes();
+            case Const.CONSTANT_Float:
+                return Float.valueOf(((ConstantFloat) c).getBytes());
+            case Const.CONSTANT_Integer:
+                return Integer.valueOf(((ConstantInteger) c).getBytes());
+            case Const.CONSTANT_Class:
+                final int nameIndex = ((ConstantClass) c).getNameIndex();
+                c = cpg.getConstantPool().getConstant(nameIndex);
+                return Type.getType(((ConstantUtf8) c).getBytes());
+            default: // Never reached
+                throw new IllegalArgumentException("Unknown or invalid constant type at " + super.getIndex());
         }
     }
 

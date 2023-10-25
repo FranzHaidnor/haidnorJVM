@@ -49,32 +49,32 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
     public Type getType(final ConstantPoolGen cp) {
         final short opcode = super.getOpcode();
         switch (opcode) {
-        case Const.IALOAD:
-        case Const.IASTORE:
-            return Type.INT;
-        case Const.CALOAD:
-        case Const.CASTORE:
-            return Type.CHAR;
-        case Const.BALOAD:
-        case Const.BASTORE:
-            return Type.BYTE;
-        case Const.SALOAD:
-        case Const.SASTORE:
-            return Type.SHORT;
-        case Const.LALOAD:
-        case Const.LASTORE:
-            return Type.LONG;
-        case Const.DALOAD:
-        case Const.DASTORE:
-            return Type.DOUBLE;
-        case Const.FALOAD:
-        case Const.FASTORE:
-            return Type.FLOAT;
-        case Const.AALOAD:
-        case Const.AASTORE:
-            return Type.OBJECT;
-        default:
-            throw new ClassGenException("Unknown case in switch" + opcode);
+            case Const.IALOAD:
+            case Const.IASTORE:
+                return Type.INT;
+            case Const.CALOAD:
+            case Const.CASTORE:
+                return Type.CHAR;
+            case Const.BALOAD:
+            case Const.BASTORE:
+                return Type.BYTE;
+            case Const.SALOAD:
+            case Const.SASTORE:
+                return Type.SHORT;
+            case Const.LALOAD:
+            case Const.LASTORE:
+                return Type.LONG;
+            case Const.DALOAD:
+            case Const.DASTORE:
+                return Type.DOUBLE;
+            case Const.FALOAD:
+            case Const.FASTORE:
+                return Type.FLOAT;
+            case Const.AALOAD:
+            case Const.AASTORE:
+                return Type.OBJECT;
+            default:
+                throw new ClassGenException("Unknown case in switch" + opcode);
         }
     }
 }

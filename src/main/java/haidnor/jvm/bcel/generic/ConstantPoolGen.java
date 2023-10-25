@@ -44,34 +44,26 @@ public class ConstantPoolGen {
     private static final String FIELDREF_DELIM = "&";
 
     private static final String NAT_DELIM = "%"; // Name and Type
-
+    private final Map<String, Integer> stringTable = new HashMap<>();
+    private final Map<String, Integer> classTable = new HashMap<>();
+    private final Map<String, Integer> utf8Table = new HashMap<>();
+    private final Map<String, Integer> natTable = new HashMap<>();
+    private final Map<String, Integer> cpTable = new HashMap<>();
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected int size;
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected Constant[] constants;
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getSize()
      */
     @Deprecated
     protected int index = 1; // First entry (0) used by JVM
-
-    private final Map<String, Integer> stringTable = new HashMap<>();
-
-    private final Map<String, Integer> classTable = new HashMap<>();
-
-    private final Map<String, Integer> utf8Table = new HashMap<>();
-
-    private final Map<String, Integer> natTable = new HashMap<>();
-
-    private final Map<String, Integer> cpTable = new HashMap<>();
 
     /**
      * Constructs a new empty constant pool.
@@ -255,63 +247,63 @@ public class ConstantPoolGen {
      * Adds a constant from another ConstantPool and returns the new index.
      *
      * @param constant The constant to add.
-     * @param cpGen Source pool.
+     * @param cpGen    Source pool.
      * @return index of entry
      */
     public int addConstant(final Constant constant, final ConstantPoolGen cpGen) {
         final Constant[] constants = cpGen.getConstantPool().getConstantPool();
         switch (constant.getTag()) {
-        case Const.CONSTANT_String: {
-            final ConstantString s = (ConstantString) constant;
-            final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
-            return addString(u8.getBytes());
-        }
-        case Const.CONSTANT_Class: {
-            final ConstantClass s = (ConstantClass) constant;
-            final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
-            return addClass(u8.getBytes());
-        }
-        case Const.CONSTANT_NameAndType: {
-            final ConstantNameAndType n = (ConstantNameAndType) constant;
-            final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
-            final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
-            return addNameAndType(u8.getBytes(), u8_2.getBytes());
-        }
-        case Const.CONSTANT_Utf8:
-            return addUtf8(((ConstantUtf8) constant).getBytes());
-        case Const.CONSTANT_Double:
-            return addDouble(((ConstantDouble) constant).getBytes());
-        case Const.CONSTANT_Float:
-            return addFloat(((ConstantFloat) constant).getBytes());
-        case Const.CONSTANT_Long:
-            return addLong(((ConstantLong) constant).getBytes());
-        case Const.CONSTANT_Integer:
-            return addInteger(((ConstantInteger) constant).getBytes());
-        case Const.CONSTANT_InterfaceMethodref:
-        case Const.CONSTANT_Methodref:
-        case Const.CONSTANT_Fieldref: {
-            final ConstantCP m = (ConstantCP) constant;
-            final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
-            final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
-            ConstantUtf8 u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
-            final String className = Utility.pathToPackage(u8.getBytes());
-            u8 = (ConstantUtf8) constants[n.getNameIndex()];
-            final String name = u8.getBytes();
-            u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
-            final String signature = u8.getBytes();
-            switch (constant.getTag()) {
+            case Const.CONSTANT_String: {
+                final ConstantString s = (ConstantString) constant;
+                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
+                return addString(u8.getBytes());
+            }
+            case Const.CONSTANT_Class: {
+                final ConstantClass s = (ConstantClass) constant;
+                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
+                return addClass(u8.getBytes());
+            }
+            case Const.CONSTANT_NameAndType: {
+                final ConstantNameAndType n = (ConstantNameAndType) constant;
+                final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
+                final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
+                return addNameAndType(u8.getBytes(), u8_2.getBytes());
+            }
+            case Const.CONSTANT_Utf8:
+                return addUtf8(((ConstantUtf8) constant).getBytes());
+            case Const.CONSTANT_Double:
+                return addDouble(((ConstantDouble) constant).getBytes());
+            case Const.CONSTANT_Float:
+                return addFloat(((ConstantFloat) constant).getBytes());
+            case Const.CONSTANT_Long:
+                return addLong(((ConstantLong) constant).getBytes());
+            case Const.CONSTANT_Integer:
+                return addInteger(((ConstantInteger) constant).getBytes());
             case Const.CONSTANT_InterfaceMethodref:
-                return addInterfaceMethodref(className, name, signature);
             case Const.CONSTANT_Methodref:
-                return addMethodref(className, name, signature);
-            case Const.CONSTANT_Fieldref:
-                return addFieldref(className, name, signature);
+            case Const.CONSTANT_Fieldref: {
+                final ConstantCP m = (ConstantCP) constant;
+                final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
+                final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
+                ConstantUtf8 u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
+                final String className = Utility.pathToPackage(u8.getBytes());
+                u8 = (ConstantUtf8) constants[n.getNameIndex()];
+                final String name = u8.getBytes();
+                u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
+                final String signature = u8.getBytes();
+                switch (constant.getTag()) {
+                    case Const.CONSTANT_InterfaceMethodref:
+                        return addInterfaceMethodref(className, name, signature);
+                    case Const.CONSTANT_Methodref:
+                        return addMethodref(className, name, signature);
+                    case Const.CONSTANT_Fieldref:
+                        return addFieldref(className, name, signature);
+                    default: // Never reached
+                        throw new IllegalArgumentException("Unknown constant type " + constant);
+                }
+            }
             default: // Never reached
                 throw new IllegalArgumentException("Unknown constant type " + constant);
-            }
-        }
-        default: // Never reached
-            throw new IllegalArgumentException("Unknown constant type " + constant);
         }
     }
 
@@ -395,9 +387,9 @@ public class ConstantPoolGen {
     /**
      * Add a new InterfaceMethodref constant to the ConstantPool, if it is not already in there.
      *
-     * @param className class name string to add
+     * @param className  class name string to add
      * @param methodName method name string to add
-     * @param signature signature string to add
+     * @param signature  signature string to add
      * @return index of entry
      */
     public int addInterfaceMethodref(final String className, final String methodName, final String signature) {
@@ -430,6 +422,7 @@ public class ConstantPoolGen {
         index += 2; // Wastes one entry according to spec
         return ret;
     }
+
     public int addMethodref(final MethodGen method) {
         return addMethodref(method.getClassName(), method.getName(), method.getSignature());
     }
@@ -437,9 +430,9 @@ public class ConstantPoolGen {
     /**
      * Add a new Methodref constant to the ConstantPool, if it is not already in there.
      *
-     * @param className class name string to add
+     * @param className  class name string to add
      * @param methodName method name string to add
-     * @param signature method signature string to add
+     * @param signature  method signature string to add
      * @return index of entry
      */
     public int addMethodref(final String className, final String methodName, final String signature) {
@@ -458,7 +451,7 @@ public class ConstantPoolGen {
     /**
      * Add a new NameAndType constant to the ConstantPool if it is not already in there.
      *
-     * @param name Name string to add
+     * @param name      Name string to add
      * @param signature signature string to add
      * @return index of entry
      */
@@ -654,9 +647,9 @@ public class ConstantPoolGen {
     /**
      * Look for ConstantInterfaceMethodref in ConstantPool.
      *
-     * @param className Where to find method
+     * @param className  Where to find method
      * @param methodName Guess what
-     * @param signature return and argument types
+     * @param signature  return and argument types
      * @return index on success, -1 otherwise
      */
     public int lookupInterfaceMethodref(final String className, final String methodName, final String signature) {
@@ -688,9 +681,9 @@ public class ConstantPoolGen {
     /**
      * Look for ConstantMethodref in ConstantPool.
      *
-     * @param className Where to find method
+     * @param className  Where to find method
      * @param methodName Guess what
-     * @param signature return and argument types
+     * @param signature  return and argument types
      * @return index on success, -1 otherwise
      */
     public int lookupMethodref(final String className, final String methodName, final String signature) {
@@ -700,7 +693,7 @@ public class ConstantPoolGen {
     /**
      * Look for ConstantNameAndType in ConstantPool.
      *
-     * @param name of variable/method
+     * @param name      of variable/method
      * @param signature of variable/method
      * @return index on success, -1 otherwise
      */

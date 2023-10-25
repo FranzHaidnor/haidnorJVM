@@ -34,16 +34,15 @@ import java.util.Arrays;
  */
 public final class Unknown extends Attribute {
 
-    private byte[] bytes;
-
     private final String name;
+    private byte[] bytes;
 
     /**
      * Constructs a new instance for a non-standard attribute.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param bytes Attribute contents
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param bytes        Attribute contents
      * @param constantPool Array of constants
      */
     public Unknown(final int nameIndex, final int length, final byte[] bytes, final ConstantPool constantPool) {
@@ -55,9 +54,9 @@ public final class Unknown extends Attribute {
     /**
      * Constructs a new instance from an input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -124,18 +123,18 @@ public final class Unknown extends Attribute {
     }
 
     /**
+     * @param bytes the bytes to set
+     */
+    public void setBytes(final byte[] bytes) {
+        this.bytes = bytes;
+    }
+
+    /**
      * @return name of attribute.
      */
     @Override
     public String getName() {
         return name;
-    }
-
-    /**
-     * @param bytes the bytes to set
-     */
-    public void setBytes(final byte[] bytes) {
-        this.bytes = bytes;
     }
 
     /**

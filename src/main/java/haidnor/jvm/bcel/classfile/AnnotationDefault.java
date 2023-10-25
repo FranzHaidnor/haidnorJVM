@@ -33,9 +33,9 @@ public class AnnotationDefault extends Attribute {
     private ElementValue defaultValue;
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index pointing to the name <em>Code</em>
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      */
     AnnotationDefault(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
@@ -44,8 +44,8 @@ public class AnnotationDefault extends Attribute {
     }
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
+     * @param nameIndex    Index pointing to the name <em>Code</em>
+     * @param length       Content length in bytes
      * @param defaultValue the annotation's default value
      * @param constantPool Array of constants
      */

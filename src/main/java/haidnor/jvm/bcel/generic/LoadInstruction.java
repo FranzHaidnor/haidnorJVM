@@ -31,8 +31,8 @@ public abstract class LoadInstruction extends LocalVariableInstruction implement
 
     /**
      * @param opcode Instruction opcode
-     * @param cTag Instruction number for compact version, ALOAD_0, e.g.
-     * @param n local variable index (unsigned short)
+     * @param cTag   Instruction number for compact version, ALOAD_0, e.g.
+     * @param n      local variable index (unsigned short)
      */
     protected LoadInstruction(final short opcode, final short cTag, final int n) {
         super(opcode, cTag, n);

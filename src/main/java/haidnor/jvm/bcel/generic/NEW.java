@@ -58,7 +58,7 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.INSTANTIATION_ERROR);
+                ExceptionConst.INSTANTIATION_ERROR);
     }
 
     @Override

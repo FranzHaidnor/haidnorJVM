@@ -45,70 +45,21 @@ public abstract class Constant implements Cloneable, Node {
             return THIS.toString().hashCode();
         }
     };
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @java.lang.Deprecated
+    protected byte tag; // TODO should be private & final
+
+    Constant(final byte tag) {
+        this.tag = tag;
+    }
 
     /**
      * @return Comparison strategy object
      */
     public static BCELComparator getComparator() {
         return bcelComparator;
-    }
-
-    /**
-     * Reads one constant from the given input, the type depends on a tag byte.
-     *
-     * @param dataInput Input stream
-     * @return Constant object
-     * @throws IOException if an I/O error occurs reading from the given {@code dataInput}.
-     * @throws ClassFormatException if the next byte is not recognized
-     * @since 6.0 made public
-     */
-    public static Constant readConstant(final DataInput dataInput) throws IOException, ClassFormatException {
-        final byte b = dataInput.readByte(); // Read tag byte
-        switch (b) {
-        case Const.CONSTANT_Class:
-            return new ConstantClass(dataInput);
-        case Const.CONSTANT_Fieldref:
-            return new ConstantFieldref(dataInput);
-        case Const.CONSTANT_Methodref:
-            return new ConstantMethodref(dataInput);
-        case Const.CONSTANT_InterfaceMethodref:
-            return new ConstantInterfaceMethodref(dataInput);
-        case Const.CONSTANT_String:
-            return new ConstantString(dataInput);
-        case Const.CONSTANT_Integer:
-            return new ConstantInteger(dataInput);
-        case Const.CONSTANT_Float:
-            return new ConstantFloat(dataInput);
-        case Const.CONSTANT_Long:
-            return new ConstantLong(dataInput);
-        case Const.CONSTANT_Double:
-            return new ConstantDouble(dataInput);
-        case Const.CONSTANT_NameAndType:
-            return new ConstantNameAndType(dataInput);
-        case Const.CONSTANT_Utf8:
-            return ConstantUtf8.getInstance(dataInput);
-        case Const.CONSTANT_MethodHandle:
-            return new ConstantMethodHandle(dataInput);
-        case Const.CONSTANT_MethodType:
-            return new ConstantMethodType(dataInput);
-        case Const.CONSTANT_Dynamic:
-            return new ConstantDynamic(dataInput);
-        case Const.CONSTANT_InvokeDynamic:
-            return new ConstantInvokeDynamic(dataInput);
-        case Const.CONSTANT_Module:
-            return new ConstantModule(dataInput);
-        case Const.CONSTANT_Package:
-            return new ConstantPackage(dataInput);
-        default:
-            throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
-        }
-    }
-
-    /**
-     * @param comparator Comparison strategy object
-     */
-    public static void setComparator(final BCELComparator comparator) {
-        bcelComparator = comparator;
     }
 
     /*
@@ -118,14 +69,63 @@ public abstract class Constant implements Cloneable, Node {
      * First, we want match the specification as closely as possible. Second we need the tag as an index to select the
      * corresponding class name from the 'CONSTANT_NAMES' array.
      */
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @java.lang.Deprecated
-    protected byte tag; // TODO should be private & final
 
-    Constant(final byte tag) {
-        this.tag = tag;
+    /**
+     * @param comparator Comparison strategy object
+     */
+    public static void setComparator(final BCELComparator comparator) {
+        bcelComparator = comparator;
+    }
+
+    /**
+     * Reads one constant from the given input, the type depends on a tag byte.
+     *
+     * @param dataInput Input stream
+     * @return Constant object
+     * @throws IOException          if an I/O error occurs reading from the given {@code dataInput}.
+     * @throws ClassFormatException if the next byte is not recognized
+     * @since 6.0 made public
+     */
+    public static Constant readConstant(final DataInput dataInput) throws IOException, ClassFormatException {
+        final byte b = dataInput.readByte(); // Read tag byte
+        switch (b) {
+            case Const.CONSTANT_Class:
+                return new ConstantClass(dataInput);
+            case Const.CONSTANT_Fieldref:
+                return new ConstantFieldref(dataInput);
+            case Const.CONSTANT_Methodref:
+                return new ConstantMethodref(dataInput);
+            case Const.CONSTANT_InterfaceMethodref:
+                return new ConstantInterfaceMethodref(dataInput);
+            case Const.CONSTANT_String:
+                return new ConstantString(dataInput);
+            case Const.CONSTANT_Integer:
+                return new ConstantInteger(dataInput);
+            case Const.CONSTANT_Float:
+                return new ConstantFloat(dataInput);
+            case Const.CONSTANT_Long:
+                return new ConstantLong(dataInput);
+            case Const.CONSTANT_Double:
+                return new ConstantDouble(dataInput);
+            case Const.CONSTANT_NameAndType:
+                return new ConstantNameAndType(dataInput);
+            case Const.CONSTANT_Utf8:
+                return ConstantUtf8.getInstance(dataInput);
+            case Const.CONSTANT_MethodHandle:
+                return new ConstantMethodHandle(dataInput);
+            case Const.CONSTANT_MethodType:
+                return new ConstantMethodType(dataInput);
+            case Const.CONSTANT_Dynamic:
+                return new ConstantDynamic(dataInput);
+            case Const.CONSTANT_InvokeDynamic:
+                return new ConstantInvokeDynamic(dataInput);
+            case Const.CONSTANT_Module:
+                return new ConstantModule(dataInput);
+            case Const.CONSTANT_Package:
+                return new ConstantPackage(dataInput);
+            default:
+                throw new ClassFormatException("Invalid byte tag in constant pool: " + b);
+        }
     }
 
     /**

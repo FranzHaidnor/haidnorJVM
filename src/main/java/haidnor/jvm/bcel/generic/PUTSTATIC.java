@@ -25,7 +25,7 @@ import haidnor.jvm.bcel.ExceptionConst;
  * <PRE>
  * Stack: ..., value -&gt; ...
  * </PRE>
- *
+ * <p>
  * OR
  *
  * <PRE>

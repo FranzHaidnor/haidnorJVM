@@ -25,7 +25,7 @@ import haidnor.jvm.bcel.ExceptionConst;
  * <PRE>
  * Stack: ..., objectref -&gt; ..., value
  * </PRE>
- *
+ * <p>
  * OR
  *
  * <PRE>
@@ -66,7 +66,7 @@ public class GETFIELD extends FieldInstruction implements ExceptionThrower, Stac
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+                ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
     @Override

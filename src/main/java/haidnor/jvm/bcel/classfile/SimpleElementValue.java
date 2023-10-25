@@ -37,19 +37,19 @@ public class SimpleElementValue extends ElementValue {
         final int type = super.getType();
         dos.writeByte(type); // u1 kind of value
         switch (type) {
-        case PRIMITIVE_INT:
-        case PRIMITIVE_BYTE:
-        case PRIMITIVE_CHAR:
-        case PRIMITIVE_FLOAT:
-        case PRIMITIVE_LONG:
-        case PRIMITIVE_BOOLEAN:
-        case PRIMITIVE_SHORT:
-        case PRIMITIVE_DOUBLE:
-        case STRING:
-            dos.writeShort(getIndex());
-            break;
-        default:
-            throw new ClassFormatException("SimpleElementValue doesnt know how to write out type " + type);
+            case PRIMITIVE_INT:
+            case PRIMITIVE_BYTE:
+            case PRIMITIVE_CHAR:
+            case PRIMITIVE_FLOAT:
+            case PRIMITIVE_LONG:
+            case PRIMITIVE_BOOLEAN:
+            case PRIMITIVE_SHORT:
+            case PRIMITIVE_DOUBLE:
+            case STRING:
+                dos.writeShort(getIndex());
+                break;
+            default:
+                throw new ClassFormatException("SimpleElementValue doesnt know how to write out type " + type);
         }
     }
 
@@ -58,6 +58,10 @@ public class SimpleElementValue extends ElementValue {
      */
     public int getIndex() {
         return index;
+    }
+
+    public void setIndex(final int index) {
+        this.index = index;
     }
 
     public boolean getValueBoolean() {
@@ -128,46 +132,42 @@ public class SimpleElementValue extends ElementValue {
         return super.getConstantPool().getConstantUtf8(getIndex()).getBytes();
     }
 
-    public void setIndex(final int index) {
-        this.index = index;
-    }
-
     // Whatever kind of value it is, return it as a string
     @Override
     public String stringifyValue() {
         final ConstantPool cpool = super.getConstantPool();
         final int type = super.getType();
         switch (type) {
-        case PRIMITIVE_INT:
-            return Integer.toString(cpool.getConstantInteger(getIndex()).getBytes());
-        case PRIMITIVE_LONG:
-            final ConstantLong j = cpool.getConstant(getIndex(), Const.CONSTANT_Long, ConstantLong.class);
-            return Long.toString(j.getBytes());
-        case PRIMITIVE_DOUBLE:
-            final ConstantDouble d = cpool.getConstant(getIndex(), Const.CONSTANT_Double, ConstantDouble.class);
-            return Double.toString(d.getBytes());
-        case PRIMITIVE_FLOAT:
-            final ConstantFloat f = cpool.getConstant(getIndex(), Const.CONSTANT_Float, ConstantFloat.class);
-            return Float.toString(f.getBytes());
-        case PRIMITIVE_SHORT:
-            final ConstantInteger s = cpool.getConstantInteger(getIndex());
-            return Integer.toString(s.getBytes());
-        case PRIMITIVE_BYTE:
-            final ConstantInteger b = cpool.getConstantInteger(getIndex());
-            return Integer.toString(b.getBytes());
-        case PRIMITIVE_CHAR:
-            final ConstantInteger ch = cpool.getConstantInteger(getIndex());
-            return String.valueOf((char) ch.getBytes());
-        case PRIMITIVE_BOOLEAN:
-            final ConstantInteger bo = cpool.getConstantInteger(getIndex());
-            if (bo.getBytes() == 0) {
-                return "false";
-            }
-            return "true";
-        case STRING:
-            return cpool.getConstantUtf8(getIndex()).getBytes();
-        default:
-            throw new IllegalStateException("SimpleElementValue class does not know how to stringify type " + type);
+            case PRIMITIVE_INT:
+                return Integer.toString(cpool.getConstantInteger(getIndex()).getBytes());
+            case PRIMITIVE_LONG:
+                final ConstantLong j = cpool.getConstant(getIndex(), Const.CONSTANT_Long, ConstantLong.class);
+                return Long.toString(j.getBytes());
+            case PRIMITIVE_DOUBLE:
+                final ConstantDouble d = cpool.getConstant(getIndex(), Const.CONSTANT_Double, ConstantDouble.class);
+                return Double.toString(d.getBytes());
+            case PRIMITIVE_FLOAT:
+                final ConstantFloat f = cpool.getConstant(getIndex(), Const.CONSTANT_Float, ConstantFloat.class);
+                return Float.toString(f.getBytes());
+            case PRIMITIVE_SHORT:
+                final ConstantInteger s = cpool.getConstantInteger(getIndex());
+                return Integer.toString(s.getBytes());
+            case PRIMITIVE_BYTE:
+                final ConstantInteger b = cpool.getConstantInteger(getIndex());
+                return Integer.toString(b.getBytes());
+            case PRIMITIVE_CHAR:
+                final ConstantInteger ch = cpool.getConstantInteger(getIndex());
+                return String.valueOf((char) ch.getBytes());
+            case PRIMITIVE_BOOLEAN:
+                final ConstantInteger bo = cpool.getConstantInteger(getIndex());
+                if (bo.getBytes() == 0) {
+                    return "false";
+                }
+                return "true";
+            case STRING:
+                return cpool.getConstantUtf8(getIndex()).getBytes();
+            default:
+                throw new IllegalStateException("SimpleElementValue class does not know how to stringify type " + type);
         }
     }
 

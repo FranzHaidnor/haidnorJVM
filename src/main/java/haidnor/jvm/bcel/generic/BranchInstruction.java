@@ -30,29 +30,15 @@ import java.io.IOException;
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
 
     /**
-     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen, LineNumberGen
-     */
-    static void notifyTarget(final InstructionHandle oldIh, final InstructionHandle newIh, final InstructionTargeter t) {
-        if (oldIh != null) {
-            oldIh.removeTargeter(t);
-        }
-        if (newIh != null) {
-            newIh.addTargeter(t);
-        }
-    }
-
-    /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected int index; // Branch target relative to this instruction
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected InstructionHandle target; // Target object in instruction list
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
@@ -74,6 +60,18 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     protected BranchInstruction(final short opcode, final InstructionHandle target) {
         super(opcode, (short) 3);
         setTarget(target);
+    }
+
+    /**
+     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen, LineNumberGen
+     */
+    static void notifyTarget(final InstructionHandle oldIh, final InstructionHandle newIh, final InstructionTargeter t) {
+        if (oldIh != null) {
+            oldIh.removeTargeter(t);
+        }
+        if (newIh != null) {
+            newIh.addTargeter(t);
+        }
     }
 
     /**
@@ -117,6 +115,14 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     /**
+     * @param index the index to set
+     * @since 6.0
+     */
+    protected void setIndex(final int index) {
+        this.index = index;
+    }
+
+    /**
      * @return the position
      * @since 6.0
      */
@@ -125,10 +131,28 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     /**
+     * @param position the position to set
+     * @since 6.0
+     */
+    protected void setPosition(final int position) {
+        this.position = position;
+    }
+
+    /**
      * @return target of branch instruction
      */
     public InstructionHandle getTarget() {
         return target;
+    }
+
+    /**
+     * Set branch target
+     *
+     * @param target branch target
+     */
+    public void setTarget(final InstructionHandle target) {
+        notifyTarget(this.target, target, this);
+        this.target = target;
     }
 
     /**
@@ -157,7 +181,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      * Read needed data (e.g. index) from file. Conversion to a InstructionHandle is done in InstructionList(byte[]).
      *
      * @param bytes input stream
-     * @param wide wide prefix?
+     * @param wide  wide prefix?
      * @see InstructionList
      */
     @Override
@@ -167,34 +191,8 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     }
 
     /**
-     * @param index the index to set
-     * @since 6.0
-     */
-    protected void setIndex(final int index) {
-        this.index = index;
-    }
-
-    /**
-     * @param position the position to set
-     * @since 6.0
-     */
-    protected void setPosition(final int position) {
-        this.position = position;
-    }
-
-    /**
-     * Set branch target
-     *
-     * @param target branch target
-     */
-    public void setTarget(final InstructionHandle target) {
-        notifyTarget(this.target, target, this);
-        this.target = target;
-    }
-
-    /**
      * Long output format:
-     *
+     * <p>
      * &lt;position in byte code&gt; &lt;name of opcode&gt; "["&lt;opcode number&gt;"]" "("&lt;length of instruction&gt;")"
      * "&lt;"&lt;target instruction&gt;"&gt;" "@"&lt;branch target offset&gt;
      *
@@ -232,7 +230,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      * length instructions 'setPositions' performs multiple passes over the instruction list to calculate the correct (byte)
      * positions and offsets by calling this function.
      *
-     * @param offset additional offset caused by preceding (variable length) instructions
+     * @param offset    additional offset caused by preceding (variable length) instructions
      * @param maxOffset the maximum offset that may be caused by these instructions
      * @return additional offset caused by possible change of this instruction's length
      */

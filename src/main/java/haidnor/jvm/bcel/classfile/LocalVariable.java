@@ -36,35 +36,28 @@ import java.io.IOException;
 public final class LocalVariable implements Cloneable, Node {
 
     static final LocalVariable[] EMPTY_ARRAY = {};
-
-    /**
-     * Range in which the variable is valid.
-     */
-    private int startPc;
-
-    private int length;
-
-    /**
-     * Index in constant pool of variable name.
-     */
-    private int nameIndex;
-
-    /**
-     * Technically, a decscriptor_index for a local variable table entry and a signatureIndex for a local variable type table entry. Index of variable signature
-     */
-    private int signatureIndex;
-
-    /*
-     * Variable is index'th local variable on this method's frame.
-     */
-    private int index;
-
-    private ConstantPool constantPool;
-
     /**
      * Never changes; used to match up with LocalVariableTypeTable entries.
      */
     private final int origIndex;
+    /**
+     * Range in which the variable is valid.
+     */
+    private int startPc;
+    private int length;
+    /**
+     * Index in constant pool of variable name.
+     */
+    private int nameIndex;
+    /**
+     * Technically, a decscriptor_index for a local variable table entry and a signatureIndex for a local variable type table entry. Index of variable signature
+     */
+    private int signatureIndex;
+    /*
+     * Variable is index'th local variable on this method's frame.
+     */
+    private int index;
+    private ConstantPool constantPool;
 
     /**
      * Constructs object from file stream.
@@ -165,6 +158,13 @@ public final class LocalVariable implements Cloneable, Node {
     }
 
     /**
+     * @param constantPool Constant pool to be used for this object.
+     */
+    public void setConstantPool(final ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    /**
      * @return index of register where variable is stored
      */
     public int getIndex() {
@@ -172,10 +172,24 @@ public final class LocalVariable implements Cloneable, Node {
     }
 
     /**
+     * @param index the index in the local variable table of this variable
+     */
+    public void setIndex(final int index) { // TODO unused
+        this.index = index;
+    }
+
+    /**
      * @return Variable is valid within getStartPC() .. getStartPC()+getLength()
      */
     public int getLength() {
         return length;
+    }
+
+    /**
+     * @param length the length of this local variable
+     */
+    public void setLength(final int length) {
+        this.length = length;
     }
 
     /**
@@ -190,6 +204,13 @@ public final class LocalVariable implements Cloneable, Node {
      */
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    /**
+     * @param nameIndex the index into the constant pool for the name of this variable
+     */
+    public void setNameIndex(final int nameIndex) { // TODO unused
+        this.nameIndex = nameIndex;
     }
 
     /**
@@ -214,45 +235,17 @@ public final class LocalVariable implements Cloneable, Node {
     }
 
     /**
-     * @return Start of range where the variable is valid
-     */
-    public int getStartPC() {
-        return startPc;
-    }
-
-    /**
-     * @param constantPool Constant pool to be used for this object.
-     */
-    public void setConstantPool(final ConstantPool constantPool) {
-        this.constantPool = constantPool;
-    }
-
-    /**
-     * @param index the index in the local variable table of this variable
-     */
-    public void setIndex(final int index) { // TODO unused
-        this.index = index;
-    }
-
-    /**
-     * @param length the length of this local variable
-     */
-    public void setLength(final int length) {
-        this.length = length;
-    }
-
-    /**
-     * @param nameIndex the index into the constant pool for the name of this variable
-     */
-    public void setNameIndex(final int nameIndex) { // TODO unused
-        this.nameIndex = nameIndex;
-    }
-
-    /**
      * @param signatureIndex the index into the constant pool for the signature of this variable
      */
     public void setSignatureIndex(final int signatureIndex) { // TODO unused
         this.signatureIndex = signatureIndex;
+    }
+
+    /**
+     * @return Start of range where the variable is valid
+     */
+    public int getStartPC() {
+        return startPc;
     }
 
     /**

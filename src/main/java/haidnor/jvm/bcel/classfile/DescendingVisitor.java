@@ -32,7 +32,7 @@ public class DescendingVisitor implements Visitor {
     private final Stack<Object> stack = new Stack<>();
 
     /**
-     * @param clazz Class to traverse
+     * @param clazz   Class to traverse
      * @param visitor visitor object to apply to all components
      */
     public DescendingVisitor(final JavaClass clazz, final Visitor visitor) {
@@ -153,7 +153,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.3 */
+    /**
+     * @since 6.3
+     */
     @Override
     public void visitConstantDynamic(final ConstantDynamic obj) {
         stack.push(obj);
@@ -206,7 +208,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.0 */
+    /**
+     * @since 6.0
+     */
     @Override
     public void visitConstantMethodHandle(final ConstantMethodHandle obj) {
         stack.push(obj);
@@ -221,7 +225,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.0 */
+    /**
+     * @since 6.0
+     */
     @Override
     public void visitConstantMethodType(final ConstantMethodType obj) {
         stack.push(obj);
@@ -229,7 +235,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.1 */
+    /**
+     * @since 6.1
+     */
     @Override
     public void visitConstantModule(final ConstantModule obj) {
         stack.push(obj);
@@ -244,7 +252,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.1 */
+    /**
+     * @since 6.1
+     */
     @Override
     public void visitConstantPackage(final ConstantPackage obj) {
         stack.push(obj);
@@ -408,7 +418,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModule(final Module obj) {
         stack.push(obj);
@@ -420,7 +432,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModuleExports(final ModuleExports obj) {
         stack.push(obj);
@@ -428,7 +442,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModuleMainClass(final ModuleMainClass obj) {
         stack.push(obj);
@@ -436,7 +452,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModuleOpens(final ModuleOpens obj) {
         stack.push(obj);
@@ -444,7 +462,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModulePackages(final ModulePackages obj) {
         stack.push(obj);
@@ -452,7 +472,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModuleProvides(final ModuleProvides obj) {
         stack.push(obj);
@@ -460,7 +482,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitModuleRequires(final ModuleRequires obj) {
         stack.push(obj);
@@ -468,7 +492,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitNestHost(final NestHost obj) {
         stack.push(obj);
@@ -476,7 +502,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.4.0 */
+    /**
+     * @since 6.4.0
+     */
     @Override
     public void visitNestMembers(final NestMembers obj) {
         stack.push(obj);
@@ -494,7 +522,9 @@ public class DescendingVisitor implements Visitor {
         stack.pop();
     }
 
-    /** @since 6.0 */
+    /**
+     * @since 6.0
+     */
     @Override
     public void visitParameterAnnotationEntry(final ParameterAnnotationEntry obj) {
         stack.push(obj);

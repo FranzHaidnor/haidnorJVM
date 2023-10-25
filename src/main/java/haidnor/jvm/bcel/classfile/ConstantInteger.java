@@ -89,18 +89,18 @@ public final class ConstantInteger extends Constant implements ConstantObject {
     }
 
     /**
+     * @param bytes the raw bytes that represent this integer
+     */
+    public void setBytes(final int bytes) {
+        this.bytes = bytes;
+    }
+
+    /**
      * @return Integer object
      */
     @Override
     public Object getConstantValue(final ConstantPool cp) {
         return Integer.valueOf(bytes);
-    }
-
-    /**
-     * @param bytes the raw bytes that represent this integer
-     */
-    public void setBytes(final int bytes) {
-        this.bytes = bytes;
     }
 
     /**

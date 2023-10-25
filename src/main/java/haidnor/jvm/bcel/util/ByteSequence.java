@@ -25,6 +25,21 @@ import java.io.DataInputStream;
  */
 public final class ByteSequence extends DataInputStream {
 
+    private final ByteArrayStream byteStream;
+
+    public ByteSequence(final byte[] bytes) {
+        super(new ByteArrayStream(bytes));
+        byteStream = (ByteArrayStream) in;
+    }
+
+    public int getIndex() {
+        return byteStream.getPosition();
+    }
+
+    void unreadByte() {
+        byteStream.unreadByte();
+    }
+
     private static final class ByteArrayStream extends ByteArrayInputStream {
 
         ByteArrayStream(final byte[] bytes) {
@@ -41,20 +56,5 @@ public final class ByteSequence extends DataInputStream {
                 pos--;
             }
         }
-    }
-
-    private final ByteArrayStream byteStream;
-
-    public ByteSequence(final byte[] bytes) {
-        super(new ByteArrayStream(bytes));
-        byteStream = (ByteArrayStream) in;
-    }
-
-    public int getIndex() {
-        return byteStream.getPosition();
-    }
-
-    void unreadByte() {
-        byteStream.unreadByte();
     }
 }

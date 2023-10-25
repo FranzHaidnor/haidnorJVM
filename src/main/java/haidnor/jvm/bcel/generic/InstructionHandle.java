@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * Instances of this class give users a handle to the instructions contained in an InstructionList. Instruction objects
  * may be used more than once within a list, this is useful because it saves memory and may be much faster.
- *
+ * <p>
  * Within an InstructionList an InstructionHandle object is wrapped around all instructions, i.e., it implements a cell
  * in a doubly-linked list. From the outside only the next and the previous instruction (handle) are accessible. One can
  * traverse the list via an Enumeration returned by InstructionList.elements().
@@ -45,30 +45,27 @@ public class InstructionHandle {
      * Empty array.
      */
     static final InstructionTargeter[] EMPTY_INSTRUCTION_TARGETER_ARRAY = {};
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @Deprecated
+    protected int i_position = -1; // byte code offset of instruction
+    private InstructionHandle next;
+    private InstructionHandle prev;
+
+    private Instruction instruction;
+    private Set<InstructionTargeter> targeters;
+    private Map<Object, Object> attributes;
+
+    protected InstructionHandle(final Instruction i) {
+        setInstruction(i);
+    }
 
     /**
      * Factory method.
      */
     static InstructionHandle getInstructionHandle(final Instruction i) {
         return new InstructionHandle(i);
-    }
-
-    private InstructionHandle next;
-    private InstructionHandle prev;
-
-    private Instruction instruction;
-
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
-    protected int i_position = -1; // byte code offset of instruction
-    private Set<InstructionTargeter> targeters;
-
-    private Map<Object, Object> attributes;
-
-    protected InstructionHandle(final Instruction i) {
-        setInstruction(i);
     }
 
     /**
@@ -83,7 +80,7 @@ public class InstructionHandle {
     /**
      * Add an attribute to an instruction handle.
      *
-     * @param key the key object to store/retrieve the attribute
+     * @param key  the key object to store/retrieve the attribute
      * @param attr the attribute to associate with this handle
      */
     public void addAttribute(final Object key, final Object attr) {
@@ -152,19 +149,60 @@ public class InstructionHandle {
         return instruction;
     }
 
+    /**
+     * Replace current instruction contained in this handle. Old instruction is disposed using Instruction.dispose().
+     */
+    public void setInstruction(final Instruction i) { // Overridden in BranchHandle TODO could be package-protected?
+        if (i == null) {
+            throw new ClassGenException("Assigning null to handle");
+        }
+        if (this.getClass() != BranchHandle.class && i instanceof BranchInstruction) {
+            throw new ClassGenException("Assigning branch instruction " + i + " to plain handle");
+        }
+        if (instruction != null) {
+            instruction.dispose();
+        }
+        instruction = i;
+    }
+
     public final InstructionHandle getNext() {
         return next;
     }
 
     /**
+     * @param next the next to set
+     * @since 6.0
+     */
+    final InstructionHandle setNext(final InstructionHandle next) {
+        this.next = next;
+        return next;
+    }
+
+    /**
      * @return the position, i.e., the byte code offset of the contained instruction. This is accurate only after
-     *         InstructionList.setPositions() has been called.
+     * InstructionList.setPositions() has been called.
      */
     public int getPosition() {
         return i_position;
     }
 
+    /**
+     * Set the position, i.e., the byte code offset of the contained instruction.
+     */
+    void setPosition(final int pos) {
+        i_position = pos;
+    }
+
     public final InstructionHandle getPrev() {
+        return prev;
+    }
+
+    /**
+     * @param prev the prev to set
+     * @since 6.0
+     */
+    final InstructionHandle setPrev(final InstructionHandle prev) {
+        this.prev = prev;
         return prev;
     }
 
@@ -214,47 +252,6 @@ public class InstructionHandle {
     }
 
     /**
-     * Replace current instruction contained in this handle. Old instruction is disposed using Instruction.dispose().
-     */
-    public void setInstruction(final Instruction i) { // Overridden in BranchHandle TODO could be package-protected?
-        if (i == null) {
-            throw new ClassGenException("Assigning null to handle");
-        }
-        if (this.getClass() != BranchHandle.class && i instanceof BranchInstruction) {
-            throw new ClassGenException("Assigning branch instruction " + i + " to plain handle");
-        }
-        if (instruction != null) {
-            instruction.dispose();
-        }
-        instruction = i;
-    }
-
-    /**
-     * @param next the next to set
-     * @since 6.0
-     */
-    final InstructionHandle setNext(final InstructionHandle next) {
-        this.next = next;
-        return next;
-    }
-
-    /**
-     * Set the position, i.e., the byte code offset of the contained instruction.
-     */
-    void setPosition(final int pos) {
-        i_position = pos;
-    }
-
-    /**
-     * @param prev the prev to set
-     * @since 6.0
-     */
-    final InstructionHandle setPrev(final InstructionHandle prev) {
-        this.prev = prev;
-        return prev;
-    }
-
-    /**
      * Temporarily swap the current instruction, without disturbing anything. Meant to be used by a debugger, implementing
      * breakpoints. Current instruction is returned.
      * <p>
@@ -289,7 +286,7 @@ public class InstructionHandle {
      * length instructions 'setPositions()' performs multiple passes over the instruction list to calculate the correct
      * (byte) positions and offsets by calling this function.
      *
-     * @param offset additional offset caused by preceding (variable length) instructions
+     * @param offset    additional offset caused by preceding (variable length) instructions
      * @param maxOffset the maximum offset that may be caused by these instructions
      * @return additional offset caused by possible change of this instruction's length
      */

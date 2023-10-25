@@ -26,13 +26,6 @@ package haidnor.jvm.bcel.generic;
  */
 public final class BranchHandle extends InstructionHandle {
 
-    /**
-     * Factory method.
-     */
-    static BranchHandle getBranchHandle(final BranchInstruction i) {
-        return new BranchHandle(i);
-    }
-
     // This is also a cache in case the InstructionHandle#swapInstruction() method is used
     // See BCEL-273
     private BranchInstruction bi; // An alias in fact, but saves lots of casts
@@ -40,6 +33,13 @@ public final class BranchHandle extends InstructionHandle {
     private BranchHandle(final BranchInstruction i) {
         super(i);
         bi = i;
+    }
+
+    /**
+     * Factory method.
+     */
+    static BranchHandle getBranchHandle(final BranchInstruction i) {
+        return new BranchHandle(i);
     }
 
     /*
@@ -51,11 +51,25 @@ public final class BranchHandle extends InstructionHandle {
         return bi.getPosition();
     }
 
+    @Override
+    void setPosition(final int pos) {
+        // Original code: i_position = bi.position = pos;
+        bi.setPosition(pos);
+        super.setPosition(pos);
+    }
+
     /**
      * @return target of instruction.
      */
     public InstructionHandle getTarget() {
         return bi.getTarget();
+    }
+
+    /**
+     * Pass new target to instruction.
+     */
+    public void setTarget(final InstructionHandle ih) {
+        bi.setTarget(ih);
     }
 
     /**
@@ -68,20 +82,6 @@ public final class BranchHandle extends InstructionHandle {
             throw new ClassGenException("Assigning " + i + " to branch handle which is not a branch instruction");
         }
         bi = (BranchInstruction) i;
-    }
-
-    @Override
-    void setPosition(final int pos) {
-        // Original code: i_position = bi.position = pos;
-        bi.setPosition(pos);
-        super.setPosition(pos);
-    }
-
-    /**
-     * Pass new target to instruction.
-     */
-    public void setTarget(final InstructionHandle ih) {
-        bi.setTarget(ih);
     }
 
     @Override

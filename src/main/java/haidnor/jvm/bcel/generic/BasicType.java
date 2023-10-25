@@ -23,32 +23,6 @@ import haidnor.jvm.bcel.Const;
  */
 public final class BasicType extends Type {
 
-    // @since 6.0 no longer final
-    public static BasicType getType(final byte type) {
-        switch (type) {
-        case Const.T_VOID:
-            return VOID;
-        case Const.T_BOOLEAN:
-            return BOOLEAN;
-        case Const.T_BYTE:
-            return BYTE;
-        case Const.T_SHORT:
-            return SHORT;
-        case Const.T_CHAR:
-            return CHAR;
-        case Const.T_INT:
-            return INT;
-        case Const.T_LONG:
-            return LONG;
-        case Const.T_DOUBLE:
-            return DOUBLE;
-        case Const.T_FLOAT:
-            return FLOAT;
-        default:
-            throw new ClassGenException("Invalid type: " + type);
-        }
-    }
-
     /**
      * Constructor for basic types such as int, long, 'void'
      *
@@ -59,6 +33,32 @@ public final class BasicType extends Type {
         super(type, Const.getShortTypeName(type));
         if (type < Const.T_BOOLEAN || type > Const.T_VOID) {
             throw new ClassGenException("Invalid type: " + type);
+        }
+    }
+
+    // @since 6.0 no longer final
+    public static BasicType getType(final byte type) {
+        switch (type) {
+            case Const.T_VOID:
+                return VOID;
+            case Const.T_BOOLEAN:
+                return BOOLEAN;
+            case Const.T_BYTE:
+                return BYTE;
+            case Const.T_SHORT:
+                return SHORT;
+            case Const.T_CHAR:
+                return CHAR;
+            case Const.T_INT:
+                return INT;
+            case Const.T_LONG:
+                return LONG;
+            case Const.T_DOUBLE:
+                return DOUBLE;
+            case Const.T_FLOAT:
+                return FLOAT;
+            default:
+                throw new ClassGenException("Invalid type: " + type);
         }
     }
 

@@ -83,6 +83,18 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     }
 
     /**
+     * Set index of local variable containg the return address
+     */
+    @Override
+    public final void setIndex(final int n) {
+        if (n < 0) {
+            throw new ClassGenException("Negative index value: " + n);
+        }
+        index = n;
+        setWide();
+    }
+
+    /**
      * @return return address type
      */
     @Override
@@ -103,18 +115,6 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
             index = bytes.readUnsignedByte();
             super.setLength(2);
         }
-    }
-
-    /**
-     * Set index of local variable containg the return address
-     */
-    @Override
-    public final void setIndex(final int n) {
-        if (n < 0) {
-            throw new ClassGenException("Negative index value: " + n);
-        }
-        index = n;
-        setWide();
     }
 
     private void setWide() {

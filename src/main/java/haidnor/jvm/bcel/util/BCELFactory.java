@@ -63,7 +63,7 @@ class BCELFactory extends EmptyVisitor {
             } else {
                 embed += "f";
             }
-        }  else if (value instanceof Double) {
+        } else if (value instanceof Double) {
             final Double d = (Double) value;
             if (Double.isNaN(d)) {
                 embed = "Double.NaN";
@@ -134,7 +134,7 @@ class BCELFactory extends EmptyVisitor {
         for (final CodeExceptionGen h : handlers) {
             final String type = h.getCatchType() == null ? "null" : BCELifier.printType(h.getCatchType());
             printWriter.println("    method.addExceptionHandler(" + "ih_" + h.getStartPC().getPosition() + ", " + "ih_" + h.getEndPC().getPosition() + ", "
-                + "ih_" + h.getHandlerPC().getPosition() + ", " + type + ");");
+                    + "ih_" + h.getHandlerPC().getPosition() + ", " + type + ");");
         }
     }
 
@@ -149,22 +149,22 @@ class BCELFactory extends EmptyVisitor {
         final short opcode = ((Instruction) i).getOpcode();
         int dim = 1;
         switch (opcode) {
-        case Const.NEW:
-            printWriter.println("il.append(_factory.createNew(\"" + ((ObjectType) type).getClassName() + "\"));");
-            break;
-        case Const.MULTIANEWARRAY:
-            dim = ((MULTIANEWARRAY) i).getDimensions();
-            //$FALL-THROUGH$
-        case Const.NEWARRAY:
-            if (type instanceof ArrayType) {
-                type = ((ArrayType) type).getBasicType();
-            }
-            //$FALL-THROUGH$
-        case Const.ANEWARRAY:
-            printWriter.println("il.append(_factory.createNewArray(" + BCELifier.printType(type) + ", (short) " + dim + "));");
-            break;
-        default:
-            throw new IllegalArgumentException("Unhandled opcode: " + opcode);
+            case Const.NEW:
+                printWriter.println("il.append(_factory.createNew(\"" + ((ObjectType) type).getClassName() + "\"));");
+                break;
+            case Const.MULTIANEWARRAY:
+                dim = ((MULTIANEWARRAY) i).getDimensions();
+                //$FALL-THROUGH$
+            case Const.NEWARRAY:
+                if (type instanceof ArrayType) {
+                    type = ((ArrayType) type).getBasicType();
+                }
+                //$FALL-THROUGH$
+            case Const.ANEWARRAY:
+                printWriter.println("il.append(_factory.createNewArray(" + BCELifier.printType(type) + ", (short) " + dim + "));");
+                break;
+            default:
+                throw new IllegalArgumentException("Unhandled opcode: " + opcode);
         }
     }
 
@@ -211,7 +211,7 @@ class BCELFactory extends EmptyVisitor {
                 target = "null";
             }
             printWriter.println("    BranchInstruction " + name + " = _factory.createBranchInstruction(" + CONSTANT_PREFIX
-                + bi.getName().toUpperCase(Locale.ENGLISH) + ", " + target + ");");
+                    + bi.getName().toUpperCase(Locale.ENGLISH) + ", " + target + ");");
         }
         if (bh.hasTargeters()) {
             printWriter.println("    ih_" + pos + " = il.append(" + name + ");");
@@ -238,7 +238,7 @@ class BCELFactory extends EmptyVisitor {
         final String fieldName = i.getFieldName(constantPoolGen);
         final Type type = i.getFieldType(constantPoolGen);
         printWriter.println("il.append(_factory.createFieldAccess(\"" + className + "\", \"" + fieldName + "\", " + BCELifier.printType(type) + ", "
-            + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
     }
 
     @Override
@@ -264,7 +264,7 @@ class BCELFactory extends EmptyVisitor {
         final Type type = i.getReturnType(constantPoolGen);
         final Type[] argTypes = i.getArgumentTypes(constantPoolGen);
         printWriter.println("il.append(_factory.createInvoke(\"" + className + "\", \"" + methodName + "\", " + BCELifier.printType(type) + ", "
-            + BCELifier.printArgumentTypes(argTypes) + ", " + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + BCELifier.printArgumentTypes(argTypes) + ", " + CONSTANT_PREFIX + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
     }
 
     @Override

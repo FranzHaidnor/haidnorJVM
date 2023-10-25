@@ -26,7 +26,7 @@ import java.io.IOException;
  *
  * @see Constant
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.10"> The
- *      CONSTANT_InvokeDynamic_info Structure in The Java Virtual Machine Specification</a>
+ * CONSTANT_InvokeDynamic_info Structure in The Java Virtual Machine Specification</a>
  * @since 6.0
  */
 public final class ConstantInvokeDynamic extends ConstantCP {
@@ -67,8 +67,8 @@ public final class ConstantInvokeDynamic extends ConstantCP {
 
     /**
      * @return Reference (index) to bootstrap method this constant refers to.
-     *
-     *         Note that this method is a functional duplicate of getClassIndex for use by ConstantInvokeDynamic.
+     * <p>
+     * Note that this method is a functional duplicate of getClassIndex for use by ConstantInvokeDynamic.
      * @since 6.0
      */
     public int getBootstrapMethodAttrIndex() {

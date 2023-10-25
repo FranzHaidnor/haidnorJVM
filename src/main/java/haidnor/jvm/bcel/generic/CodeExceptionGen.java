@@ -42,8 +42,8 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
      * Add an exception handler, i.e., specify region where a handler is active and an instruction where the actual handling
      * is done.
      *
-     * @param startPc Start of handled region (inclusive)
-     * @param endPc End of handled region (inclusive)
+     * @param startPc   Start of handled region (inclusive)
+     * @param endPc     End of handled region (inclusive)
      * @param handlerPc Where handling is done
      * @param catchType which exception is handled, null for ANY
      */
@@ -71,14 +71,23 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
         return startPc == ih || endPc == ih || handlerPc == ih;
     }
 
-    /** Gets the type of the Exception to catch, 'null' for ANY. */
+    /**
+     * Gets the type of the Exception to catch, 'null' for ANY.
+     */
     public ObjectType getCatchType() {
         return catchType;
     }
 
     /**
+     * Sets the type of the Exception to catch. Set 'null' for ANY.
+     */
+    public void setCatchType(final ObjectType catchType) {
+        this.catchType = catchType;
+    }
+
+    /**
      * Get CodeException object.<BR>
-     *
+     * <p>
      * This relies on that the instruction list has already been dumped to byte code or that the 'setPositions' methods
      * has been called for the instruction list.
      *
@@ -86,7 +95,7 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
      */
     public CodeException getCodeException(final ConstantPoolGen cp) {
         return new CodeException(startPc.getPosition(), endPc.getPosition() + endPc.getInstruction().getLength(), handlerPc.getPosition(),
-            catchType == null ? 0 : cp.addClass(catchType));
+                catchType == null ? 0 : cp.addClass(catchType));
     }
 
     /**
@@ -94,25 +103,6 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
      */
     public InstructionHandle getEndPC() {
         return endPc;
-    }
-
-    /**
-     * @return start of handler
-     */
-    public InstructionHandle getHandlerPC() {
-        return handlerPc;
-    }
-
-    /**
-     * @return start of handled region (inclusive)
-     */
-    public InstructionHandle getStartPC() {
-        return startPc;
-    }
-
-    /** Sets the type of the Exception to catch. Set 'null' for ANY. */
-    public void setCatchType(final ObjectType catchType) {
-        this.catchType = catchType;
     }
 
     /*
@@ -125,6 +115,13 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
         this.endPc = endPc;
     }
 
+    /**
+     * @return start of handler
+     */
+    public InstructionHandle getHandlerPC() {
+        return handlerPc;
+    }
+
     /*
      * Set handler code
      *
@@ -133,6 +130,13 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
     public void setHandlerPC(final InstructionHandle handlerPc) { // TODO could be package-protected?
         BranchInstruction.notifyTarget(this.handlerPc, handlerPc, this);
         this.handlerPc = handlerPc;
+    }
+
+    /**
+     * @return start of handled region (inclusive)
+     */
+    public InstructionHandle getStartPC() {
+        return startPc;
     }
 
     /*

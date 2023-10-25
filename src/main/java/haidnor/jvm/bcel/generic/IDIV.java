@@ -56,6 +56,6 @@ public class IDIV extends ArithmeticInstruction implements ExceptionThrower {
      */
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.ARITHMETIC_EXCEPTION};
+        return new Class[]{ExceptionConst.ARITHMETIC_EXCEPTION};
     }
 }

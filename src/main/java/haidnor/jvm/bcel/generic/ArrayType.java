@@ -29,7 +29,7 @@ public final class ArrayType extends ReferenceType {
     /**
      * Convenience constructor for array type, e.g. int[]
      *
-     * @param type array type, e.g. T_INT
+     * @param type       array type, e.g. T_INT
      * @param dimensions array dimensions
      */
     public ArrayType(final byte type, final int dimensions) {
@@ -39,7 +39,7 @@ public final class ArrayType extends ReferenceType {
     /**
      * Convenience constructor for reference array type, e.g. Object[]
      *
-     * @param className complete name of class (java.lang.String, e.g.)
+     * @param className  complete name of class (java.lang.String, e.g.)
      * @param dimensions array dimensions
      */
     public ArrayType(final String className, final int dimensions) {
@@ -49,7 +49,7 @@ public final class ArrayType extends ReferenceType {
     /**
      * Constructor for array of given type
      *
-     * @param type type of array (may be an array itself)
+     * @param type       type of array (may be an array itself)
      * @param dimensions array dimensions
      */
     public ArrayType(final Type type, final int dimensions) {
@@ -58,17 +58,17 @@ public final class ArrayType extends ReferenceType {
             throw new ClassGenException("Invalid number of dimensions: " + dimensions);
         }
         switch (type.getType()) {
-        case Const.T_ARRAY:
-            final ArrayType array = (ArrayType) type;
-            this.dimensions = dimensions + array.dimensions;
-            basicType = array.basicType;
-            break;
-        case Const.T_VOID:
-            throw new ClassGenException("Invalid type: void[]");
-        default: // Basic type or reference
-            this.dimensions = dimensions;
-            basicType = type;
-            break;
+            case Const.T_ARRAY:
+                final ArrayType array = (ArrayType) type;
+                this.dimensions = dimensions + array.dimensions;
+                basicType = array.basicType;
+                break;
+            case Const.T_VOID:
+                throw new ClassGenException("Invalid type: void[]");
+            default: // Basic type or reference
+                this.dimensions = dimensions;
+                basicType = type;
+                break;
         }
         final StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.dimensions; i++) {

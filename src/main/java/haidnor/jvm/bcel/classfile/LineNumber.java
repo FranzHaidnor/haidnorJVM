@@ -32,10 +32,14 @@ public final class LineNumber implements Cloneable, Node {
 
     static final LineNumber[] EMPTY_ARRAY = {};
 
-    /** Program Counter (PC) corresponds to line */
+    /**
+     * Program Counter (PC) corresponds to line
+     */
     private int startPc;
 
-    /** number in source file */
+    /**
+     * number in source file
+     */
     private int lineNumber;
 
     /**
@@ -49,7 +53,7 @@ public final class LineNumber implements Cloneable, Node {
     }
 
     /**
-     * @param startPc Program Counter (PC) corresponds to
+     * @param startPc    Program Counter (PC) corresponds to
      * @param lineNumber line number in source file
      */
     public LineNumber(final int startPc, final int lineNumber) {
@@ -108,17 +112,17 @@ public final class LineNumber implements Cloneable, Node {
     }
 
     /**
-     * @return PC in code
-     */
-    public int getStartPC() {
-        return startPc & 0xffff;
-    }
-
-    /**
      * @param lineNumber the source line number
      */
     public void setLineNumber(final int lineNumber) {
         this.lineNumber = (short) lineNumber;
+    }
+
+    /**
+     * @return PC in code
+     */
+    public int getStartPC() {
+        return startPc & 0xffff;
     }
 
     /**

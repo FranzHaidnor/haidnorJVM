@@ -65,9 +65,15 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
         return ih;
     }
 
+    public void setInstruction(final InstructionHandle instructionHandle) { // TODO could be package-protected?
+        Objects.requireNonNull(instructionHandle, "instructionHandle");
+        BranchInstruction.notifyTarget(this.ih, instructionHandle, this);
+        this.ih = instructionHandle;
+    }
+
     /**
      * Get LineNumber attribute.
-     *
+     * <p>
      * This relies on that the instruction list has already been dumped to byte code or that the 'setPositions' methods
      * has been called for the instruction list.
      */
@@ -77,12 +83,6 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
 
     public int getSourceLine() {
         return srcLine;
-    }
-
-    public void setInstruction(final InstructionHandle instructionHandle) { // TODO could be package-protected?
-        Objects.requireNonNull(instructionHandle, "instructionHandle");
-        BranchInstruction.notifyTarget(this.ih, instructionHandle, this);
-        this.ih = instructionHandle;
     }
 
     public void setSourceLine(final int srcLine) { // TODO could be package-protected?

@@ -61,6 +61,21 @@ public abstract class Type {
     };
 
     private static final ThreadLocal<Integer> CONSUMED_CHARS = ThreadLocal.withInitial(() -> Integer.valueOf(0));
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @Deprecated
+    protected byte type; // TODO should be final (and private)
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @Deprecated
+    protected String signature; // signature for the type TODO should be private
+
+    protected Type(final byte type, final String signature) {
+        this.type = type;
+        this.signature = signature;
+    }
 
     // int consumed_chars=0; // Remember position in string, see getArgumentTypes
     static int consumed(final int coded) {
@@ -123,7 +138,7 @@ public abstract class Type {
      * Convert type to Java method signature, e.g. int[] f(java.lang.String x) becomes (Ljava/lang/String;)[I
      *
      * @param returnType what the method returns
-     * @param argTypes what are the argument types
+     * @param argTypes   what are the argument types
      * @return method signature for given type(s).
      */
     public static String getMethodSignature(final Type returnType, final Type[] argTypes) {
@@ -295,23 +310,6 @@ public abstract class Type {
     }
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
-    protected byte type; // TODO should be final (and private)
-
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
-    protected String signature; // signature for the type TODO should be private
-
-    protected Type(final byte type, final String signature) {
-        this.type = type;
-        this.signature = signature;
-    }
-
-    /**
      * @return whether the Types are equal
      */
     @Override
@@ -334,18 +332,26 @@ public abstract class Type {
         return signature;
     }
 
+    /*
+     * Currently only used by the ArrayType constructor. The signature has a complicated dependency on other parameter so
+     * it's tricky to do it in a call to the super ctor.
+     */
+    void setSignature(final String signature) {
+        this.signature = signature;
+    }
+
     /**
      * @return stack size of this type (2 for long and double, 0 for void, 1 otherwise)
      */
     public int getSize() {
         switch (type) {
-        case Const.T_DOUBLE:
-        case Const.T_LONG:
-            return 2;
-        case Const.T_VOID:
-            return 0;
-        default:
-            return 1;
+            case Const.T_DOUBLE:
+            case Const.T_LONG:
+                return 2;
+            case Const.T_VOID:
+                return 0;
+            default:
+                return 1;
         }
     }
 
@@ -375,14 +381,6 @@ public abstract class Type {
             return Type.INT;
         }
         return this;
-    }
-
-    /*
-     * Currently only used by the ArrayType constructor. The signature has a complicated dependency on other parameter so
-     * it's tricky to do it in a call to the super ctor.
-     */
-    void setSignature(final String signature) {
-        this.signature = signature;
     }
 
     /**

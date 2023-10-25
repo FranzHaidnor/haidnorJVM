@@ -26,17 +26,6 @@ import haidnor.jvm.bcel.classfile.Utility;
  */
 public class ObjectType extends ReferenceType {
 
-    /**
-     * Constructs a new instance.
-     *
-     * @param className fully qualified class name, e.g. java.lang.String
-     * @return a new instance.
-     * @since 6.0
-     */
-    public static ObjectType getInstance(final String className) {
-        return new ObjectType(className);
-    }
-
     private final String className; // Class name of type
 
     /**
@@ -47,6 +36,17 @@ public class ObjectType extends ReferenceType {
     public ObjectType(final String className) {
         super(Const.T_REFERENCE, "L" + Utility.packageToPath(className) + ";");
         this.className = Utility.pathToPackage(className);
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param className fully qualified class name, e.g. java.lang.String
+     * @return a new instance.
+     * @since 6.0
+     */
+    public static ObjectType getInstance(final String className) {
+        return new ObjectType(className);
     }
 
     /**
@@ -89,8 +89,9 @@ public class ObjectType extends ReferenceType {
 
     /**
      * If "this" doesn't reference a class, it references an interface or a non-existant entity.
+     *
      * @deprecated (since 6.0) this method returns an inaccurate result if the class or interface referenced cannot be
-     *             found: use referencesClassExact() instead
+     * found: use referencesClassExact() instead
      */
     @Deprecated
     public boolean referencesClass() {
@@ -117,7 +118,7 @@ public class ObjectType extends ReferenceType {
      * If "this" doesn't reference an interface, it references a class or a non-existant entity.
      *
      * @deprecated (since 6.0) this method returns an inaccurate result if the class or interface referenced cannot be
-     *             found: use referencesInterfaceExact() instead
+     * found: use referencesInterfaceExact() instead
      */
     @Deprecated
     public boolean referencesInterface() {

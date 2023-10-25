@@ -30,7 +30,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     /**
      * Pushes an array type constant, for example {@code int[].class}, {@code String[].class}, and so on.
      *
-     * @param cp generated constant pool.
+     * @param cp    generated constant pool.
      * @param value to be pushed.
      * @since 6.7.0
      */
@@ -42,8 +42,8 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
         }
     }
 
-   /**
-     * @param cp Constant pool
+    /**
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final boolean value) {
@@ -52,7 +52,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final Boolean value) {
@@ -63,7 +63,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
      * creates a push object from a Character value. Warning: Make sure not to attempt to allow autoboxing to create this
      * value parameter, as an alternative constructor will be called
      *
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final Character value) {
@@ -71,7 +71,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final double value) {
@@ -85,7 +85,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final float value) {
@@ -103,7 +103,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     /**
      * This constructor also applies for values of type short, char, byte
      *
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final int value) {
@@ -119,7 +119,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final long value) {
@@ -133,7 +133,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final Number value) {
@@ -151,7 +151,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     *
      * @param cp
      * @param value
      * @since 6.0
@@ -165,7 +164,7 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
     /**
-     * @param cp Constant pool
+     * @param cp    Constant pool
      * @param value to be pushed
      */
     public PUSH(final ConstantPoolGen cp, final String value) {

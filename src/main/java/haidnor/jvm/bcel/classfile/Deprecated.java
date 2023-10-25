@@ -44,9 +44,9 @@ public final class Deprecated extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param bytes Attribute contents
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param bytes        Attribute contents
      * @param constantPool Array of constants
      */
     public Deprecated(final int nameIndex, final int length, final byte[] bytes, final ConstantPool constantPool) {
@@ -57,9 +57,9 @@ public final class Deprecated extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */

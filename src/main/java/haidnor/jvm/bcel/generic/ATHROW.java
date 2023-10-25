@@ -53,6 +53,6 @@ public class ATHROW extends Instruction implements UnconditionalBranch, Exceptio
      */
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.THROWABLE};
+        return new Class[]{ExceptionConst.THROWABLE};
     }
 }

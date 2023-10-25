@@ -23,9 +23,9 @@ public interface NamedAndTyped {
 
     String getName();
 
-    Type getType();
-
     void setName(String name);
+
+    Type getType();
 
     void setType(Type type);
 }

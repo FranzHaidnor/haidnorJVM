@@ -27,7 +27,7 @@ import java.util.Objects;
  * This class represents the method info structure, i.e., the representation for a method in the class. See JVM
  * specification for details. A method has access flags, a name, a signature and a number of attributes.
  */
-public final class JavaMethod extends FieldOrMethod {
+public class JavaMethod extends FieldOrMethod {
 
     /**
      * Empty array constant.
@@ -35,7 +35,10 @@ public final class JavaMethod extends FieldOrMethod {
      * @since 6.6.0
      */
     public static final JavaMethod[] EMPTY_ARRAY = {};
-
+    /**
+     * Empty array.
+     */
+    static final JavaMethod[] EMPTY_METHOD_ARRAY = {};
     private static BCELComparator bcelComparator = new BCELComparator() {
 
         @Override
@@ -51,26 +54,6 @@ public final class JavaMethod extends FieldOrMethod {
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
         }
     };
-
-    /**
-     * Empty array.
-     */
-    static final JavaMethod[] EMPTY_METHOD_ARRAY = {};
-
-    /**
-     * @return Comparison strategy object
-     */
-    public static BCELComparator getComparator() {
-        return bcelComparator;
-    }
-
-    /**
-     * @param comparator Comparison strategy object
-     */
-    public static void setComparator(final BCELComparator comparator) {
-        bcelComparator = comparator;
-    }
-
     // annotations defined on the parameters of a method
     private ParameterAnnotationEntry[] parameterAnnotationEntries;
 
@@ -84,7 +67,7 @@ public final class JavaMethod extends FieldOrMethod {
      * Construct object from file stream.
      *
      * @param file Input stream
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     JavaMethod(final DataInput file, final ConstantPool constantPool) throws IOException, ClassFormatException {
@@ -92,11 +75,11 @@ public final class JavaMethod extends FieldOrMethod {
     }
 
     /**
-     * @param accessFlags Access rights of method
-     * @param nameIndex Points to field name in constant pool
+     * @param accessFlags    Access rights of method
+     * @param nameIndex      Points to field name in constant pool
      * @param signatureIndex Points to encoded signature
-     * @param attributes Collection of attributes
-     * @param constantPool Array of constants
+     * @param attributes     Collection of attributes
+     * @param constantPool   Array of constants
      */
     public JavaMethod(final int accessFlags, final int nameIndex, final int signatureIndex, final Attribute[] attributes, final ConstantPool constantPool) {
         super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
@@ -110,6 +93,20 @@ public final class JavaMethod extends FieldOrMethod {
      */
     public JavaMethod(final JavaMethod c) {
         super(c);
+    }
+
+    /**
+     * @return Comparison strategy object
+     */
+    public static BCELComparator getComparator() {
+        return bcelComparator;
+    }
+
+    /**
+     * @param comparator Comparison strategy object
+     */
+    public static void setComparator(final BCELComparator comparator) {
+        bcelComparator = comparator;
     }
 
     /**
@@ -162,7 +159,7 @@ public final class JavaMethod extends FieldOrMethod {
 
     /**
      * @return ExceptionTable attribute of method, if any, i.e., list all exceptions the method may throw not exception
-     *         handlers!
+     * handlers!
      */
     public ExceptionTable getExceptionTable() {
         for (final Attribute attribute : super.getAttributes()) {

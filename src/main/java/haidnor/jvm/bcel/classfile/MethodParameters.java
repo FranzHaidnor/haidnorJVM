@@ -30,7 +30,7 @@ import java.util.stream.Stream;
  * This class represents a MethodParameters attribute.
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24"> The class File Format :
- *      The MethodParameters Attribute</a>
+ * The MethodParameters Attribute</a>
  * @since 6.0
  */
 public class MethodParameters extends Attribute implements Iterable<MethodParameter> {
@@ -86,12 +86,12 @@ public class MethodParameters extends Attribute implements Iterable<MethodParame
         return parameters;
     }
 
+    public void setParameters(final MethodParameter[] parameters) {
+        this.parameters = parameters;
+    }
+
     @Override
     public Iterator<MethodParameter> iterator() {
         return Stream.of(parameters).iterator();
-    }
-
-    public void setParameters(final MethodParameter[] parameters) {
-        this.parameters = parameters;
     }
 }

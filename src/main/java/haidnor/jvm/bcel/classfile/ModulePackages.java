@@ -39,9 +39,9 @@ public final class ModulePackages extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -55,10 +55,10 @@ public final class ModulePackages extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
+     * @param nameIndex         Index in constant pool
+     * @param length            Content length in bytes
      * @param packageIndexTable Table of indices in constant pool
-     * @param constantPool Array of constants
+     * @param constantPool      Array of constants
      */
     public ModulePackages(final int nameIndex, final int length, final int[] packageIndexTable, final ConstantPool constantPool) {
         super(Const.ATTR_MODULE_PACKAGES, nameIndex, length, constantPool);
@@ -130,19 +130,19 @@ public final class ModulePackages extends Attribute {
     }
 
     /**
+     * @param packageIndexTable the list of package indexes Also redefines number_of_packages according to table length.
+     */
+    public void setPackageIndexTable(final int[] packageIndexTable) {
+        this.packageIndexTable = packageIndexTable != null ? packageIndexTable : ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    /**
      * @return string array of package names
      */
     public String[] getPackageNames() {
         final String[] names = new String[packageIndexTable.length];
         Arrays.setAll(names, i -> Utility.pathToPackage(super.getConstantPool().getConstantString(packageIndexTable[i], Const.CONSTANT_Package)));
         return names;
-    }
-
-    /**
-     * @param packageIndexTable the list of package indexes Also redefines number_of_packages according to table length.
-     */
-    public void setPackageIndexTable(final int[] packageIndexTable) {
-        this.packageIndexTable = packageIndexTable != null ? packageIndexTable : ArrayUtils.EMPTY_INT_ARRAY;
     }
 
     /**

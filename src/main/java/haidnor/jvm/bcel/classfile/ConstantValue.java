@@ -34,6 +34,7 @@ import java.io.IOException;
  *   u2 constantvalue_index;
  * }
  * </pre>
+ *
  * @see Attribute
  */
 public final class ConstantValue extends Attribute {
@@ -53,9 +54,9 @@ public final class ConstantValue extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Name index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Name index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -64,10 +65,10 @@ public final class ConstantValue extends Attribute {
     }
 
     /**
-     * @param nameIndex Name index in constant pool
-     * @param length Content length in bytes
+     * @param nameIndex          Name index in constant pool
+     * @param length             Content length in bytes
      * @param constantValueIndex Index in constant pool
-     * @param constantPool Array of constants
+     * @param constantPool       Array of constants
      */
     public ConstantValue(final int nameIndex, final int length, final int constantValueIndex, final ConstantPool constantPool) {
         super(Const.ATTR_CONSTANT_VALUE, nameIndex, Args.require(length, 2, "ConstantValue attribute length"), constantPool);
@@ -131,25 +132,25 @@ public final class ConstantValue extends Attribute {
         int i;
         // Print constant to string depending on its type
         switch (c.getTag()) {
-        case Const.CONSTANT_Long:
-            buf = String.valueOf(((ConstantLong) c).getBytes());
-            break;
-        case Const.CONSTANT_Float:
-            buf = String.valueOf(((ConstantFloat) c).getBytes());
-            break;
-        case Const.CONSTANT_Double:
-            buf = String.valueOf(((ConstantDouble) c).getBytes());
-            break;
-        case Const.CONSTANT_Integer:
-            buf = String.valueOf(((ConstantInteger) c).getBytes());
-            break;
-        case Const.CONSTANT_String:
-            i = ((ConstantString) c).getStringIndex();
-            c = super.getConstantPool().getConstantUtf8(i);
-            buf = "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
-            break;
-        default:
-            throw new IllegalStateException("Type of ConstValue invalid: " + c);
+            case Const.CONSTANT_Long:
+                buf = String.valueOf(((ConstantLong) c).getBytes());
+                break;
+            case Const.CONSTANT_Float:
+                buf = String.valueOf(((ConstantFloat) c).getBytes());
+                break;
+            case Const.CONSTANT_Double:
+                buf = String.valueOf(((ConstantDouble) c).getBytes());
+                break;
+            case Const.CONSTANT_Integer:
+                buf = String.valueOf(((ConstantInteger) c).getBytes());
+                break;
+            case Const.CONSTANT_String:
+                i = ((ConstantString) c).getStringIndex();
+                c = super.getConstantPool().getConstantUtf8(i);
+                buf = "\"" + Utility.convertString(((ConstantUtf8) c).getBytes()) + "\"";
+                break;
+            default:
+                throw new IllegalStateException("Type of ConstValue invalid: " + c);
         }
         return buf;
     }

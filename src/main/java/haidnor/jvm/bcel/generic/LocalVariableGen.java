@@ -41,10 +41,10 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
      * have to be provided by the user.
      *
      * @param index index of local variable
-     * @param name its name
-     * @param type its type
+     * @param name  its name
+     * @param type  its type
      * @param start from where the instruction is valid (null means from the start)
-     * @param end until where the instruction is valid (null means to the end)
+     * @param end   until where the instruction is valid (null means to the end)
      */
     public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start, final InstructionHandle end) {
         if (index < 0 || index > Const.MAX_SHORT) {
@@ -63,15 +63,15 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
      * Generates a local variable that with index 'index'. Note that double and long variables need two indexs. Index
      * indices have to be provided by the user.
      *
-     * @param index index of local variable
-     * @param name its name
-     * @param type its type
-     * @param start from where the instruction is valid (null means from the start)
-     * @param end until where the instruction is valid (null means to the end)
+     * @param index     index of local variable
+     * @param name      its name
+     * @param type      its type
+     * @param start     from where the instruction is valid (null means from the start)
+     * @param end       until where the instruction is valid (null means to the end)
      * @param origIndex index of local variable prior to any changes to index
      */
     public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start, final InstructionHandle end,
-        final int origIndex) {
+                            final int origIndex) {
         this(index, name, type, start, end);
         this.origIndex = origIndex;
     }
@@ -117,20 +117,33 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return end;
     }
 
+    public void setEnd(final InstructionHandle end) { // TODO could be package-protected?
+        BranchInstruction.notifyTarget(this.end, end, this);
+        this.end = end;
+    }
+
     public int getIndex() {
         return index;
+    }
+
+    public void setIndex(final int index) {
+        this.index = index;
     }
 
     public boolean getLiveToEnd() {
         return liveToEnd;
     }
 
+    public void setLiveToEnd(final boolean liveToEnd) {
+        this.liveToEnd = liveToEnd;
+    }
+
     /**
      * Gets LocalVariable object.
-     *
+     * <p>
      * This relies on that the instruction list has already been dumped to byte code or that the 'setPositions' methods
      * has been called for the instruction list.
-     *
+     * <p>
      * Note that due to the conversion from byte code offset to InstructionHandle, it is impossible to tell the difference
      * between a live range that ends BEFORE the last insturction of the method or a live range that ends AFTER the last
      * instruction of the method. Hence the liveToEnd flag to differentiate between these two cases.
@@ -157,6 +170,11 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return name;
     }
 
+    @Override
+    public void setName(final String name) {
+        this.name = name;
+    }
+
     public int getOrigIndex() {
         return origIndex;
     }
@@ -165,9 +183,19 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         return start;
     }
 
+    public void setStart(final InstructionHandle start) { // TODO could be package-protected?
+        BranchInstruction.notifyTarget(this.start, start, this);
+        this.start = start;
+    }
+
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public void setType(final Type type) {
+        this.type = type;
     }
 
     @Override
@@ -175,34 +203,6 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         // If the user changes the name or type, problems with the targeter hashmap will occur.
         // Note: index cannot be part of hash as it may be changed by the user.
         return name.hashCode() ^ type.hashCode();
-    }
-
-    public void setEnd(final InstructionHandle end) { // TODO could be package-protected?
-        BranchInstruction.notifyTarget(this.end, end, this);
-        this.end = end;
-    }
-
-    public void setIndex(final int index) {
-        this.index = index;
-    }
-
-    public void setLiveToEnd(final boolean liveToEnd) {
-        this.liveToEnd = liveToEnd;
-    }
-
-    @Override
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public void setStart(final InstructionHandle start) { // TODO could be package-protected?
-        BranchInstruction.notifyTarget(this.start, start, this);
-        this.start = start;
-    }
-
-    @Override
-    public void setType(final Type type) {
-        this.type = type;
     }
 
     @Override

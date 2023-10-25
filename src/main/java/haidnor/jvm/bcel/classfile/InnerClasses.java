@@ -54,9 +54,9 @@ public final class InnerClasses extends Attribute implements Iterable<InnerClass
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -70,8 +70,8 @@ public final class InnerClasses extends Attribute implements Iterable<InnerClass
     }
 
     /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
      * @param innerClasses array of inner classes attributes
      * @param constantPool Array of constants
      */
@@ -127,16 +127,16 @@ public final class InnerClasses extends Attribute implements Iterable<InnerClass
         return innerClasses;
     }
 
-    @Override
-    public Iterator<InnerClass> iterator() {
-        return Stream.of(innerClasses).iterator();
-    }
-
     /**
      * @param innerClasses the array of inner classes
      */
     public void setInnerClasses(final InnerClass[] innerClasses) {
         this.innerClasses = innerClasses != null ? innerClasses : EMPTY_INNER_CLASSE_ARRAY;
+    }
+
+    @Override
+    public Iterator<InnerClass> iterator() {
+        return Stream.of(innerClasses).iterator();
     }
 
     /**

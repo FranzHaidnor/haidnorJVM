@@ -47,6 +47,6 @@ public class MONITOREXIT extends Instruction implements ExceptionThrower, StackC
 
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.NULL_POINTER_EXCEPTION};
+        return new Class[]{ExceptionConst.NULL_POINTER_EXCEPTION};
     }
 }

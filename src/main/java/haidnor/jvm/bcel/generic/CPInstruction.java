@@ -75,6 +75,19 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     }
 
     /**
+     * Set the index to constant pool.
+     *
+     * @param index in constant pool.
+     */
+    @Override
+    public void setIndex(final int index) { // TODO could be package-protected?
+        if (index < 0) {
+            throw new ClassGenException("Negative index value: " + index);
+        }
+        this.index = index;
+    }
+
+    /**
      * @return type related with this instruction.
      */
     @Override
@@ -91,7 +104,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
      * Read needed data (i.e., index) from file.
      *
      * @param bytes input stream
-     * @param wide wide prefix?
+     * @param wide  wide prefix?
      */
     @Override
     protected void initFromFile(final ByteSequence bytes, final boolean wide) throws IOException {
@@ -100,21 +113,8 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     }
 
     /**
-     * Set the index to constant pool.
-     *
-     * @param index in constant pool.
-     */
-    @Override
-    public void setIndex(final int index) { // TODO could be package-protected?
-        if (index < 0) {
-            throw new ClassGenException("Negative index value: " + index);
-        }
-        this.index = index;
-    }
-
-    /**
      * Long output format:
-     *
+     * <p>
      * &lt;name of opcode&gt; "["&lt;opcode number&gt;"]" "("&lt;length of instruction&gt;")" "&lt;"&lt; constant pool
      * index&gt;"&gt;"
      *

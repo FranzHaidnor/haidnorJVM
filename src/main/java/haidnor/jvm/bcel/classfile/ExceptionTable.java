@@ -40,6 +40,7 @@ import java.util.Arrays;
  *   u2 exception_index_table[number_of_exceptions];
  * }
  * </pre>
+ *
  * @see Code
  */
 public final class ExceptionTable extends Attribute {
@@ -59,9 +60,9 @@ public final class ExceptionTable extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -75,10 +76,10 @@ public final class ExceptionTable extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
+     * @param nameIndex           Index in constant pool
+     * @param length              Content length in bytes
      * @param exceptionIndexTable Table of indices in constant pool
-     * @param constantPool Array of constants
+     * @param constantPool        Array of constants
      */
     public ExceptionTable(final int nameIndex, final int length, final int[] exceptionIndexTable, final ConstantPool constantPool) {
         super(Const.ATTR_EXCEPTIONS, nameIndex, length, constantPool);
@@ -133,6 +134,14 @@ public final class ExceptionTable extends Attribute {
     }
 
     /**
+     * @param exceptionIndexTable the list of exception indexes Also redefines number_of_exceptions according to table
+     *                            length.
+     */
+    public void setExceptionIndexTable(final int[] exceptionIndexTable) {
+        this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    /**
      * @return class names of thrown exceptions
      */
     public String[] getExceptionNames() {
@@ -146,14 +155,6 @@ public final class ExceptionTable extends Attribute {
      */
     public int getNumberOfExceptions() {
         return exceptionIndexTable == null ? 0 : exceptionIndexTable.length;
-    }
-
-    /**
-     * @param exceptionIndexTable the list of exception indexes Also redefines number_of_exceptions according to table
-     *        length.
-     */
-    public void setExceptionIndexTable(final int[] exceptionIndexTable) {
-        this.exceptionIndexTable = exceptionIndexTable != null ? exceptionIndexTable : ArrayUtils.EMPTY_INT_ARRAY;
     }
 
     /**

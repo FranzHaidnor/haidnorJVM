@@ -32,7 +32,7 @@ import java.io.IOException;
  * </PRE>
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokeinterface"> The
- *      invokeinterface instruction in The Java Virtual Machine Specification</a>
+ * invokeinterface instruction in The Java Virtual Machine Specification</a>
  */
 public final class INVOKEINTERFACE extends InvokeInstruction {
 
@@ -100,7 +100,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION, ExceptionConst.UNSATISFIED_LINK_ERROR,
-            ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+                ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.ILLEGAL_ACCESS_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
     /**

@@ -53,7 +53,7 @@ public abstract class ConstantCP extends Constant {
     /**
      * Initialize instance from file data.
      *
-     * @param tag Constant type tag
+     * @param tag  Constant type tag
      * @param file Input stream
      * @throws IOException if an I/O error occurs.
      */
@@ -62,7 +62,7 @@ public abstract class ConstantCP extends Constant {
     }
 
     /**
-     * @param classIndex Reference to the class containing the field
+     * @param classIndex       Reference to the class containing the field
      * @param nameAndTypeIndex and the field signature
      */
     protected ConstantCP(final byte tag, final int classIndex, final int nameAndTypeIndex) {
@@ -108,17 +108,17 @@ public abstract class ConstantCP extends Constant {
     }
 
     /**
-     * @return Reference (index) to signature of the field.
-     */
-    public final int getNameAndTypeIndex() {
-        return name_and_type_index;
-    }
-
-    /**
      * @param classIndex points to Constant_class
      */
     public final void setClassIndex(final int classIndex) {
         this.class_index = classIndex;
+    }
+
+    /**
+     * @return Reference (index) to signature of the field.
+     */
+    public final int getNameAndTypeIndex() {
+        return name_and_type_index;
     }
 
     /**
@@ -130,8 +130,8 @@ public abstract class ConstantCP extends Constant {
 
     /**
      * @return String representation.
-     *
-     *         not final as ConstantInvokeDynamic needs to modify
+     * <p>
+     * not final as ConstantInvokeDynamic needs to modify
      */
     @Override
     public String toString() {

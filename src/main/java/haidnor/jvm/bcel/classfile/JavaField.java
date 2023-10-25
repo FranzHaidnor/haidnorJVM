@@ -28,7 +28,7 @@ import java.util.Objects;
  * This class represents the field info structure, i.e., the representation for a variable in the class. See JVM
  * specification for details.
  */
-public final class JavaField extends FieldOrMethod {
+public class JavaField extends FieldOrMethod {
 
     /**
      * Empty array constant.
@@ -36,7 +36,10 @@ public final class JavaField extends FieldOrMethod {
      * @since 6.6.0
      */
     public static final JavaField[] EMPTY_ARRAY = {};
-
+    /**
+     * Empty array.
+     */
+    static final JavaField[] EMPTY_FIELD_ARRAY = {};
     private static BCELComparator bcelComparator = new BCELComparator() {
 
         @Override
@@ -52,25 +55,14 @@ public final class JavaField extends FieldOrMethod {
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
         }
     };
-
     /**
-     * Empty array.
+     * 值类型
      */
-    static final JavaField[] EMPTY_FIELD_ARRAY = {};
-
+    private int valueType;
     /**
-     * @return Comparison strategy object
+     * 值
      */
-    public static BCELComparator getComparator() {
-        return bcelComparator;
-    }
-
-    /**
-     * @param comparator Comparison strategy object
-     */
-    public static void setComparator(final BCELComparator comparator) {
-        bcelComparator = comparator;
-    }
+    private Object value;
 
     /**
      * Construct object from file stream.
@@ -92,14 +84,28 @@ public final class JavaField extends FieldOrMethod {
     }
 
     /**
-     * @param accessFlags Access rights of field
-     * @param nameIndex Points to field name in constant pool
+     * @param accessFlags    Access rights of field
+     * @param nameIndex      Points to field name in constant pool
      * @param signatureIndex Points to encoded signature
-     * @param attributes Collection of attributes
-     * @param constantPool Array of constants
+     * @param attributes     Collection of attributes
+     * @param constantPool   Array of constants
      */
     public JavaField(final int accessFlags, final int nameIndex, final int signatureIndex, final Attribute[] attributes, final ConstantPool constantPool) {
         super(accessFlags, nameIndex, signatureIndex, attributes, constantPool);
+    }
+
+    /**
+     * @return Comparison strategy object
+     */
+    public static BCELComparator getComparator() {
+        return bcelComparator;
+    }
+
+    /**
+     * @param comparator Comparison strategy object
+     */
+    public static void setComparator(final BCELComparator comparator) {
+        bcelComparator = comparator;
     }
 
     /**
@@ -148,6 +154,22 @@ public final class JavaField extends FieldOrMethod {
      */
     public Type getType() {
         return Type.getReturnType(getSignature());
+    }
+
+    public int getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(int valueType) {
+        this.valueType = valueType;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     /**

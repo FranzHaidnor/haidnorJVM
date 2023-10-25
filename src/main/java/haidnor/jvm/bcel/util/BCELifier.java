@@ -39,17 +39,25 @@ import java.util.Locale;
  */
 public class BCELifier extends EmptyVisitor {
 
-    /**
-     * Enum corresponding to flag source.
-     */
-    public enum FLAGS {
-        UNKNOWN, CLASS, METHOD,
-    }
-
     // The base package name for imports; assumes Const is at the top level
     // N.B we use the class so renames will be detected by the compiler/IDE
     private static final String BASE_PACKAGE = Const.class.getPackage().getName();
     private static final String CONSTANT_PREFIX = Const.class.getSimpleName() + ".";
+    private final JavaClass clazz;
+    private final PrintWriter printWriter;
+    private final ConstantPoolGen constantPoolGen;
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param clazz Java class to "decompile".
+     * @param out   where to print the Java program in UTF-8.
+     */
+    public BCELifier(final JavaClass clazz, final OutputStream out) {
+        this.clazz = clazz;
+        this.printWriter = new PrintWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8), false);
+        this.constantPoolGen = new ConstantPoolGen(this.clazz.getConstantPool());
+    }
 
     // Needs to be accessible from unit test code
     static JavaClass getJavaClass(final String name) throws ClassNotFoundException, IOException {
@@ -94,7 +102,7 @@ public class BCELifier extends EmptyVisitor {
     /**
      * Return a string with the flag settings
      *
-     * @param flags the flags field to interpret
+     * @param flags    the flags field to interpret
      * @param location the item type
      * @return the formatted string
      * @since 6.0 made public
@@ -150,24 +158,6 @@ public class BCELifier extends EmptyVisitor {
         return printType(type.getSignature());
     }
 
-    private final JavaClass clazz;
-
-    private final PrintWriter printWriter;
-
-    private final ConstantPoolGen constantPoolGen;
-
-    /**
-     * Constructs a new instance.
-     *
-     * @param clazz Java class to "decompile".
-     * @param out where to print the Java program in UTF-8.
-     */
-    public BCELifier(final JavaClass clazz, final OutputStream out) {
-        this.clazz = clazz;
-        this.printWriter = new PrintWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8), false);
-        this.constantPoolGen = new ConstantPoolGen(this.clazz.getConstantPool());
-    }
-
     private void printCreate() {
         printWriter.println("  public void create(OutputStream out) throws IOException {");
         final JavaField[] fields = clazz.getFields();
@@ -203,7 +193,7 @@ public class BCELifier extends EmptyVisitor {
     public void visitField(final JavaField field) {
         printWriter.println();
         printWriter.println(
-            "    field = new FieldGen(" + printFlags(field.getAccessFlags()) + ", " + printType(field.getSignature()) + ", \"" + field.getName() + "\", _cp);");
+                "    field = new FieldGen(" + printFlags(field.getAccessFlags()) + ", " + printType(field.getSignature()) + ", \"" + field.getName() + "\", _cp);");
         final ConstantValue cv = field.getConstantValue();
         if (cv != null) {
             printWriter.print("    field.setInitValue(");
@@ -254,7 +244,7 @@ public class BCELifier extends EmptyVisitor {
         printWriter.println();
         printWriter.println("  public " + className + "Creator() {");
         printWriter.println("    _cg = new ClassGen(\"" + (packageName.isEmpty() ? className : packageName + "." + className) + "\", \"" + superName
-            + "\", " + "\"" + clazz.getSourceFileName() + "\", " + printFlags(clazz.getAccessFlags(), FLAGS.CLASS) + ", " + "new String[] { " + inter + " });");
+                + "\", " + "\"" + clazz.getSourceFileName() + "\", " + printFlags(clazz.getAccessFlags(), FLAGS.CLASS) + ", " + "new String[] { " + inter + " });");
         printWriter.println("    _cg.setMajor(" + clazz.getMajor() + ");");
         printWriter.println("    _cg.setMinor(" + clazz.getMinor() + ");");
         printWriter.println();
@@ -289,8 +279,8 @@ public class BCELifier extends EmptyVisitor {
         final MethodGen mg = new MethodGen(method, clazz.getClassName(), constantPoolGen);
         printWriter.println("    InstructionList il = new InstructionList();");
         printWriter.println("    MethodGen method = new MethodGen(" + printFlags(method.getAccessFlags(), FLAGS.METHOD) + ", " + printType(mg.getReturnType())
-            + ", " + printArgumentTypes(mg.getArgumentTypes()) + ", " + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true) + " }, \""
-            + method.getName() + "\", \"" + clazz.getClassName() + "\", il, _cp);");
+                + ", " + printArgumentTypes(mg.getArgumentTypes()) + ", " + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true) + " }, \""
+                + method.getName() + "\", \"" + clazz.getClassName() + "\", il, _cp);");
         final ExceptionTable exceptionTable = method.getExceptionTable();
         if (exceptionTable != null) {
             final String[] exceptionNames = exceptionTable.getExceptionNames();
@@ -307,5 +297,12 @@ public class BCELifier extends EmptyVisitor {
         printWriter.println("    method.setMaxLocals();");
         printWriter.println("    _cg.addMethod(method.getMethod());");
         printWriter.println("    il.dispose();");
+    }
+
+    /**
+     * Enum corresponding to flag source.
+     */
+    public enum FLAGS {
+        UNKNOWN, CLASS, METHOD,
     }
 }

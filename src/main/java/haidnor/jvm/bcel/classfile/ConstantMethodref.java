@@ -46,7 +46,7 @@ public final class ConstantMethodref extends ConstantCP {
     }
 
     /**
-     * @param classIndex Reference to the class containing the method
+     * @param classIndex       Reference to the class containing the method
      * @param nameAndTypeIndex and the method signature
      */
     public ConstantMethodref(final int classIndex, final int nameAndTypeIndex) {

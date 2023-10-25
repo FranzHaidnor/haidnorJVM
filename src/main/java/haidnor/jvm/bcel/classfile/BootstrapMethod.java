@@ -29,15 +29,19 @@ import java.util.Arrays;
  * and an array of the bootstrap arguments.
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.23"> The class File Format :
- *      The BootstrapMethods Attribute</a>
+ * The BootstrapMethods Attribute</a>
  * @since 6.0
  */
 public class BootstrapMethod implements Cloneable {
 
-    /** Index of the CONSTANT_MethodHandle_info structure in the constant_pool table */
+    /**
+     * Index of the CONSTANT_MethodHandle_info structure in the constant_pool table
+     */
     private int bootstrapMethodRef;
 
-    /** Array of references to the constant_pool table */
+    /**
+     * Array of references to the constant_pool table
+     */
     private int[] bootstrapArguments;
 
     /**
@@ -111,20 +115,6 @@ public class BootstrapMethod implements Cloneable {
     }
 
     /**
-     * @return index into constant_pool of bootstrap_method
-     */
-    public int getBootstrapMethodRef() {
-        return bootstrapMethodRef;
-    }
-
-    /**
-     * @return count of number of boostrap arguments
-     */
-    public int getNumBootstrapArguments() {
-        return bootstrapArguments.length;
-    }
-
-    /**
      * @param bootstrapArguments int[] indices into constant_pool of CONSTANT_[type]_info
      */
     public void setBootstrapArguments(final int[] bootstrapArguments) {
@@ -132,10 +122,24 @@ public class BootstrapMethod implements Cloneable {
     }
 
     /**
+     * @return index into constant_pool of bootstrap_method
+     */
+    public int getBootstrapMethodRef() {
+        return bootstrapMethodRef;
+    }
+
+    /**
      * @param bootstrapMethodRef int index into constant_pool of CONSTANT_MethodHandle
      */
     public void setBootstrapMethodRef(final int bootstrapMethodRef) {
         this.bootstrapMethodRef = bootstrapMethodRef;
+    }
+
+    /**
+     * @return count of number of boostrap arguments
+     */
+    public int getNumBootstrapArguments() {
+        return bootstrapArguments.length;
     }
 
     /**

@@ -88,6 +88,14 @@ public class IINC extends LocalVariableInstruction {
     }
 
     /**
+     * Sets increment factor.
+     */
+    public final void setIncrement(final int c) {
+        this.c = c;
+        setWide();
+    }
+
+    /**
      * @return int type
      */
     @Override
@@ -110,14 +118,6 @@ public class IINC extends LocalVariableInstruction {
             super.setIndexOnly(bytes.readUnsignedByte());
             c = bytes.readByte();
         }
-    }
-
-    /**
-     * Sets increment factor.
-     */
-    public final void setIncrement(final int c) {
-        this.c = c;
-        setWide();
     }
 
     /**

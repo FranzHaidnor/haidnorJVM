@@ -37,9 +37,9 @@ public final class NestHost extends Attribute {
     /**
      * Constructs object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -49,10 +49,10 @@ public final class NestHost extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
+     * @param nameIndex      Index in constant pool
+     * @param length         Content length in bytes
      * @param hostClassIndex Host class index
-     * @param constantPool Array of constants
+     * @param constantPool   Array of constants
      */
     public NestHost(final int nameIndex, final int length, final int hostClassIndex, final ConstantPool constantPool) {
         super(Const.ATTR_NEST_MEMBERS, nameIndex, length, constantPool);

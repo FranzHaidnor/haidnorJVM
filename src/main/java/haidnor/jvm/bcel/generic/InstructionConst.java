@@ -35,7 +35,7 @@ public final class InstructionConst {
 
     /**
      * Predefined instruction objects.
-     *
+     * <p>
      * NOTE these are not currently immutable, because Instruction has mutable protected fields opcode and length.
      */
     public static final Instruction NOP = new NOP();
@@ -279,6 +279,9 @@ public final class InstructionConst {
         INSTRUCTIONS[Const.MONITOREXIT] = MONITOREXIT;
     }
 
+    private InstructionConst() {
+    } // non-instantiable
+
     /**
      * Gets the Instruction.
      *
@@ -288,7 +291,4 @@ public final class InstructionConst {
     public static Instruction getInstruction(final int index) {
         return INSTRUCTIONS[index];
     }
-
-    private InstructionConst() {
-    } // non-instantiable
 }

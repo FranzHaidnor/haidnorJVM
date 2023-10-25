@@ -44,8 +44,9 @@ import java.io.IOException;
  *            element_value values[num_values];
  *        } array_value;
  *    } value;
- *}
- *</pre>
+ * }
+ * </pre>
+ *
  * @since 6.0
  */
 public abstract class ElementValue {
@@ -63,72 +64,6 @@ public abstract class ElementValue {
     public static final byte PRIMITIVE_LONG = 'J';
     public static final byte PRIMITIVE_SHORT = 'S';
     public static final byte PRIMITIVE_BOOLEAN = 'Z';
-
-    /**
-     * Reads an {@code element_value} as an {@code ElementValue}.
-     *
-     * @param input Raw data input.
-     * @param cpool Constant pool.
-     * @return a new ElementValue.
-     * @throws IOException if an I/O error occurs.
-     */
-    public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool) throws IOException {
-        return readElementValue(input, cpool, 0);
-    }
-
-    /**
-     * Reads an {@code element_value} as an {@code ElementValue}.
-     *
-     * @param input Raw data input.
-     * @param cpool Constant pool.
-     * @param arrayNesting level of current array nesting.
-     * @return a new ElementValue.
-     * @throws IOException if an I/O error occurs.
-     * @since 6.7.0
-     */
-    public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool, int arrayNesting)
-            throws IOException {
-        final byte tag = input.readByte();
-        switch (tag) {
-        case PRIMITIVE_BYTE:
-        case PRIMITIVE_CHAR:
-        case PRIMITIVE_DOUBLE:
-        case PRIMITIVE_FLOAT:
-        case PRIMITIVE_INT:
-        case PRIMITIVE_LONG:
-        case PRIMITIVE_SHORT:
-        case PRIMITIVE_BOOLEAN:
-        case STRING:
-            return new SimpleElementValue(tag, input.readUnsignedShort(), cpool);
-
-        case ENUM_CONSTANT:
-            return new EnumElementValue(ENUM_CONSTANT, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
-
-        case CLASS:
-            return new ClassElementValue(CLASS, input.readUnsignedShort(), cpool);
-
-        case ANNOTATION:
-            // TODO isRuntimeVisible
-            return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
-
-        case ARRAY:
-            arrayNesting++;
-            if (arrayNesting > Const.MAX_ARRAY_DIMENSIONS) {
-                // JVM spec 4.4.1
-                throw new ClassFormatException(String.format("Arrays are only valid if they represent %,d or fewer dimensions.", Const.MAX_ARRAY_DIMENSIONS));
-            }
-            final int numArrayVals = input.readUnsignedShort();
-            final ElementValue[] evalues = new ElementValue[numArrayVals];
-            for (int j = 0; j < numArrayVals; j++) {
-                evalues[j] = ElementValue.readElementValue(input, cpool, arrayNesting);
-            }
-            return new ArrayElementValue(ARRAY, evalues, cpool);
-
-        default:
-            throw new ClassFormatException("Unexpected element value tag in annotation: " + tag);
-        }
-    }
-
     /**
      * @deprecated (since 6.0) will be made private and final; do not access directly, use getter
      */
@@ -145,9 +80,76 @@ public abstract class ElementValue {
         this.cpool = cpool;
     }
 
+    /**
+     * Reads an {@code element_value} as an {@code ElementValue}.
+     *
+     * @param input Raw data input.
+     * @param cpool Constant pool.
+     * @return a new ElementValue.
+     * @throws IOException if an I/O error occurs.
+     */
+    public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool) throws IOException {
+        return readElementValue(input, cpool, 0);
+    }
+
+    /**
+     * Reads an {@code element_value} as an {@code ElementValue}.
+     *
+     * @param input        Raw data input.
+     * @param cpool        Constant pool.
+     * @param arrayNesting level of current array nesting.
+     * @return a new ElementValue.
+     * @throws IOException if an I/O error occurs.
+     * @since 6.7.0
+     */
+    public static ElementValue readElementValue(final DataInput input, final ConstantPool cpool, int arrayNesting)
+            throws IOException {
+        final byte tag = input.readByte();
+        switch (tag) {
+            case PRIMITIVE_BYTE:
+            case PRIMITIVE_CHAR:
+            case PRIMITIVE_DOUBLE:
+            case PRIMITIVE_FLOAT:
+            case PRIMITIVE_INT:
+            case PRIMITIVE_LONG:
+            case PRIMITIVE_SHORT:
+            case PRIMITIVE_BOOLEAN:
+            case STRING:
+                return new SimpleElementValue(tag, input.readUnsignedShort(), cpool);
+
+            case ENUM_CONSTANT:
+                return new EnumElementValue(ENUM_CONSTANT, input.readUnsignedShort(), input.readUnsignedShort(), cpool);
+
+            case CLASS:
+                return new ClassElementValue(CLASS, input.readUnsignedShort(), cpool);
+
+            case ANNOTATION:
+                // TODO isRuntimeVisible
+                return new AnnotationElementValue(ANNOTATION, AnnotationEntry.read(input, cpool, false), cpool);
+
+            case ARRAY:
+                arrayNesting++;
+                if (arrayNesting > Const.MAX_ARRAY_DIMENSIONS) {
+                    // JVM spec 4.4.1
+                    throw new ClassFormatException(String.format("Arrays are only valid if they represent %,d or fewer dimensions.", Const.MAX_ARRAY_DIMENSIONS));
+                }
+                final int numArrayVals = input.readUnsignedShort();
+                final ElementValue[] evalues = new ElementValue[numArrayVals];
+                for (int j = 0; j < numArrayVals; j++) {
+                    evalues[j] = ElementValue.readElementValue(input, cpool, arrayNesting);
+                }
+                return new ArrayElementValue(ARRAY, evalues, cpool);
+
+            default:
+                throw new ClassFormatException("Unexpected element value tag in annotation: " + tag);
+        }
+    }
+
     public abstract void dump(DataOutputStream dos) throws IOException;
 
-    /** @since 6.0 */
+    /**
+     * @since 6.0
+     */
     final ConstantPool getConstantPool() {
         return cpool;
     }
@@ -156,7 +158,9 @@ public abstract class ElementValue {
         return type;
     }
 
-    /** @since 6.0 */
+    /**
+     * @since 6.0
+     */
     final int getType() {
         return type;
     }

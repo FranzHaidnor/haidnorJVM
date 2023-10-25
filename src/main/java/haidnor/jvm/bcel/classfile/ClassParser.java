@@ -26,7 +26,7 @@ import java.util.zip.ZipFile;
  * Wrapper class that parses a given Java .class file. The method <a href ="#parse">parse</a> returns a
  * <a href ="JavaClass.html"> JavaClass</a> object on success. When an I/O error or an inconsistency occurs an
  * appropriate exception is propagated back to the caller.
- *
+ * <p>
  * The structure and the names comply, except for a few conveniences, exactly with the
  * <a href="http://docs.oracle.com/javase/specs/"> JVM specification 1.0</a>. See this paper for further details about
  * the structure of a bytecode file.
@@ -34,9 +34,10 @@ import java.util.zip.ZipFile;
 public final class ClassParser {
 
     private static final int BUFSIZE = 8192;
-    private DataInputStream dataInputStream;
     private final boolean fileOwned;
     private final String fileName;
+    private final boolean isZip; // Loaded from zip file
+    private DataInputStream dataInputStream;
     private String zipFile;
     private int classNameIndex;
     private int superclassNameIndex;
@@ -48,13 +49,12 @@ public final class ClassParser {
     private JavaField[] fields; // class fields, i.e., its variables
     private JavaMethod[] methods; // methods defined in the class
     private Attribute[] attributes; // attributes defined in the class
-    private final boolean isZip; // Loaded from zip file
 
     /**
      * Parses class from the given stream.
      *
      * @param inputStream Input stream
-     * @param fileName File name
+     * @param fileName    File name
      */
     public ClassParser(final InputStream inputStream, final String fileName) {
         this.fileName = fileName;
@@ -82,7 +82,7 @@ public final class ClassParser {
     /**
      * Parses class from given .class file in a ZIP-archive
      *
-     * @param zipFile zip file name
+     * @param zipFile  zip file name
      * @param fileName file name
      */
     public ClassParser(final String zipFile, final String fileName) {
@@ -98,7 +98,7 @@ public final class ClassParser {
      * not include verification of the byte code as it is performed by the java interpreter).
      *
      * @return Class object representing the parsed class file
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     public JavaClass parse() throws IOException, ClassFormatException {
@@ -172,13 +172,13 @@ public final class ClassParser {
         }
         // Return the information we have gathered in a new object
         return new JavaClass(classNameIndex, superclassNameIndex, fileName, major, minor, accessFlags, constantPool, interfaces, fields, methods, attributes,
-            isZip ? JavaClass.ZIP : JavaClass.FILE);
+                isZip ? JavaClass.ZIP : JavaClass.FILE);
     }
 
     /**
      * Reads information about the attributes of the class.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readAttributes() throws IOException, ClassFormatException {
@@ -192,7 +192,7 @@ public final class ClassParser {
     /**
      * Reads information about the class and its super class.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readClassInfo() throws IOException, ClassFormatException {
@@ -213,7 +213,7 @@ public final class ClassParser {
     /**
      * Reads constant pool entries.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readConstantPool() throws IOException, ClassFormatException {
@@ -223,7 +223,7 @@ public final class ClassParser {
     /**
      * Reads information about the fields of the class, i.e., its variables.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readFields() throws IOException, ClassFormatException {
@@ -238,7 +238,7 @@ public final class ClassParser {
     /**
      * Checks whether the header of the file is ok. Of course, this has to be the first action on successive file reads.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readID() throws IOException, ClassFormatException {
@@ -250,7 +250,7 @@ public final class ClassParser {
     /**
      * Reads information about the interfaces implemented by this class.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readInterfaces() throws IOException, ClassFormatException {
@@ -264,7 +264,7 @@ public final class ClassParser {
     /**
      * Reads information about the methods of the class.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readMethods() throws IOException {
@@ -278,7 +278,7 @@ public final class ClassParser {
     /**
      * Reads major and minor version of compiler which created the file.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     private void readVersion() throws IOException, ClassFormatException {

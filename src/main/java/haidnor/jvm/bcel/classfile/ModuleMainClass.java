@@ -37,9 +37,9 @@ public final class ModuleMainClass extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -49,10 +49,10 @@ public final class ModuleMainClass extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
+     * @param nameIndex      Index in constant pool
+     * @param length         Content length in bytes
      * @param mainClassIndex Host class index
-     * @param constantPool Array of constants
+     * @param constantPool   Array of constants
      */
     public ModuleMainClass(final int nameIndex, final int length, final int mainClassIndex, final ConstantPool constantPool) {
         super(Const.ATTR_NEST_MEMBERS, nameIndex, length, constantPool);

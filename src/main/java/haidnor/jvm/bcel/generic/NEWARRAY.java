@@ -29,7 +29,7 @@ import java.io.IOException;
  * <PRE>
  * Stack: ..., count -&gt; ..., arrayref
  * </PRE>
- *
+ * <p>
  * type must be one of T_INT, T_SHORT, ...
  */
 public class NEWARRAY extends Instruction implements AllocationInstruction, ExceptionThrower, StackProducer {
@@ -78,7 +78,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
 
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION};
+        return new Class[]{ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION};
     }
 
     /**

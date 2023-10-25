@@ -90,18 +90,18 @@ public final class ConstantFloat extends Constant implements ConstantObject {
     }
 
     /**
+     * @param bytes the raw bytes that represent this float
+     */
+    public void setBytes(final float bytes) {
+        this.bytes = bytes;
+    }
+
+    /**
      * @return Float object
      */
     @Override
     public Object getConstantValue(final ConstantPool cp) {
         return Float.valueOf(bytes);
-    }
-
-    /**
-     * @param bytes the raw bytes that represent this float
-     */
-    public void setBytes(final float bytes) {
-        this.bytes = bytes;
     }
 
     /**

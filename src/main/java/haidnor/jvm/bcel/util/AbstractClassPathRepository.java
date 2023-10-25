@@ -57,10 +57,10 @@ abstract class AbstractClassPathRepository implements Repository {
      * the Repository version is returned. Otherwise, getResourceAsStream() is called on the Class object to find the
      * class's representation. If the representation is found, it is added to the Repository.
      *
-     * @see Class
      * @param clazz the runtime Class object
      * @return JavaClass object for given runtime class
      * @throws ClassNotFoundException if the class is not in the Repository, and its representation could not be found
+     * @see Class
      */
     @Override
     public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {

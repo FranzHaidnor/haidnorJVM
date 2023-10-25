@@ -86,12 +86,12 @@ public final class ConstantMethodHandle extends Constant {
         return referenceIndex;
     }
 
-    public int getReferenceKind() {
-        return referenceKind;
-    }
-
     public void setReferenceIndex(final int referenceIndex) {
         this.referenceIndex = referenceIndex;
+    }
+
+    public int getReferenceKind() {
+        return referenceKind;
     }
 
     public void setReferenceKind(final int referenceKind) {

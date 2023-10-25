@@ -29,28 +29,24 @@ import java.util.List;
  */
 public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
 
+    private final List<Attribute> attributeList = new ArrayList<>();
+    // @since 6.0
+    private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected String name;
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected Type type;
-
     /**
      * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected ConstantPoolGen cp;
-
-    private final List<Attribute> attributeList = new ArrayList<>();
-
-    // @since 6.0
-    private final List<AnnotationEntryGen> annotationList = new ArrayList<>();
 
     protected FieldGenOrMethodGen() {
     }
@@ -107,12 +103,21 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         return cp;
     }
 
+    public void setConstantPool(final ConstantPoolGen cp) { // TODO could be package-protected?
+        this.cp = cp;
+    }
+
     /**
      * @return name of method/field.
      */
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(final String name) { // TODO could be package-protected?
+        this.name = name;
     }
 
     /**
@@ -123,6 +128,14 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public void setType(final Type type) { // TODO could be package-protected?
+        if (type.getType() == Const.T_ADDRESS) {
+            throw new IllegalArgumentException("Type can not be " + type);
+        }
+        this.type = type;
     }
 
     /**
@@ -151,22 +164,5 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
      */
     public void removeAttributes() {
         attributeList.clear();
-    }
-
-    public void setConstantPool(final ConstantPoolGen cp) { // TODO could be package-protected?
-        this.cp = cp;
-    }
-
-    @Override
-    public void setName(final String name) { // TODO could be package-protected?
-        this.name = name;
-    }
-
-    @Override
-    public void setType(final Type type) { // TODO could be package-protected?
-        if (type.getType() == Const.T_ADDRESS) {
-            throw new IllegalArgumentException("Type can not be " + type);
-        }
-        this.type = type;
     }
 }

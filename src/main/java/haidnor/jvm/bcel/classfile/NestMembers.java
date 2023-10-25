@@ -40,9 +40,9 @@ public final class NestMembers extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -56,9 +56,9 @@ public final class NestMembers extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param classes Table of indices in constant pool
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param classes      Table of indices in constant pool
      * @param constantPool Array of constants
      */
     public NestMembers(final int nameIndex, final int length, final int[] classes, final ConstantPool constantPool) {
@@ -124,6 +124,13 @@ public final class NestMembers extends Attribute {
     }
 
     /**
+     * @param classes the list of class indexes Also redefines number_of_classes according to table length.
+     */
+    public void setClasses(final int[] classes) {
+        this.classes = classes != null ? classes : ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    /**
      * @return string array of class names
      */
     public String[] getClassNames() {
@@ -137,13 +144,6 @@ public final class NestMembers extends Attribute {
      */
     public int getNumberClasses() {
         return classes.length;
-    }
-
-    /**
-     * @param classes the list of class indexes Also redefines number_of_classes according to table length.
-     */
-    public void setClasses(final int[] classes) {
-        this.classes = classes != null ? classes : ArrayUtils.EMPTY_INT_ARRAY;
     }
 
     /**

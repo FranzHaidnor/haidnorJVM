@@ -50,9 +50,9 @@ public final class StackMap extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index of name
-     * @param length Content length in bytes
-     * @param dataInput Input stream
+     * @param nameIndex    Index of name
+     * @param length       Content length in bytes
+     * @param dataInput    Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */

@@ -36,15 +36,15 @@ public class SyntheticRepository extends MemorySensitiveClassPathRepository {
 
     private static final Map<ClassPath, SyntheticRepository> MAP = new HashMap<>(); // CLASSPATH X REPOSITORY
 
+    private SyntheticRepository(final ClassPath path) {
+        super(path);
+    }
+
     public static SyntheticRepository getInstance() {
         return getInstance(ClassPath.SYSTEM_CLASS_PATH);
     }
 
     public static SyntheticRepository getInstance(final ClassPath classPath) {
         return MAP.computeIfAbsent(classPath, SyntheticRepository::new);
-    }
-
-    private SyntheticRepository(final ClassPath path) {
-        super(path);
     }
 }

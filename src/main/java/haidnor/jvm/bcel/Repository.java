@@ -53,7 +53,7 @@ public abstract class Repository {
 
     /**
      * @return all interfaces implemented by class and its super classes and the interfaces that those interfaces extend,
-     *         and so on. (Some people call this a transitive hull).
+     * and so on. (Some people call this a transitive hull).
      * @throws ClassNotFoundException if any of the class's superclasses or superinterfaces can't be found
      */
     public static JavaClass[] getInterfaces(final JavaClass clazz) throws ClassNotFoundException {
@@ -62,9 +62,9 @@ public abstract class Repository {
 
     /**
      * @return all interfaces implemented by class and its super classes and the interfaces that extend those interfaces,
-     *         and so on
+     * and so on
      * @throws ClassNotFoundException if the named class can't be found, or if any of its superclasses or superinterfaces
-     *         can't be found
+     *                                can't be found
      */
     public static JavaClass[] getInterfaces(final String className) throws ClassNotFoundException {
         return getInterfaces(lookupClass(className));
@@ -75,6 +75,13 @@ public abstract class Repository {
      */
     public static haidnor.jvm.bcel.util.Repository getRepository() {
         return repository;
+    }
+
+    /**
+     * Sets repository instance to be used for class loading
+     */
+    public static void setRepository(final haidnor.jvm.bcel.util.Repository rep) {
+        repository = rep;
     }
 
     /**
@@ -162,9 +169,9 @@ public abstract class Repository {
     /**
      * Tries to find class source using the internal repository instance.
      *
-     * @see Class
      * @return JavaClass object for given runtime class
      * @throws ClassNotFoundException if the class could not be found or parsed correctly
+     * @see Class
      */
     public static JavaClass lookupClass(final Class<?> clazz) throws ClassNotFoundException {
         return repository.loadClass(clazz);
@@ -182,7 +189,7 @@ public abstract class Repository {
 
     /**
      * @return class file object for given Java class by looking on the system class path; returns null if the class file
-     *         can't be found
+     * can't be found
      */
     public static ClassPath.ClassFile lookupClassFile(final String className) {
         try (ClassPath path = repository.getClassPath()) {
@@ -204,12 +211,5 @@ public abstract class Repository {
      */
     public static void removeClass(final String clazz) {
         repository.removeClass(repository.findClass(clazz));
-    }
-
-    /**
-     * Sets repository instance to be used for class loading
-     */
-    public static void setRepository(final haidnor.jvm.bcel.util.Repository rep) {
-        repository = rep;
     }
 }

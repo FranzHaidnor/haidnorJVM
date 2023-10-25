@@ -25,7 +25,7 @@ import haidnor.jvm.bcel.ExceptionConst;
  * <PRE>
  * Stack: ..., objectref, value -&gt; ...
  * </PRE>
- *
+ * <p>
  * OR
  *
  * <PRE>
@@ -71,6 +71,6 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+                ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 }

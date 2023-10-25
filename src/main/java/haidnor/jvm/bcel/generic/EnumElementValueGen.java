@@ -36,9 +36,9 @@ public class EnumElementValueGen extends ElementValueGen {
         super(ENUM_CONSTANT, cpool);
         if (copyPoolEntries) {
             typeIdx = cpool.addUtf8(value.getEnumTypeString());// was
-                                                               // addClass(value.getEnumTypeString());
+            // addClass(value.getEnumTypeString());
             valueIdx = cpool.addUtf8(value.getEnumValueString()); // was
-                                                                  // addString(value.getEnumValueString());
+            // addString(value.getEnumValueString());
         } else {
             typeIdx = value.getTypeIndex();
             valueIdx = value.getValueIndex();

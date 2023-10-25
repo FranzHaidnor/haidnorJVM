@@ -47,10 +47,28 @@ public abstract class AccessFlags {
     }
 
     /**
+     * Set access flags aka "modifiers".
+     *
+     * @param accessFlags Access flags of the object.
+     */
+    public final void setAccessFlags(final int accessFlags) {
+        this.access_flags = accessFlags;
+    }
+
+    /**
      * @return Access flags of the object aka. "modifiers".
      */
     public final int getModifiers() {
         return access_flags;
+    }
+
+    /**
+     * Set access flags aka "modifiers".
+     *
+     * @param accessFlags Access flags of the object.
+     */
+    public final void setModifiers(final int accessFlags) {
+        setAccessFlags(accessFlags);
     }
 
     public final boolean isAbstract() {
@@ -181,15 +199,6 @@ public abstract class AccessFlags {
         setFlag(Const.ACC_VOLATILE, flag);
     }
 
-    /**
-     * Set access flags aka "modifiers".
-     *
-     * @param accessFlags Access flags of the object.
-     */
-    public final void setAccessFlags(final int accessFlags) {
-        this.access_flags = accessFlags;
-    }
-
     private void setFlag(final int flag, final boolean set) {
         if ((access_flags & flag) != 0) { // Flag is set already
             if (!set) {
@@ -198,14 +207,5 @@ public abstract class AccessFlags {
         } else if (set) {
             access_flags |= flag;
         }
-    }
-
-    /**
-     * Set access flags aka "modifiers".
-     *
-     * @param accessFlags Access flags of the object.
-     */
-    public final void setModifiers(final int accessFlags) {
-        setAccessFlags(accessFlags);
     }
 }

@@ -31,8 +31,8 @@ public abstract class StoreInstruction extends LocalVariableInstruction implemen
 
     /**
      * @param opcode Instruction opcode
-     * @param cTag Instruction number for compact version, ASTORE_0, e.g.
-     * @param n local variable index (unsigned short)
+     * @param cTag   Instruction number for compact version, ASTORE_0, e.g.
+     * @param n      local variable index (unsigned short)
      */
     protected StoreInstruction(final short opcode, final short cTag, final int n) {
         super(opcode, cTag, n);

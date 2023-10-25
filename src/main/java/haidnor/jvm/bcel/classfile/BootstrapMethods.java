@@ -29,7 +29,7 @@ import java.util.stream.Stream;
  * This class represents a BootstrapMethods attribute.
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.23"> The class File Format :
- *      The BootstrapMethods Attribute</a>
+ * The BootstrapMethods Attribute</a>
  * @since 6.0
  */
 public class BootstrapMethods extends Attribute implements Iterable<BootstrapMethod> {
@@ -47,10 +47,10 @@ public class BootstrapMethods extends Attribute implements Iterable<BootstrapMet
     }
 
     /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
+     * @param nameIndex        Index in constant pool to CONSTANT_Utf8
+     * @param length           Content length in bytes
      * @param bootstrapMethods array of bootstrap methods
-     * @param constantPool Array of constants
+     * @param constantPool     Array of constants
      */
     public BootstrapMethods(final int nameIndex, final int length, final BootstrapMethod[] bootstrapMethods, final ConstantPool constantPool) {
         super(Const.ATTR_BOOTSTRAP_METHODS, nameIndex, length, constantPool);
@@ -60,9 +60,9 @@ public class BootstrapMethods extends Attribute implements Iterable<BootstrapMet
     /**
      * Construct object from Input stream.
      *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -122,16 +122,16 @@ public class BootstrapMethods extends Attribute implements Iterable<BootstrapMet
         return bootstrapMethods;
     }
 
-    @Override
-    public Iterator<BootstrapMethod> iterator() {
-        return Stream.of(bootstrapMethods).iterator();
-    }
-
     /**
      * @param bootstrapMethods the array of bootstrap methods
      */
     public final void setBootstrapMethods(final BootstrapMethod[] bootstrapMethods) {
         this.bootstrapMethods = bootstrapMethods;
+    }
+
+    @Override
+    public Iterator<BootstrapMethod> iterator() {
+        return Stream.of(bootstrapMethods).iterator();
     }
 
     /**

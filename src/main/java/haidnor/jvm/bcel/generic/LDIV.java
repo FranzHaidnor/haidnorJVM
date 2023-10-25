@@ -25,7 +25,7 @@ import haidnor.jvm.bcel.ExceptionConst;
  * <PRE>
  * Stack: ..., value1.word1, value1.word2, value2.word1, value2.word2 -&gt;
  * </PRE>
- *
+ * <p>
  * ..., result.word1, result.word2
  */
 public class LDIV extends ArithmeticInstruction implements ExceptionThrower {
@@ -52,6 +52,6 @@ public class LDIV extends ArithmeticInstruction implements ExceptionThrower {
 
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.ARITHMETIC_EXCEPTION};
+        return new Class[]{ExceptionConst.ARITHMETIC_EXCEPTION};
     }
 }

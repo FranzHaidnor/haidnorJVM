@@ -19,7 +19,6 @@ package haidnor.jvm.bcel.generic;
 /**
  * Denotes a push instruction that produces a literal on the stack such as SIPUSH, BIPUSH, ICONST, etc.
  *
- *
  * @see ICONST
  * @see SIPUSH
  */

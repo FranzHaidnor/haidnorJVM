@@ -37,9 +37,9 @@ public final class SourceFile extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -48,13 +48,13 @@ public final class SourceFile extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8, which should represent the string "SourceFile".
-     * @param length Content length in bytes, the value should be 2.
-     * @param constantPool The constant pool that this attribute is associated with.
+     * @param nameIndex       Index in constant pool to CONSTANT_Utf8, which should represent the string "SourceFile".
+     * @param length          Content length in bytes, the value should be 2.
+     * @param constantPool    The constant pool that this attribute is associated with.
      * @param sourceFileIndex Index in constant pool to CONSTANT_Utf8. This string will be interpreted as the name of the
-     *        file from which this class was compiled. It will not be interpreted as indicating the name of the directory
-     *        contqining the file or an absolute path; this information has to be supplied the consumer of this attribute -
-     *        in many cases, the JVM.
+     *                        file from which this class was compiled. It will not be interpreted as indicating the name of the directory
+     *                        contqining the file or an absolute path; this information has to be supplied the consumer of this attribute -
+     *                        in many cases, the JVM.
      */
     public SourceFile(final int nameIndex, final int length, final int sourceFileIndex, final ConstantPool constantPool) {
         super(Const.ATTR_SOURCE_FILE, nameIndex, Args.require(length, 2, "SourceFile length attribute"), constantPool);
@@ -110,17 +110,17 @@ public final class SourceFile extends Attribute {
     }
 
     /**
-     * @return Source file name.
-     */
-    public String getSourceFileName() {
-        return super.getConstantPool().getConstantUtf8(sourceFileIndex).getBytes();
-    }
-
-    /**
      * @param sourceFileIndex
      */
     public void setSourceFileIndex(final int sourceFileIndex) {
         this.sourceFileIndex = sourceFileIndex;
+    }
+
+    /**
+     * @return Source file name.
+     */
+    public String getSourceFileName() {
+        return super.getConstantPool().getConstantUtf8(sourceFileIndex).getBytes();
     }
 
     /**

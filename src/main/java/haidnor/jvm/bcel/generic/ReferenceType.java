@@ -44,8 +44,8 @@ public abstract class ReferenceType extends Type {
      * interface, then Type.OBJECT is returned. If not all of the two classes' superclasses cannot be found, "null" is
      * returned. See the JVM specification edition 2, "�4.9.2 The Bytecode Verifier".
      *
-     * @deprecated use getFirstCommonSuperclass(ReferenceType t) which has slightly changed semantics.
      * @throws ClassNotFoundException on failure to find superclasses of this type, or the type passed as a parameter
+     * @deprecated use getFirstCommonSuperclass(ReferenceType t) which has slightly changed semantics.
      */
     @Deprecated
     public ReferenceType firstCommonSuperclass(final ReferenceType t) throws ClassNotFoundException {
@@ -96,9 +96,9 @@ public abstract class ReferenceType extends Type {
             final ArrayType arrType1 = (ArrayType) this;
             final ArrayType arrType2 = (ArrayType) t;
             if (arrType1.getDimensions() == arrType2.getDimensions() && arrType1.getBasicType() instanceof ObjectType
-                && arrType2.getBasicType() instanceof ObjectType) {
+                    && arrType2.getBasicType() instanceof ObjectType) {
                 return new ArrayType(((ObjectType) arrType1.getBasicType()).getFirstCommonSuperclass((ObjectType) arrType2.getBasicType()),
-                    arrType1.getDimensions());
+                        arrType1.getDimensions());
             }
         }
         if (this instanceof ArrayType || t instanceof ArrayType) {
@@ -110,7 +110,7 @@ public abstract class ReferenceType extends Type {
 
     private ReferenceType getFirstCommonSuperclassInternal(final ReferenceType t) throws ClassNotFoundException {
         if (this instanceof ObjectType && ((ObjectType) this).referencesInterfaceExact()
-            || t instanceof ObjectType && ((ObjectType) t).referencesInterfaceExact()) {
+                || t instanceof ObjectType && ((ObjectType) t).referencesInterfaceExact()) {
             return Type.OBJECT;
             // TODO: The above line is correct comparing to the vmspec2. But one could
             // make class file verification a bit stronger here by using the notion of
@@ -147,7 +147,7 @@ public abstract class ReferenceType extends Type {
      * AASTORE definition there.
      *
      * @throws ClassNotFoundException if any classes or interfaces required to determine assignment compatibility can't be
-     *         found
+     *                                found
      */
     public boolean isAssignmentCompatibleWith(final Type t) throws ClassNotFoundException {
         if (!(t instanceof ReferenceType)) {
@@ -165,14 +165,14 @@ public abstract class ReferenceType extends Type {
              * If T is a class type, then this must be the same class as T, or this must be a subclass of T;
              */
             if (T instanceof ObjectType && ((ObjectType) T).referencesClassExact()
-                && (this.equals(T) || Repository.instanceOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName()))) {
+                    && (this.equals(T) || Repository.instanceOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName()))) {
                 return true;
             }
             /*
              * If T is an interface type, this must implement interface T.
              */
             if (T instanceof ObjectType && ((ObjectType) T).referencesInterfaceExact()
-                && Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
+                    && Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName())) {
                 return true;
             }
         }
@@ -190,7 +190,7 @@ public abstract class ReferenceType extends Type {
              * If T is an interface type, then T must be the same interface as this or a superinterface of this (�2.13.2).
              */
             if (T instanceof ObjectType && ((ObjectType) T).referencesInterfaceExact()
-                && (this.equals(T) || Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName()))) {
+                    && (this.equals(T) || Repository.implementationOf(((ObjectType) this).getClassName(), ((ObjectType) T).getClassName()))) {
                 return true;
             }
         }
@@ -246,7 +246,7 @@ public abstract class ReferenceType extends Type {
      * doesn't throw a ClassCastException when casting a null reference to any Object, true is returned in this case.
      *
      * @throws ClassNotFoundException if any classes or interfaces required to determine assignment compatibility can't be
-     *         found
+     *                                found
      */
     public boolean isCastableTo(final Type t) throws ClassNotFoundException {
         if (this.equals(Type.NULL)) {

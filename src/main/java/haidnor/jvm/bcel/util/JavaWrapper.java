@@ -43,6 +43,16 @@ import java.lang.reflect.Modifier;
  */
 public class JavaWrapper {
 
+    private final java.lang.ClassLoader loader;
+
+    public JavaWrapper() {
+        this(getClassLoader());
+    }
+
+    public JavaWrapper(final java.lang.ClassLoader loader) {
+        this.loader = loader;
+    }
+
     private static java.lang.ClassLoader getClassLoader() {
         final String s = System.getProperty("bcel.classloader");
         if (StringUtils.isEmpty(s)) {
@@ -72,21 +82,11 @@ public class JavaWrapper {
         new JavaWrapper().runMain(className, newArgv);
     }
 
-    private final java.lang.ClassLoader loader;
-
-    public JavaWrapper() {
-        this(getClassLoader());
-    }
-
-    public JavaWrapper(final java.lang.ClassLoader loader) {
-        this.loader = loader;
-    }
-
     /**
      * Runs the main method of the given class with the arguments passed in argv
      *
      * @param className the fully qualified class name
-     * @param argv the arguments just as you would pass them directly
+     * @param argv      the arguments just as you would pass them directly
      * @throws ClassNotFoundException if {@code className} can't be found.
      */
     public void runMain(final String className, final String[] argv) throws ClassNotFoundException {

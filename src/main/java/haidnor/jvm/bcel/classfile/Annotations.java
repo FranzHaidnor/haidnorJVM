@@ -31,8 +31,8 @@ import java.util.stream.Stream;
  */
 public abstract class Annotations extends Attribute implements Iterable<AnnotationEntry> {
 
-    private AnnotationEntry[] annotationTable;
     private final boolean isRuntimeVisible;
+    private AnnotationEntry[] annotationTable;
 
     /**
      * Constructs an instance.
@@ -45,7 +45,7 @@ public abstract class Annotations extends Attribute implements Iterable<Annotati
      * @param isRuntimeVisible whether this Annotation visible at runtime
      */
     public Annotations(final byte annotationType, final int nameIndex, final int length, final AnnotationEntry[] annotationTable,
-            final ConstantPool constantPool, final boolean isRuntimeVisible) {
+                       final ConstantPool constantPool, final boolean isRuntimeVisible) {
         super(annotationType, nameIndex, length, constantPool);
         this.annotationTable = annotationTable;
         this.isRuntimeVisible = isRuntimeVisible;
@@ -63,7 +63,7 @@ public abstract class Annotations extends Attribute implements Iterable<Annotati
      * @throws IOException if an I/O error occurs.
      */
     Annotations(final byte annotationType, final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool,
-            final boolean isRuntimeVisible) throws IOException {
+                final boolean isRuntimeVisible) throws IOException {
         this(annotationType, nameIndex, length, (AnnotationEntry[]) null, constantPool, isRuntimeVisible);
         final int annotationTableLength = input.readUnsignedShort();
         annotationTable = new AnnotationEntry[annotationTableLength];

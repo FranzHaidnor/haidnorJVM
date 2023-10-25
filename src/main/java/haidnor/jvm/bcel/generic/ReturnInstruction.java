@@ -39,26 +39,26 @@ public abstract class ReturnInstruction extends Instruction implements Exception
 
     @Override
     public Class<?>[] getExceptions() {
-        return new Class[] {ExceptionConst.ILLEGAL_MONITOR_STATE};
+        return new Class[]{ExceptionConst.ILLEGAL_MONITOR_STATE};
     }
 
     public Type getType() {
         final short opcode = super.getOpcode();
         switch (opcode) {
-        case Const.IRETURN:
-            return Type.INT;
-        case Const.LRETURN:
-            return Type.LONG;
-        case Const.FRETURN:
-            return Type.FLOAT;
-        case Const.DRETURN:
-            return Type.DOUBLE;
-        case Const.ARETURN:
-            return Type.OBJECT;
-        case Const.RETURN:
-            return Type.VOID;
-        default: // Never reached
-            throw new ClassGenException("Unknown type " + opcode);
+            case Const.IRETURN:
+                return Type.INT;
+            case Const.LRETURN:
+                return Type.LONG;
+            case Const.FRETURN:
+                return Type.FLOAT;
+            case Const.DRETURN:
+                return Type.DOUBLE;
+            case Const.ARETURN:
+                return Type.OBJECT;
+            case Const.RETURN:
+                return Type.VOID;
+            default: // Never reached
+                throw new ClassGenException("Unknown type " + opcode);
         }
     }
 

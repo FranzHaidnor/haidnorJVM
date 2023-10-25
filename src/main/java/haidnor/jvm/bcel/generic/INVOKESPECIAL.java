@@ -31,7 +31,7 @@ import java.io.IOException;
  * </PRE>
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokespecial"> The
- *      invokespecial instruction in The Java Virtual Machine Specification</a>
+ * invokespecial instruction in The Java Virtual Machine Specification</a>
  */
 public class INVOKESPECIAL extends InvokeInstruction {
 
@@ -78,6 +78,6 @@ public class INVOKESPECIAL extends InvokeInstruction {
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION, ExceptionConst.NULL_POINTER_EXCEPTION,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.UNSATISFIED_LINK_ERROR);
+                ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR, ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.UNSATISFIED_LINK_ERROR);
     }
 }

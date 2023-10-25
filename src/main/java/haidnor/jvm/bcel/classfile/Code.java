@@ -29,7 +29,7 @@ import java.util.Arrays;
  * This class represents a chunk of Java byte code contained in a method. It is instantiated by the
  * <em>Attribute.readAttribute()</em> method. A <em>Code</em> attribute contains informations about operand stack, local
  * variables, byte code and the exceptions handled within this method.
- *
+ * <p>
  * This attribute has attributes itself, namely <em>LineNumberTable</em> which is used for debugging purposes and
  * <em>LocalVariableTable</em> which contains information about the local variables.
  *
@@ -52,6 +52,7 @@ import java.util.Arrays;
  *   attribute_info attributes[attributes_count];
  * }
  * </pre>
+ *
  * @see Attribute
  * @see CodeException
  * @see LineNumberTable
@@ -77,9 +78,9 @@ public final class Code extends Attribute {
     }
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param file Input stream
+     * @param nameIndex    Index pointing to the name <em>Code</em>
+     * @param length       Content length in bytes
+     * @param file         Input stream
      * @param constantPool Array of constants
      */
     Code(final int nameIndex, final int length, final DataInput file, final ConstantPool constantPool) throws IOException {
@@ -113,17 +114,17 @@ public final class Code extends Attribute {
     }
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param maxStack Maximum size of stack
-     * @param maxLocals Number of local variables
-     * @param code Actual byte code
+     * @param nameIndex      Index pointing to the name <em>Code</em>
+     * @param length         Content length in bytes
+     * @param maxStack       Maximum size of stack
+     * @param maxLocals      Number of local variables
+     * @param code           Actual byte code
      * @param exceptionTable of handled exceptions
-     * @param attributes Attributes of code: LineNumber or LocalVariable
-     * @param constantPool Array of constants
+     * @param attributes     Attributes of code: LineNumber or LocalVariable
+     * @param constantPool   Array of constants
      */
     public Code(final int nameIndex, final int length, final int maxStack, final int maxLocals, final byte[] code, final CodeException[] exceptionTable,
-        final Attribute[] attributes, final ConstantPool constantPool) {
+                final Attribute[] attributes, final ConstantPool constantPool) {
         super(Const.ATTR_CODE, nameIndex, length, constantPool);
         this.maxStack = Args.requireU2(maxStack, "maxStack");
         this.maxLocals = Args.requireU2(maxLocals, "maxLocals");
@@ -147,7 +148,7 @@ public final class Code extends Attribute {
 
     /**
      * @return the full size of this code attribute, minus its first 6 bytes, including the size of all its contained
-     *         attributes
+     * attributes
      */
     private int calculateLength() {
         int len = 0;
@@ -160,9 +161,8 @@ public final class Code extends Attribute {
     }
 
     /**
-     * @return deep copy of this attribute
-     *
      * @param constantPool the constant pool to duplicate
+     * @return deep copy of this attribute
      */
     @Override
     public Attribute copy(final ConstantPool constantPool) {
@@ -210,10 +210,26 @@ public final class Code extends Attribute {
     }
 
     /**
+     * @param attributes the attributes to set for this Code
+     */
+    public void setAttributes(final Attribute[] attributes) {
+        this.attributes = attributes != null ? attributes : EMPTY_ARRAY;
+        super.setLength(calculateLength()); // Adjust length
+    }
+
+    /**
      * @return Actual byte code of the method.
      */
     public byte[] getCode() {
         return code;
+    }
+
+    /**
+     * @param code byte code
+     */
+    public void setCode(final byte[] code) {
+        this.code = code != null ? code : ArrayUtils.EMPTY_BYTE_ARRAY;
+        super.setLength(calculateLength()); // Adjust length
     }
 
     /**
@@ -225,14 +241,22 @@ public final class Code extends Attribute {
     }
 
     /**
+     * @param exceptionTable exception table
+     */
+    public void setExceptionTable(final CodeException[] exceptionTable) {
+        this.exceptionTable = exceptionTable != null ? exceptionTable : CodeException.EMPTY_CODE_EXCEPTION_ARRAY;
+        super.setLength(calculateLength()); // Adjust length
+    }
+
+    /**
      * @return the internal length of this code attribute (minus the first 6 bytes) and excluding all its attributes
      */
     private int getInternalLength() {
         return 2 /* maxStack */ + 2 /* maxLocals */ + 4 /* code length */
-            + code.length /* byte-code */
-            + 2 /* exception-table length */
-            + 8 * (exceptionTable == null ? 0 : exceptionTable.length) /* exception table */
-            + 2 /* attributes count */;
+                + code.length /* byte-code */
+                + 2 /* exception-table length */
+                + 8 * (exceptionTable == null ? 0 : exceptionTable.length) /* exception table */
+                + 2 /* attributes count */;
     }
 
     /**
@@ -267,41 +291,17 @@ public final class Code extends Attribute {
     }
 
     /**
-     * @return Maximum size of stack used by this method.
-     */
-    public int getMaxStack() {
-        return maxStack;
-    }
-
-    /**
-     * @param attributes the attributes to set for this Code
-     */
-    public void setAttributes(final Attribute[] attributes) {
-        this.attributes = attributes != null ? attributes : EMPTY_ARRAY;
-        super.setLength(calculateLength()); // Adjust length
-    }
-
-    /**
-     * @param code byte code
-     */
-    public void setCode(final byte[] code) {
-        this.code = code != null ? code : ArrayUtils.EMPTY_BYTE_ARRAY;
-        super.setLength(calculateLength()); // Adjust length
-    }
-
-    /**
-     * @param exceptionTable exception table
-     */
-    public void setExceptionTable(final CodeException[] exceptionTable) {
-        this.exceptionTable = exceptionTable != null ? exceptionTable : CodeException.EMPTY_CODE_EXCEPTION_ARRAY;
-        super.setLength(calculateLength()); // Adjust length
-    }
-
-    /**
      * @param maxLocals maximum number of local variables
      */
     public void setMaxLocals(final int maxLocals) {
         this.maxLocals = maxLocals;
+    }
+
+    /**
+     * @return Maximum size of stack used by this method.
+     */
+    public int getMaxStack() {
+        return maxStack;
     }
 
     /**
@@ -328,7 +328,7 @@ public final class Code extends Attribute {
     public String toString(final boolean verbose) {
         final StringBuilder buf = new StringBuilder(100); // CHECKSTYLE IGNORE MagicNumber
         buf.append("Code(maxStack = ").append(maxStack).append(", maxLocals = ").append(maxLocals).append(", code_length = ").append(code.length).append(")\n")
-            .append(Utility.codeToString(code, super.getConstantPool(), 0, -1, verbose));
+                .append(Utility.codeToString(code, super.getConstantPool(), 0, -1, verbose));
         if (exceptionTable.length > 0) {
             buf.append("\nException handler(s) = \n").append("From\tTo\tHandler\tType\n");
             for (final CodeException exception : exceptionTable) {

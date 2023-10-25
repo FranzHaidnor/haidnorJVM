@@ -53,7 +53,7 @@ public final class ConstantNameAndType extends Constant {
     }
 
     /**
-     * @param nameIndex Name of field/method
+     * @param nameIndex      Name of field/method
      * @param signatureIndex and its signature
      */
     public ConstantNameAndType(final int nameIndex, final int signatureIndex) {
@@ -101,6 +101,13 @@ public final class ConstantNameAndType extends Constant {
     }
 
     /**
+     * @param nameIndex the name index of this constant
+     */
+    public void setNameIndex(final int nameIndex) {
+        this.nameIndex = nameIndex;
+    }
+
+    /**
      * @return signature
      */
     public String getSignature(final ConstantPool cp) {
@@ -112,13 +119,6 @@ public final class ConstantNameAndType extends Constant {
      */
     public int getSignatureIndex() {
         return signatureIndex;
-    }
-
-    /**
-     * @param nameIndex the name index of this constant
-     */
-    public void setNameIndex(final int nameIndex) {
-        this.nameIndex = nameIndex;
     }
 
     /**

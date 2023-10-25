@@ -55,9 +55,9 @@ public final class InnerClass implements Cloneable, Node {
     }
 
     /**
-     * @param innerClassIndex Class index in constant pool of inner class
-     * @param outerClassIndex Class index in constant pool of outer class
-     * @param innerNameIndex Name index in constant pool of inner class
+     * @param innerClassIndex  Class index in constant pool of inner class
+     * @param outerClassIndex  Class index in constant pool of outer class
+     * @param innerNameIndex   Name index in constant pool of inner class
      * @param innerAccessFlags Access flags of inner class
      */
     public InnerClass(final int innerClassIndex, final int outerClassIndex, final int innerNameIndex, final int innerAccessFlags) {
@@ -111,31 +111,17 @@ public final class InnerClass implements Cloneable, Node {
     }
 
     /**
-     * @return class index of inner class.
-     */
-    public int getInnerClassIndex() {
-        return innerClassIndex;
-    }
-
-    /**
-     * @return name index of inner class.
-     */
-    public int getInnerNameIndex() {
-        return innerNameIndex;
-    }
-
-    /**
-     * @return class index of outer class.
-     */
-    public int getOuterClassIndex() {
-        return outerClassIndex;
-    }
-
-    /**
      * @param innerAccessFlags access flags for this inner class
      */
     public void setInnerAccessFlags(final int innerAccessFlags) {
         this.innerAccessFlags = innerAccessFlags;
+    }
+
+    /**
+     * @return class index of inner class.
+     */
+    public int getInnerClassIndex() {
+        return innerClassIndex;
     }
 
     /**
@@ -146,10 +132,24 @@ public final class InnerClass implements Cloneable, Node {
     }
 
     /**
+     * @return name index of inner class.
+     */
+    public int getInnerNameIndex() {
+        return innerNameIndex;
+    }
+
+    /**
      * @param innerNameIndex index into the constant pool for this class's name
      */
     public void setInnerNameIndex(final int innerNameIndex) { // TODO unused
         this.innerNameIndex = innerNameIndex;
+    }
+
+    /**
+     * @return class index of outer class.
+     */
+    public int getOuterClassIndex() {
+        return outerClassIndex;
     }
 
     /**

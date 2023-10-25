@@ -41,9 +41,9 @@ public final class LineNumberTable extends Attribute implements Iterable<LineNum
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index of name
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index of name
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O Exception occurs in readUnsignedShort
      */
@@ -127,6 +127,13 @@ public final class LineNumberTable extends Attribute implements Iterable<LineNum
     }
 
     /**
+     * @param lineNumberTable the line number entries for this table
+     */
+    public void setLineNumberTable(final LineNumber[] lineNumberTable) {
+        this.lineNumberTable = lineNumberTable;
+    }
+
+    /**
      * Map byte code positions to source code lines.
      *
      * @param pos byte code offset
@@ -179,13 +186,6 @@ public final class LineNumberTable extends Attribute implements Iterable<LineNum
     @Override
     public Iterator<LineNumber> iterator() {
         return Stream.of(lineNumberTable).iterator();
-    }
-
-    /**
-     * @param lineNumberTable the line number entries for this table
-     */
-    public void setLineNumberTable(final LineNumber[] lineNumberTable) {
-        this.lineNumberTable = lineNumberTable;
     }
 
     /**

@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @see Constant
  * @see <a href="https://bugs.openjdk.java.net/secure/attachment/74618/constant-dynamic.html"> Change request for JEP
- *      309</a>
+ * 309</a>
  * @since 6.3
  */
 public final class ConstantDynamic extends ConstantCP {
@@ -68,8 +68,8 @@ public final class ConstantDynamic extends ConstantCP {
 
     /**
      * @return Reference (index) to bootstrap method this constant refers to.
-     *
-     *         Note that this method is a functional duplicate of getClassIndex for use by ConstantInvokeDynamic.
+     * <p>
+     * Note that this method is a functional duplicate of getClassIndex for use by ConstantInvokeDynamic.
      * @since 6.0
      */
     public int getBootstrapMethodAttrIndex() {

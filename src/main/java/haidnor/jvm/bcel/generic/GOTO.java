@@ -73,7 +73,7 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
      * Called in pass 2 of InstructionList.setPositions() in order to update the branch target, that may shift due to
      * variable length instructions.
      *
-     * @param offset additional offset caused by preceding (variable length) instructions
+     * @param offset    additional offset caused by preceding (variable length) instructions
      * @param maxOffset the maximum offset that may be caused by these instructions
      * @return additional offset caused by possible change of this instruction's length
      */

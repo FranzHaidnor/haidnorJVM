@@ -28,11 +28,43 @@ import java.util.List;
 public class AnnotationEntryGen {
 
     static final AnnotationEntryGen[] EMPTY_ARRAY = {};
+    private final ConstantPoolGen cpool;
+    private int typeIndex;
+    private List<ElementValuePairGen> evs;
+    private boolean isRuntimeVisible;
+
+    /**
+     * Here we are taking a fixed annotation of type Annotation and building a modifiable AnnotationGen object. If the pool
+     * passed in is for a different class file, then copyPoolEntries should have been passed as true as that will force us
+     * to do a deep copy of the annotation and move the cpool entries across. We need to copy the type and the element name
+     * value pairs and the visibility.
+     */
+    public AnnotationEntryGen(final AnnotationEntry a, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
+        this.cpool = cpool;
+        if (copyPoolEntries) {
+            typeIndex = cpool.addUtf8(a.getAnnotationType());
+        } else {
+            typeIndex = a.getAnnotationTypeIndex();
+        }
+        isRuntimeVisible = a.isRuntimeVisible();
+        evs = copyValues(a.getElementValuePairs(), cpool, copyPoolEntries);
+    }
+
+    private AnnotationEntryGen(final ConstantPoolGen cpool) {
+        this.cpool = cpool;
+    }
+
+    public AnnotationEntryGen(final ObjectType type, final List<ElementValuePairGen> elements, final boolean vis, final ConstantPoolGen cpool) {
+        this.cpool = cpool;
+        this.typeIndex = cpool.addUtf8(type.getSignature());
+        evs = elements;
+        isRuntimeVisible = vis;
+    }
 
     /**
      * Converts a list of AnnotationGen objects into a set of attributes that can be attached to the class file.
      *
-     * @param cp The constant pool gen where we can create the necessary name refs
+     * @param cp                  The constant pool gen where we can create the necessary name refs
      * @param annotationEntryGens An array of AnnotationGen objects
      */
     static Attribute[] getAnnotationAttributes(final ConstantPoolGen cp, final AnnotationEntryGen[] annotationEntryGens) {
@@ -86,11 +118,11 @@ public class AnnotationEntryGen {
             final List<Attribute> newAttributes = new ArrayList<>();
             if (rvaData.length > 2) {
                 newAttributes
-                    .add(new RuntimeVisibleAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
+                        .add(new RuntimeVisibleAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
             }
             if (riaData.length > 2) {
                 newAttributes.add(
-                    new RuntimeInvisibleAnnotations(riaIndex, riaData.length, new DataInputStream(new ByteArrayInputStream(riaData)), cp.getConstantPool()));
+                        new RuntimeInvisibleAnnotations(riaIndex, riaData.length, new DataInputStream(new ByteArrayInputStream(riaData)), cp.getConstantPool()));
             }
 
             return newAttributes.toArray(Attribute.EMPTY_ARRAY);
@@ -106,7 +138,7 @@ public class AnnotationEntryGen {
      * RuntimeInvisibleParameterAnnotations
      */
     static Attribute[] getParameterAnnotationAttributes(final ConstantPoolGen cp,
-        final List<AnnotationEntryGen>[] /* Array of lists, array size depends on #params */ vec) {
+                                                        final List<AnnotationEntryGen>[] /* Array of lists, array size depends on #params */ vec) {
         final int[] visCount = new int[vec.length];
         int totalVisCount = 0;
         final int[] invisCount = new int[vec.length];
@@ -168,11 +200,11 @@ public class AnnotationEntryGen {
             final List<Attribute> newAttributes = new ArrayList<>();
             if (totalVisCount > 0) {
                 newAttributes.add(new RuntimeVisibleParameterAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)),
-                    cp.getConstantPool()));
+                        cp.getConstantPool()));
             }
             if (totalInvisCount > 0) {
                 newAttributes.add(new RuntimeInvisibleParameterAnnotations(riaIndex, riaData.length, new DataInputStream(new ByteArrayInputStream(riaData)),
-                    cp.getConstantPool()));
+                        cp.getConstantPool()));
             }
             return newAttributes.toArray(Attribute.EMPTY_ARRAY);
         } catch (final IOException e) {
@@ -192,42 +224,6 @@ public class AnnotationEntryGen {
         }
         a.isRuntimeVisible(b);
         return a;
-    }
-
-    private int typeIndex;
-
-    private List<ElementValuePairGen> evs;
-
-    private final ConstantPoolGen cpool;
-
-    private boolean isRuntimeVisible;
-
-    /**
-     * Here we are taking a fixed annotation of type Annotation and building a modifiable AnnotationGen object. If the pool
-     * passed in is for a different class file, then copyPoolEntries should have been passed as true as that will force us
-     * to do a deep copy of the annotation and move the cpool entries across. We need to copy the type and the element name
-     * value pairs and the visibility.
-     */
-    public AnnotationEntryGen(final AnnotationEntry a, final ConstantPoolGen cpool, final boolean copyPoolEntries) {
-        this.cpool = cpool;
-        if (copyPoolEntries) {
-            typeIndex = cpool.addUtf8(a.getAnnotationType());
-        } else {
-            typeIndex = a.getAnnotationTypeIndex();
-        }
-        isRuntimeVisible = a.isRuntimeVisible();
-        evs = copyValues(a.getElementValuePairs(), cpool, copyPoolEntries);
-    }
-
-    private AnnotationEntryGen(final ConstantPoolGen cpool) {
-        this.cpool = cpool;
-    }
-
-    public AnnotationEntryGen(final ObjectType type, final List<ElementValuePairGen> elements, final boolean vis, final ConstantPoolGen cpool) {
-        this.cpool = cpool;
-        this.typeIndex = cpool.addUtf8(type.getSignature());
-        evs = elements;
-        isRuntimeVisible = vis;
     }
 
     public void addElementNameValuePair(final ElementValuePairGen evp) {

@@ -98,7 +98,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     @Override
     public Class<?>[] getExceptions() {
         return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION, ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
+                ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
     }
 
     @Override

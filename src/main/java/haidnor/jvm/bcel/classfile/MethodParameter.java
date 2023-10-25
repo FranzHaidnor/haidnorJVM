@@ -27,15 +27,19 @@ import java.io.IOException;
  * Entry of the parameters table.
  *
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24"> The class File Format :
- *      The MethodParameters Attribute</a>
+ * The MethodParameters Attribute</a>
  * @since 6.0
  */
 public class MethodParameter implements Cloneable, Node {
 
-    /** Index of the CONSTANT_Utf8_info structure in the constant_pool table representing the name of the parameter */
+    /**
+     * Index of the CONSTANT_Utf8_info structure in the constant_pool table representing the name of the parameter
+     */
     private int nameIndex;
 
-    /** The access flags */
+    /**
+     * The access flags
+     */
     private int accessFlags;
 
     public MethodParameter() {
@@ -45,7 +49,7 @@ public class MethodParameter implements Cloneable, Node {
      * Construct object from input stream.
      *
      * @param input Input stream
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws ClassFormatException if a class is malformed or cannot be interpreted as a class file
      */
     MethodParameter(final DataInput input) throws IOException {
@@ -85,8 +89,16 @@ public class MethodParameter implements Cloneable, Node {
         return accessFlags;
     }
 
+    public void setAccessFlags(final int accessFlags) {
+        this.accessFlags = accessFlags;
+    }
+
     public int getNameIndex() {
         return nameIndex;
+    }
+
+    public void setNameIndex(final int nameIndex) {
+        this.nameIndex = nameIndex;
     }
 
     /**
@@ -109,13 +121,5 @@ public class MethodParameter implements Cloneable, Node {
 
     public boolean isSynthetic() {
         return (accessFlags & Const.ACC_SYNTHETIC) != 0;
-    }
-
-    public void setAccessFlags(final int accessFlags) {
-        this.accessFlags = accessFlags;
-    }
-
-    public void setNameIndex(final int nameIndex) {
-        this.nameIndex = nameIndex;
     }
 }

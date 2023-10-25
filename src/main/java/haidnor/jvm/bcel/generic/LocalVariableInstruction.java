@@ -53,8 +53,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     /**
      * @param opcode Instruction opcode
-     * @param cTag Instruction number for compact version, ALOAD_0, e.g.
-     * @param n local variable index (unsigned short)
+     * @param cTag   Instruction number for compact version, ALOAD_0, e.g.
+     * @param n      local variable index (unsigned short)
      */
     protected LocalVariableInstruction(final short opcode, final short cTag, final int n) {
         super(opcode, (short) 2);
@@ -99,6 +99,31 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     }
 
     /**
+     * Set the local variable index. also updates opcode and length TODO Why?
+     *
+     * @see #setIndexOnly(int)
+     */
+    @Override
+    public void setIndex(final int n) { // TODO could be package-protected?
+        if (n < 0 || n > Const.MAX_SHORT) {
+            throw new ClassGenException("Illegal value: " + n);
+        }
+        this.n = n;
+        // Cannot be < 0 as this is checked above
+        if (n <= 3) { // Use more compact instruction xLOAD_n
+            super.setOpcode((short) (cTag + n));
+            super.setLength(1);
+        } else {
+            super.setOpcode(canonTag);
+            if (wide()) {
+                super.setLength(4);
+            } else {
+                super.setLength(2);
+            }
+        }
+    }
+
+    /**
      * Returns the type associated with the instruction - in case of ALOAD or ASTORE Type.OBJECT is returned. This is just a
      * bit incorrect, because ALOAD and ASTORE may work on every ReferenceType (including Type.NULL) and ASTORE may even
      * work on a ReturnaddressType .
@@ -108,23 +133,23 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public Type getType(final ConstantPoolGen cp) {
         switch (canonTag) {
-        case Const.ILOAD:
-        case Const.ISTORE:
-            return Type.INT;
-        case Const.LLOAD:
-        case Const.LSTORE:
-            return Type.LONG;
-        case Const.DLOAD:
-        case Const.DSTORE:
-            return Type.DOUBLE;
-        case Const.FLOAD:
-        case Const.FSTORE:
-            return Type.FLOAT;
-        case Const.ALOAD:
-        case Const.ASTORE:
-            return Type.OBJECT;
-        default:
-            throw new ClassGenException("Unknown case in switch" + canonTag);
+            case Const.ILOAD:
+            case Const.ISTORE:
+                return Type.INT;
+            case Const.LLOAD:
+            case Const.LSTORE:
+                return Type.LONG;
+            case Const.DLOAD:
+            case Const.DSTORE:
+                return Type.DOUBLE;
+            case Const.FLOAD:
+            case Const.FSTORE:
+                return Type.FLOAT;
+            case Const.ALOAD:
+            case Const.ASTORE:
+                return Type.OBJECT;
+            default:
+                throw new ClassGenException("Unknown case in switch" + canonTag);
         }
     }
 
@@ -157,35 +182,10 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     }
 
     /**
-     * Set the local variable index. also updates opcode and length TODO Why?
-     *
-     * @see #setIndexOnly(int)
-     */
-    @Override
-    public void setIndex(final int n) { // TODO could be package-protected?
-        if (n < 0 || n > Const.MAX_SHORT) {
-            throw new ClassGenException("Illegal value: " + n);
-        }
-        this.n = n;
-        // Cannot be < 0 as this is checked above
-        if (n <= 3) { // Use more compact instruction xLOAD_n
-            super.setOpcode((short) (cTag + n));
-            super.setLength(1);
-        } else {
-            super.setOpcode(canonTag);
-            if (wide()) {
-                super.setLength(4);
-            } else {
-                super.setLength(2);
-            }
-        }
-    }
-
-    /**
      * Sets the index of the referenced variable (n) only
      *
-     * @since 6.0
      * @see #setIndex(int)
+     * @since 6.0
      */
     final void setIndexOnly(final int n) {
         this.n = n;
@@ -193,7 +193,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
     /**
      * Long output format:
-     *
+     * <p>
      * &lt;name of opcode&gt; "["&lt;opcode number&gt;"]" "("&lt;length of instruction&gt;")" "&lt;"&lt; local variable
      * index&gt;"&gt;"
      *

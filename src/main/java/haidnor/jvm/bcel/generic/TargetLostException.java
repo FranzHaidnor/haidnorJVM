@@ -27,16 +27,16 @@ package haidnor.jvm.bcel.generic;
  * </p>
  *
  * <PRE>
- *     ...
- *     try {
- *         il.delete(start_ih, end_ih);
- *     } catch(TargetLostException e) {
- *         for (InstructionHandle target : e.getTargets()) {
- *             for (InstructionTargeter targeter : target.getTargeters()) {
- *                 targeter.updateTarget(target, new_target);
- *             }
- *         }
- *     }
+ * ...
+ * try {
+ * il.delete(start_ih, end_ih);
+ * } catch(TargetLostException e) {
+ * for (InstructionHandle target : e.getTargets()) {
+ * for (InstructionTargeter targeter : target.getTargeters()) {
+ * targeter.updateTarget(target, new_target);
+ * }
+ * }
+ * }
  * </PRE>
  *
  * @see InstructionHandle

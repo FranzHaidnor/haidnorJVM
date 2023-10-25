@@ -35,9 +35,9 @@ public final class PMGClass extends Attribute {
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
@@ -46,11 +46,11 @@ public final class PMGClass extends Attribute {
     }
 
     /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param pmgIndex index in constant pool for source file name
+     * @param nameIndex     Index in constant pool to CONSTANT_Utf8
+     * @param length        Content length in bytes
+     * @param pmgIndex      index in constant pool for source file name
      * @param pmgClassIndex Index in constant pool to CONSTANT_Utf8
-     * @param constantPool Array of constants
+     * @param constantPool  Array of constants
      */
     public PMGClass(final int nameIndex, final int length, final int pmgIndex, final int pmgClassIndex, final ConstantPool constantPool) {
         super(Const.ATTR_PMG, nameIndex, length, constantPool);
@@ -108,6 +108,13 @@ public final class PMGClass extends Attribute {
     }
 
     /**
+     * @param pmgClassIndex
+     */
+    public void setPMGClassIndex(final int pmgClassIndex) {
+        this.pmgClassIndex = pmgClassIndex;
+    }
+
+    /**
      * @return PMG class name.
      */
     public String getPMGClassName() {
@@ -122,24 +129,17 @@ public final class PMGClass extends Attribute {
     }
 
     /**
-     * @return PMG name.
-     */
-    public String getPMGName() {
-        return super.getConstantPool().getConstantUtf8(pmgIndex).getBytes();
-    }
-
-    /**
-     * @param pmgClassIndex
-     */
-    public void setPMGClassIndex(final int pmgClassIndex) {
-        this.pmgClassIndex = pmgClassIndex;
-    }
-
-    /**
      * @param pmgIndex
      */
     public void setPMGIndex(final int pmgIndex) {
         this.pmgIndex = pmgIndex;
+    }
+
+    /**
+     * @return PMG name.
+     */
+    public String getPMGName() {
+        return super.getConstantPool().getConstantUtf8(pmgIndex).getBytes();
     }
 
     /**

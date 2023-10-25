@@ -31,19 +31,6 @@ import java.util.List;
 public class ParameterAnnotationEntry implements Node {
 
     static final ParameterAnnotationEntry[] EMPTY_ARRAY = {};
-
-    public static ParameterAnnotationEntry[] createParameterAnnotationEntries(final Attribute[] attrs) {
-        // Find attributes that contain parameter annotation data
-        final List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
-        for (final Attribute attribute : attrs) {
-            if (attribute instanceof ParameterAnnotations) {
-                final ParameterAnnotations runtimeAnnotations = (ParameterAnnotations) attribute;
-                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
-            }
-        }
-        return accumulatedAnnotations.toArray(ParameterAnnotationEntry.EMPTY_ARRAY);
-    }
-
     private final AnnotationEntry[] annotationTable;
 
     /**
@@ -59,6 +46,18 @@ public class ParameterAnnotationEntry implements Node {
             // TODO isRuntimeVisible
             annotationTable[i] = AnnotationEntry.read(input, constantPool, false);
         }
+    }
+
+    public static ParameterAnnotationEntry[] createParameterAnnotationEntries(final Attribute[] attrs) {
+        // Find attributes that contain parameter annotation data
+        final List<ParameterAnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
+        for (final Attribute attribute : attrs) {
+            if (attribute instanceof ParameterAnnotations) {
+                final ParameterAnnotations runtimeAnnotations = (ParameterAnnotations) attribute;
+                Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getParameterAnnotationEntries());
+            }
+        }
+        return accumulatedAnnotations.toArray(ParameterAnnotationEntry.EMPTY_ARRAY);
     }
 
     /**

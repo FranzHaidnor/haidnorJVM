@@ -29,18 +29,20 @@ import java.util.stream.Stream;
  */
 public abstract class ParameterAnnotations extends Attribute implements Iterable<ParameterAnnotationEntry> {
 
-    /** Table of parameter annotations */
+    /**
+     * Table of parameter annotations
+     */
     private ParameterAnnotationEntry[] parameterAnnotationTable;
 
     /**
      * @param parameterAnnotationType the subclass type of the parameter annotation
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param input Input stream
-     * @param constantPool Array of constants
+     * @param nameIndex               Index pointing to the name <em>Code</em>
+     * @param length                  Content length in bytes
+     * @param input                   Input stream
+     * @param constantPool            Array of constants
      */
     ParameterAnnotations(final byte parameterAnnotationType, final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool)
-        throws IOException {
+            throws IOException {
         this(parameterAnnotationType, nameIndex, length, (ParameterAnnotationEntry[]) null, constantPool);
         final int numParameters = input.readUnsignedByte();
         parameterAnnotationTable = new ParameterAnnotationEntry[numParameters];
@@ -50,14 +52,14 @@ public abstract class ParameterAnnotations extends Attribute implements Iterable
     }
 
     /**
-     * @param parameterAnnotationType the subclass type of the parameter annotation
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
+     * @param parameterAnnotationType  the subclass type of the parameter annotation
+     * @param nameIndex                Index pointing to the name <em>Code</em>
+     * @param length                   Content length in bytes
      * @param parameterAnnotationTable the actual parameter annotations
-     * @param constantPool Array of constants
+     * @param constantPool             Array of constants
      */
     public ParameterAnnotations(final byte parameterAnnotationType, final int nameIndex, final int length,
-        final ParameterAnnotationEntry[] parameterAnnotationTable, final ConstantPool constantPool) {
+                                final ParameterAnnotationEntry[] parameterAnnotationTable, final ConstantPool constantPool) {
         super(parameterAnnotationType, nameIndex, length, constantPool);
         this.parameterAnnotationTable = parameterAnnotationTable;
     }
@@ -106,15 +108,15 @@ public abstract class ParameterAnnotations extends Attribute implements Iterable
         return parameterAnnotationTable;
     }
 
-    @Override
-    public Iterator<ParameterAnnotationEntry> iterator() {
-        return Stream.of(parameterAnnotationTable).iterator();
-    }
-
     /**
      * @param parameterAnnotationTable the entries to set in this parameter annotation
      */
     public final void setParameterAnnotationTable(final ParameterAnnotationEntry[] parameterAnnotationTable) {
         this.parameterAnnotationTable = parameterAnnotationTable;
+    }
+
+    @Override
+    public Iterator<ParameterAnnotationEntry> iterator() {
+        return Stream.of(parameterAnnotationTable).iterator();
     }
 }

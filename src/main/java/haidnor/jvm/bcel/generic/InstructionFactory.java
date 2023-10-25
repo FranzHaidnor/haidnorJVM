@@ -30,28 +30,10 @@ import haidnor.jvm.bcel.Const;
  */
 public class InstructionFactory {
 
-    private static class MethodObject {
-
-        final Type[] argTypes;
-        final Type resultType;
-        final String className;
-        final String name;
-
-        MethodObject(final String c, final String n, final Type r, final Type[] a) {
-            this.className = c;
-            this.name = n;
-            this.resultType = r;
-            this.argTypes = a;
-        }
-    }
-
     private static final String APPEND = "append";
-
     private static final String FQCN_STRING_BUFFER = "java.lang.StringBuffer";
-
     // N.N. These must agree with the order of Constants.T_CHAR through T_LONG
     private static final String[] shortNames = {"C", "F", "D", "B", "S", "I", "L"};
-
     private static final MethodObject[] appendMethodObjects = {
             new MethodObject(FQCN_STRING_BUFFER, APPEND, Type.STRINGBUFFER, new Type[]{Type.STRING}),
             new MethodObject(FQCN_STRING_BUFFER, APPEND, Type.STRINGBUFFER, new Type[]{Type.OBJECT}), null, null, // indices 2, 3
@@ -63,6 +45,35 @@ public class InstructionFactory {
             new MethodObject(FQCN_STRING_BUFFER, APPEND, Type.STRINGBUFFER, new Type[]{Type.INT}), // No append(byte)
             new MethodObject(FQCN_STRING_BUFFER, APPEND, Type.STRINGBUFFER, new Type[]{Type.INT}), // No append(short)
             new MethodObject(FQCN_STRING_BUFFER, APPEND, Type.STRINGBUFFER, new Type[]{Type.LONG})};
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @Deprecated
+    protected ClassGen cg;
+    /**
+     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     */
+    @Deprecated
+    protected ConstantPoolGen cp;
+
+    /**
+     * Initialize with ClassGen object
+     */
+    public InstructionFactory(final ClassGen cg) {
+        this(cg, cg.getConstantPool());
+    }
+
+    public InstructionFactory(final ClassGen cg, final ConstantPoolGen cp) {
+        this.cg = cg;
+        this.cp = cp;
+    }
+
+    /**
+     * Initialize just with ConstantPoolGen object
+     */
+    public InstructionFactory(final ConstantPoolGen cp) {
+        this(null, cp);
+    }
 
     /**
      * @param type type of elements of array, i.e., array.getElementType()
@@ -445,37 +456,6 @@ public class InstructionFactory {
         return type instanceof ObjectType && ((ObjectType) type).getClassName().equals("java.lang.String");
     }
 
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
-    protected ClassGen cg;
-
-    /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
-    protected ConstantPoolGen cp;
-
-    /**
-     * Initialize with ClassGen object
-     */
-    public InstructionFactory(final ClassGen cg) {
-        this(cg, cg.getConstantPool());
-    }
-
-    public InstructionFactory(final ClassGen cg, final ConstantPoolGen cp) {
-        this.cg = cg;
-        this.cp = cp;
-    }
-
-    /**
-     * Initialize just with ConstantPoolGen object
-     */
-    public InstructionFactory(final ConstantPoolGen cp) {
-        this(null, cp);
-    }
-
     public Instruction createAppend(final Type type) {
         final byte t = type.getType();
         if (isString(type)) {
@@ -720,15 +700,30 @@ public class InstructionFactory {
         return cg;
     }
 
-    public ConstantPoolGen getConstantPool() {
-        return cp;
-    }
-
     public void setClassGen(final ClassGen c) {
         cg = c;
     }
 
+    public ConstantPoolGen getConstantPool() {
+        return cp;
+    }
+
     public void setConstantPool(final ConstantPoolGen c) {
         cp = c;
+    }
+
+    private static class MethodObject {
+
+        final Type[] argTypes;
+        final Type resultType;
+        final String className;
+        final String name;
+
+        MethodObject(final String c, final String n, final Type r, final Type[] a) {
+            this.className = c;
+            this.name = n;
+            this.resultType = r;
+            this.argTypes = a;
+        }
     }
 }

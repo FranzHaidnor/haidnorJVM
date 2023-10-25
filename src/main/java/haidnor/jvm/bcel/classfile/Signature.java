@@ -33,24 +33,42 @@ import java.util.Objects;
  */
 public final class Signature extends Attribute {
 
+    private int signatureIndex;
+
     /**
-     * Extends ByteArrayInputStream to make 'unreading' chars possible.
+     * Construct object from file stream.
+     *
+     * @param nameIndex    Index in constant pool to CONSTANT_Utf8
+     * @param length       Content length in bytes
+     * @param input        Input stream
+     * @param constantPool Array of constants
+     * @throws IOException if an I/O error occurs.
      */
-    private static final class MyByteArrayInputStream extends ByteArrayInputStream {
+    Signature(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
+        this(nameIndex, length, input.readUnsignedShort(), constantPool);
+    }
 
-        MyByteArrayInputStream(final String data) {
-            super(data.getBytes(StandardCharsets.UTF_8));
-        }
+    /**
+     * @param nameIndex      Index in constant pool to CONSTANT_Utf8
+     * @param length         Content length in bytes
+     * @param signatureIndex Index in constant pool to CONSTANT_Utf8
+     * @param constantPool   Array of constants
+     */
+    public Signature(final int nameIndex, final int length, final int signatureIndex, final ConstantPool constantPool) {
+        super(Const.ATTR_SIGNATURE, nameIndex, Args.require(length, 2, "Signature length attribute"), constantPool);
+        this.signatureIndex = signatureIndex;
+        // validate:
+        Objects.requireNonNull(constantPool.getConstantUtf8(signatureIndex), "constantPool.getConstantUtf8(signatureIndex)");
+    }
 
-        String getData() {
-            return new String(buf, StandardCharsets.UTF_8);
-        }
-
-        void unread() {
-            if (pos > 0) {
-                pos--;
-            }
-        }
+    /**
+     * Initialize from another object. Note that both objects use the same references (shallow copy). Use clone() for a
+     * physical copy.
+     *
+     * @param c Source to copy.
+     */
+    public Signature(final Signature c) {
+        this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
     }
 
     private static boolean identStart(final int ch) {
@@ -152,44 +170,6 @@ public final class Signature extends Attribute {
         return buf.toString();
     }
 
-    private int signatureIndex;
-
-    /**
-     * Construct object from file stream.
-     *
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param input Input stream
-     * @param constantPool Array of constants
-     * @throws IOException if an I/O error occurs.
-     */
-    Signature(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
-        this(nameIndex, length, input.readUnsignedShort(), constantPool);
-    }
-
-    /**
-     * @param nameIndex Index in constant pool to CONSTANT_Utf8
-     * @param length Content length in bytes
-     * @param signatureIndex Index in constant pool to CONSTANT_Utf8
-     * @param constantPool Array of constants
-     */
-    public Signature(final int nameIndex, final int length, final int signatureIndex, final ConstantPool constantPool) {
-        super(Const.ATTR_SIGNATURE, nameIndex, Args.require(length, 2, "Signature length attribute"), constantPool);
-        this.signatureIndex = signatureIndex;
-        // validate:
-        Objects.requireNonNull(constantPool.getConstantUtf8(signatureIndex), "constantPool.getConstantUtf8(signatureIndex)");
-    }
-
-    /**
-     * Initialize from another object. Note that both objects use the same references (shallow copy). Use clone() for a
-     * physical copy.
-     *
-     * @param c Source to copy.
-     */
-    public Signature(final Signature c) {
-        this(c.getNameIndex(), c.getLength(), c.getSignatureIndex(), c.getConstantPool());
-    }
-
     /**
      * Called by objects that are traversing the nodes of the tree implicitly defined by the contents of a Java class.
      * I.e., the hierarchy of methods, fields, attributes, etc. spawns a tree of objects.
@@ -249,5 +229,25 @@ public final class Signature extends Attribute {
     @Override
     public String toString() {
         return "Signature: " + getSignature();
+    }
+
+    /**
+     * Extends ByteArrayInputStream to make 'unreading' chars possible.
+     */
+    private static final class MyByteArrayInputStream extends ByteArrayInputStream {
+
+        MyByteArrayInputStream(final String data) {
+            super(data.getBytes(StandardCharsets.UTF_8));
+        }
+
+        String getData() {
+            return new String(buf, StandardCharsets.UTF_8);
+        }
+
+        void unread() {
+            if (pos > 0) {
+                pos--;
+            }
+        }
     }
 }

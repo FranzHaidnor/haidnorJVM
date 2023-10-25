@@ -36,8 +36,8 @@ public class TABLESWITCH extends Select {
     }
 
     /**
-     * @param match sorted array of match values, match[0] must be low value, match[match_length - 1] high value
-     * @param targets where to branch for matched values
+     * @param match         sorted array of match values, match[0] must be low value, match[match_length - 1] high value
+     * @param targets       where to branch for matched values
      * @param defaultTarget default branch
      */
     public TABLESWITCH(final int[] match, final InstructionHandle[] targets, final InstructionHandle defaultTarget) {

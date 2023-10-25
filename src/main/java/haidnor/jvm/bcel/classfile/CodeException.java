@@ -155,31 +155,17 @@ public final class CodeException implements Cloneable, Node {
     }
 
     /**
-     * @return Exclusive end index of the region where the handler is active.
-     */
-    public int getEndPC() {
-        return endPc;
-    }
-
-    /**
-     * @return Starting address of exception handler, relative to the code.
-     */
-    public int getHandlerPC() {
-        return handlerPc;
-    }
-
-    /**
-     * @return Inclusive start index of the region where the handler is active.
-     */
-    public int getStartPC() {
-        return startPc;
-    }
-
-    /**
      * @param catchType the type of exception that is caught
      */
     public void setCatchType(final int catchType) {
         this.catchType = catchType;
+    }
+
+    /**
+     * @return Exclusive end index of the region where the handler is active.
+     */
+    public int getEndPC() {
+        return endPc;
     }
 
     /**
@@ -190,10 +176,24 @@ public final class CodeException implements Cloneable, Node {
     }
 
     /**
+     * @return Starting address of exception handler, relative to the code.
+     */
+    public int getHandlerPC() {
+        return handlerPc;
+    }
+
+    /**
      * @param handlerPc where the actual code is
      */
     public void setHandlerPC(final int handlerPc) { // TODO unused
         this.handlerPc = handlerPc;
+    }
+
+    /**
+     * @return Inclusive start index of the region where the handler is active.
+     */
+    public int getStartPC() {
+        return startPc;
     }
 
     /**

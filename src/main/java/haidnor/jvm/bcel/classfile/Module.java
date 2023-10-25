@@ -43,20 +43,19 @@ public final class Module extends Attribute {
     private final int moduleNameIndex;
     private final int moduleFlags;
     private final int moduleVersionIndex;
-
+    private final int usesCount;
+    private final int[] usesIndex;
     private ModuleRequires[] requiresTable;
     private ModuleExports[] exportsTable;
     private ModuleOpens[] opensTable;
-    private final int usesCount;
-    private final int[] usesIndex;
     private ModuleProvides[] providesTable;
 
     /**
      * Construct object from input stream.
      *
-     * @param nameIndex Index in constant pool
-     * @param length Content length in bytes
-     * @param input Input stream
+     * @param nameIndex    Index in constant pool
+     * @param length       Content length in bytes
+     * @param input        Input stream
      * @param constantPool Array of constants
      * @throws IOException if an I/O error occurs.
      */
