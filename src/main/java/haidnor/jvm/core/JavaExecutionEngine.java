@@ -35,25 +35,25 @@ public class JavaExecutionEngine {
      * 执行普通方法
      *
      * @param lastFrame  方法调用者的栈帧
-     * @param javaMethod 方法元信息
+     * @param method 方法元信息
      */
-    public static void callMethod(Frame lastFrame, JavaMethod javaMethod) {
-        JVMThread jvmThread = JVMThreadHolder.get();
+    public static void callMethod(Frame lastFrame, JavaMethod method) {
+        JVMThread thread = JVMThreadHolder.get();
         // 调用方法时会创建新的栈帧
-        Frame newFrame = new Frame(jvmThread, javaMethod);
+        Frame newFrame = new Frame(thread, method);
 
         // 如果线程栈内存在栈帧, 代表可能需要方法调用传参
         if (lastFrame != null) {
-            String signature = javaMethod.getSignature();
+            String signature = method.getSignature();
             String[] argumentTypes = Utility.methodSignatureArgumentTypes(signature);
 
             int argumentSlotSize = argumentTypes.length;
-            if (!javaMethod.isStatic()) {
+            if (!method.isStatic()) {
                 argumentSlotSize++;
             }
 
             // 方法调用传参 (原理: 将顶部栈帧的操作数栈中的数据弹出, 存入新栈帧的局部变量表中)
-            LocalVariableTable localVariableTable = javaMethod.getLocalVariableTable();
+            LocalVariableTable localVariableTable = method.getLocalVariableTable();
             if (localVariableTable != null) {
                 for (int i = argumentSlotSize - 1; i >= 0; i--) {
                     LocalVariable[] localVariableArr = localVariableTable.getLocalVariableTable();
@@ -66,7 +66,7 @@ public class JavaExecutionEngine {
         }
 
         // 将新栈帧压入线程栈顶部, 并执行新栈帧中的代码
-        jvmThread.push(newFrame);
+        thread.push(newFrame);
         executeFrame(newFrame);
     }
 
