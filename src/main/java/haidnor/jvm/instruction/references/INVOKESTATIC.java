@@ -8,7 +8,6 @@ import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
-import haidnor.jvm.util.SignatureUtil;
 import lombok.SneakyThrows;
 
 import java.util.Objects;
@@ -33,26 +32,28 @@ public class INVOKESTATIC extends Instruction {
         String className;
         String methodName;
         String methodSignature;
+        String returnType;
+        Class<?>[] parameterTypeArr;
 
         Constant constant = constantPool.getConstant(constantIndex);
-        if (constant instanceof ConstantMethodref constantMethodref) {
-            className = constantPool.constantMethodref_ClassName(constantMethodref);
-            methodName = constantPool.constantMethodref_MethodName(constantMethodref);
-            methodSignature = constantPool.constantMethodref_MethodSignature(constantMethodref);
-
-        } else if (constant instanceof ConstantInterfaceMethodref interfaceMethodref) {
-            className = constantPool.constantInterfaceMethodref_ClassName(interfaceMethodref);
-            methodName = constantPool.constantInterfaceMethodref_MethodName(interfaceMethodref);
-            methodSignature = constantPool.constantInterfaceMethodref_MethodSignature(interfaceMethodref);
+        if (constant instanceof ConstantMethodref methodref) {
+            className = methodref.getClassName();
+            methodName = methodref.getMethodName();
+            methodSignature = methodref.getMethodSignature();
+            returnType = methodref.getReturnType();
+            parameterTypeArr = methodref.getParameterTypeArr();
+        } else if (constant instanceof ConstantInterfaceMethodref methodref) {
+            className = methodref.getClassName();
+            methodName = methodref.getMethodName();
+            methodSignature = methodref.getMethodSignature();
+            returnType = methodref.getReturnType();
+            parameterTypeArr = methodref.getParameterTypeArr();
         } else {
             throw new ClassCastException();
         }
 
         //  系统类反射 自定义类另外处理
         if (className.startsWith("java/")) {
-            // 解析方法签名得到方法的返回类型
-            String returnType = Utility.methodSignatureReturnType(methodSignature, false);
-            Class<?>[] parameterTypeArr = SignatureUtil.getParameterTypeArr(methodSignature);
             Object[] stacksValueArr = frame.popStacksValue(parameterTypeArr.length);
             for (int i = 0; i < parameterTypeArr.length; i++) {
                 Class<?> aClass = parameterTypeArr[i];

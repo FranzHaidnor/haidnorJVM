@@ -117,4 +117,13 @@ public final class ConstantClass extends Constant implements ConstantObject {
     public String toString() {
         return super.toString() + "(nameIndex = " + nameIndex + ")";
     }
+
+    /**
+     * 获取长类名, 例如 java/lang/String
+     */
+    public String getClassName() {
+        ConstantUtf8 constantUtf8 = constantPool.getConstant(getNameIndex());
+        return constantUtf8.getBytes();
+    }
+
 }

@@ -121,7 +121,8 @@ public class JavaExecutionEngine {
                             handlerPC = codeException.getHandlerPC();
                         } else {
                             // 从常量池中查询异常表定义的异常类型
-                            String exceptionClassName = frame.getJavaClass().getConstantPool().constantClass_ClassName(catchType);
+                            ConstantClass constantClass = frame.getJavaMethod().getConstantPool().getConstant(catchType);
+                            String exceptionClassName = constantClass.getClassName();
                             exceptionClassName = Utility.compactClassName(exceptionClassName, false);
 
                             // 判断异常的泛型类型. 假如执行指令抛出的是 NullPointerException 类型, 异常表定义的是 Exception 类型, 则此异常可以被捕获

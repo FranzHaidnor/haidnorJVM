@@ -1,6 +1,6 @@
 package haidnor.jvm.instruction.references;
 
-import haidnor.jvm.bcel.classfile.ConstantPool;
+import haidnor.jvm.bcel.classfile.ConstantFieldref;
 import haidnor.jvm.bcel.classfile.JavaField;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.rtda.Instance;
@@ -20,9 +20,9 @@ public class GETFIELD extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getJavaMethod().getConstantPool();
-        String filedName = constantPool.getFieldName(constantFieldrefIndex);
-        String fieldSignature = constantPool.getFieldSignature(constantFieldrefIndex);
+        ConstantFieldref fieldref = frame.getJavaMethod().getConstantPool().getConstant(constantFieldrefIndex);
+        String filedName = fieldref.getName();
+        String fieldSignature = fieldref.getSignature();
 
         Instance instanceRef = frame.popRef();
         JavaField field = instanceRef.getField(filedName, fieldSignature);

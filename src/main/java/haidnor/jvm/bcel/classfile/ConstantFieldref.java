@@ -63,4 +63,29 @@ public final class ConstantFieldref extends ConstantCP {
     public void accept(final Visitor v) {
         v.visitConstantFieldref(this);
     }
+
+    /**
+     * 获取字段所处于Java类的类名, 例如 java/lang/String
+     */
+    public String getBelongClassName() {
+        ConstantClass constClass = constantPool.getConstant(getClassIndex());
+        return (String) constClass.getConstantValue(constantPool);
+    }
+
+    /**
+     * 获取字段名称
+     */
+    public String getName() {
+        ConstantNameAndType constNameAndType = constantPool.getConstant(getNameAndTypeIndex());
+        return constNameAndType.getName(constantPool);
+    }
+
+    /**
+     * 获取字段类型签名
+     */
+    public String getSignature() {
+        ConstantNameAndType constNameAndType = constantPool.getConstant(getNameAndTypeIndex());
+        return constNameAndType.getSignature(constantPool);
+    }
+
 }

@@ -1,7 +1,7 @@
 package haidnor.jvm.instruction.references;
 
 import haidnor.jvm.bcel.Const;
-import haidnor.jvm.bcel.classfile.ConstantPool;
+import haidnor.jvm.bcel.classfile.ConstantClass;
 import haidnor.jvm.bcel.classfile.JavaClass;
 import haidnor.jvm.bcel.classfile.Utility;
 import haidnor.jvm.instruction.Instruction;
@@ -24,8 +24,8 @@ public class NEW extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getJavaMethod().getConstantPool();
-        String className = constantPool.constantClass_ClassName(constantClassIndex);
+        ConstantClass constantClass = frame.getJavaMethod().getConstantPool().getConstant(constantClassIndex);
+        String className = constantClass.getClassName();
 
         if (className.startsWith("java/")) {
             frame.push(new StackValue(Const.T_OBJECT, null));

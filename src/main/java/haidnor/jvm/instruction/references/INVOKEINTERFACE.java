@@ -10,7 +10,6 @@ import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
-import haidnor.jvm.util.SignatureUtil;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
@@ -35,23 +34,18 @@ public class INVOKEINTERFACE extends Instruction {
     @Override
     @SneakyThrows
     public void execute(Frame frame) {
-        ConstantPool constantPool = frame.getJavaMethod().getConstantPool();
+        ConstantInterfaceMethodref methodref = frame.getJavaMethod().getConstantPool().getConstant(constantMethodrefIndex);
 
-        ConstantInterfaceMethodref interfaceMethodref = constantPool.getConstant(constantMethodrefIndex);
-
-        int classIndex = interfaceMethodref.getClassIndex();
-        String interfaceName = constantPool.constantClass_ClassName(classIndex);
-
-        int nameAndTypeIndex = interfaceMethodref.getNameAndTypeIndex();
-        String methodName = constantPool.constantNameAndType_name(nameAndTypeIndex);
-        String methodSignature = constantPool.constantNameAndType_signature(nameAndTypeIndex);
+        String className = methodref.getClassName();
+        String methodName = methodref.getMethodName();
+        String methodSignature = methodref.getMethodSignature();
 
         //  系统类反射 自定义类另外处理
-        if (interfaceName.startsWith("java/")) {
+        if (className.startsWith("java/")) {
             // 解析方法签名得到方法的返回类型
-            String returnType = Utility.methodSignatureReturnType(methodSignature, false);
+            String returnType = methodref.getReturnType();
             // 执行方法的参数列表
-            Class<?>[] parameterTypeArr = SignatureUtil.getParameterTypeArr(methodSignature);
+            Class<?>[] parameterTypeArr = methodref.getParameterTypeArr();
             // 执行方法的参数值
             Object[] args = frame.popStacksValue(parameterTypeArr.length);
             // 将特定的参数转换为基本类型
@@ -78,10 +72,10 @@ public class INVOKEINTERFACE extends Instruction {
         }
         // 调用自定义类的方法
         else {
-            JavaClass interfaceKlass = Metaspace.getJavaClass(Utility.compactClassName(interfaceName));
-            if (interfaceKlass == null) {
+            JavaClass javaClass = Metaspace.getJavaClass(Utility.compactClassName(className));
+            if (javaClass == null) {
                 JVMClassLoader classLoader = frame.getJavaClass().getJVMClassLoader();
-                classLoader.loadWithClassPath(interfaceName);
+                classLoader.loadWithClassPath(className);
             }
 
             StackValue stackValue = frame.peek();

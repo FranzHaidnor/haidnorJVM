@@ -9,7 +9,6 @@ import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
 import haidnor.jvm.util.CodeStream;
-import haidnor.jvm.util.SignatureUtil;
 import lombok.SneakyThrows;
 
 /**
@@ -30,9 +29,9 @@ public class INVOKESPECIAL extends Instruction {
         ConstantPool constantPool = frame.getJavaMethod().getConstantPool();
         ConstantMethodref methodref = constantPool.getConstant(constantMethodrefIndex);
 
-        String className = constantPool.constantMethodref_ClassName(methodref);
-        String methodName = constantPool.constantMethodref_MethodName(methodref);
-        String methodSignature = constantPool.constantMethodref_MethodSignature(methodref);
+        String className = methodref.getClassName();
+        String methodName = methodref.getMethodName();
+        String methodSignature = methodref.getMethodSignature();
 
         JavaClass javaClass = Metaspace.getJavaClass(Utility.compactClassName(className));
         if (javaClass == null) {
@@ -44,7 +43,7 @@ public class INVOKESPECIAL extends Instruction {
             // 执行 RT.jar 中 Java 对象构造方法的时候创建java对象
             if (methodName.equals("<init>")) {
                 // 执行方法的参数列表
-                Class<?>[] parameterTypeArr = SignatureUtil.getParameterTypeArr(methodSignature);
+                Class<?>[] parameterTypeArr = methodref.getParameterTypeArr();
                 // 执行方法的参数值
                 Object[] args = frame.popStacksValue(parameterTypeArr.length);
                 // 将特定的参数转换为基本类型

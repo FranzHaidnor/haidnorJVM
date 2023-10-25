@@ -17,6 +17,7 @@
 package haidnor.jvm.bcel.classfile;
 
 import haidnor.jvm.bcel.Const;
+import lombok.SneakyThrows;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -62,5 +63,50 @@ public final class ConstantInterfaceMethodref extends ConstantCP {
     @Override
     public void accept(final Visitor v) {
         v.visitConstantInterfaceMethodref(this);
+    }
+
+    public String getClassName() {
+        ConstantClass constClass = constantPool.getConstant(getClassIndex());
+        return (String) constClass.getConstantValue(constantPool);
+    }
+
+    public String getMethodName() {
+        ConstantNameAndType constNameAndType = constantPool.getConstant(getNameAndTypeIndex());
+        return constNameAndType.getName(constantPool);
+    }
+
+    public String getMethodSignature() {
+        ConstantNameAndType constNameAndType = constantPool.getConstant(getNameAndTypeIndex());
+        return constNameAndType.getSignature(constantPool);
+    }
+
+    public String getReturnType() {
+        return Utility.methodSignatureReturnType(getMethodSignature(), false);
+    }
+
+    /**
+     * 解析方法签名返回方法参数类型数组
+     */
+    @SneakyThrows
+    public Class<?>[] getParameterTypeArr() {
+        String[] argumentTypeArr = Utility.methodSignatureArgumentTypes(getMethodSignature(), false);
+        Class<?>[] argumentClassArr = new Class[argumentTypeArr.length];
+        for (int i = 0; i < argumentTypeArr.length; i++) {
+            Class<?> argumentClass;
+            String argumentType = argumentTypeArr[i];
+            argumentClass = switch (argumentType) {
+                case "byte" -> byte.class;
+                case "short" -> short.class;
+                case "boolean" -> boolean.class;
+                case "char" -> char.class;
+                case "int" -> int.class;
+                case "long" -> long.class;
+                case "float" -> float.class;
+                case "double" -> double.class;
+                default -> Class.forName(argumentType);
+            };
+            argumentClassArr[i] = argumentClass;
+        }
+        return argumentClassArr;
     }
 }
