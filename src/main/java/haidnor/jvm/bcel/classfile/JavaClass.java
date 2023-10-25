@@ -210,6 +210,11 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                 staticJavaFieldMap.put(field.getName(), field);
             }
         }
+
+        JavaMethod[] javaMethods = getMethods();
+        for (JavaMethod javaMethod : javaMethods) {
+            javaMethod.setJavaClass(this);
+        }
     }
 
     /*

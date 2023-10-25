@@ -28,7 +28,7 @@ public class JavaExecutionEngine {
      */
     public static void callMainMethod(JavaClass javaClass) {
         JavaMethod mainMethod = javaClass.getMainMethod();
-        callMethod(null, javaClass, mainMethod);
+        callMethod(null, mainMethod);
     }
 
     /**
@@ -37,10 +37,10 @@ public class JavaExecutionEngine {
      * @param lastFrame  方法调用者的栈帧
      * @param javaMethod 方法元信息
      */
-    public static void callMethod(Frame lastFrame, JavaClass javaClass, JavaMethod javaMethod) {
+    public static void callMethod(Frame lastFrame, JavaMethod javaMethod) {
         JVMThread jvmThread = JVMThreadHolder.get();
         // 调用方法时会创建新的栈帧
-        Frame newFrame = new Frame(jvmThread, javaClass, javaMethod);
+        Frame newFrame = new Frame(jvmThread, javaMethod);
 
         // 如果线程栈内存在栈帧, 代表可能需要方法调用传参
         if (lastFrame != null) {

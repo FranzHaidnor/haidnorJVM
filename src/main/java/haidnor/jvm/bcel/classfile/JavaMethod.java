@@ -18,6 +18,8 @@ package haidnor.jvm.bcel.classfile;
 
 import haidnor.jvm.bcel.generic.Type;
 import haidnor.jvm.bcel.util.BCELComparator;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -56,6 +58,10 @@ public class JavaMethod extends FieldOrMethod {
     };
     // annotations defined on the parameters of a method
     private ParameterAnnotationEntry[] parameterAnnotationEntries;
+
+    @Getter
+    @Setter
+    private JavaClass javaClass;
 
     /**
      * Empty constructor, all attributes have to be defined via 'setXXX' methods. Use at your own risk.

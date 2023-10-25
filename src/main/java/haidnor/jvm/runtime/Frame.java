@@ -51,9 +51,9 @@ public class Frame {
      */
     private final Slot[] slots;
 
-    public Frame(JVMThread thread, JavaClass javaClass, JavaMethod javaMethod) {
+    public Frame(JVMThread thread, JavaMethod javaMethod) {
         this.jvmThread = thread;
-        this.javaClass = javaClass;
+        this.javaClass = javaMethod.getJavaClass();
         this.javaMethod = javaMethod;
         this.code = javaMethod.getCode();
         this.codeStream = new CodeStream(javaMethod.getCode());
