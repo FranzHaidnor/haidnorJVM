@@ -91,6 +91,7 @@ public class JVMClassLoader {
         JavaClass superJavaClass = javaClass.getSuperClass();
         if (superJavaClass != null) {
             register(superJavaClass);
+            superJavaClass.setJVMClassLoader(javaClass.getJVMClassLoader());
         }
         Metaspace.registerJavaClass(javaClass);
 
