@@ -4,7 +4,7 @@ import haidnor.jvm.bcel.Const;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 public class ACONST_NULL extends Instruction {
 

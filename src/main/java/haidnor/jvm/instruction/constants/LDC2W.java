@@ -8,7 +8,7 @@ import haidnor.jvm.bcel.classfile.ConstantPool;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 /**
  * 将 long 或 double 型常量从常量池中推送至栈顶 (宽索引)

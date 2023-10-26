@@ -5,7 +5,7 @@ import haidnor.jvm.bcel.classfile.Code;
 import haidnor.jvm.bcel.classfile.JavaClass;
 import haidnor.jvm.bcel.classfile.JavaMethod;
 import haidnor.jvm.rtda.Instance;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 import lombok.Getter;
 
 import java.util.Stack;

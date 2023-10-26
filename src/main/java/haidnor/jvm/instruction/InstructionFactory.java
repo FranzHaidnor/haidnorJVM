@@ -11,7 +11,7 @@ import haidnor.jvm.instruction.math.*;
 import haidnor.jvm.instruction.references.*;
 import haidnor.jvm.instruction.stack.*;
 import haidnor.jvm.instruction.stores.*;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 public abstract class InstructionFactory {
 

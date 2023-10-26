@@ -1,4 +1,4 @@
-package haidnor.jvm.util;
+package haidnor.jvm.core;
 
 import haidnor.jvm.runtime.JVMThread;
 

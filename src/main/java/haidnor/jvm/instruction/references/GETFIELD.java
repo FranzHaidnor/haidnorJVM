@@ -5,7 +5,7 @@ import haidnor.jvm.bcel.classfile.JavaField;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.rtda.Instance;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 import lombok.SneakyThrows;
 
 public class GETFIELD extends Instruction {

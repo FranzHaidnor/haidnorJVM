@@ -9,8 +9,6 @@ import haidnor.jvm.instruction.control.ReturnableInstruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.JVMThread;
 import haidnor.jvm.runtime.StackValue;
-import haidnor.jvm.util.CodeStream;
-import haidnor.jvm.util.JVMThreadHolder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 

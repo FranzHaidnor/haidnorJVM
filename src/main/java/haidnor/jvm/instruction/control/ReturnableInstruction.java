@@ -1,7 +1,7 @@
 package haidnor.jvm.instruction.control;
 
 import haidnor.jvm.instruction.Instruction;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 /**
  * return 系列字节码指令的抽象类

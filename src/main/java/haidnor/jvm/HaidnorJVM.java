@@ -5,7 +5,7 @@ import haidnor.jvm.classloader.JVMClassLoader;
 import haidnor.jvm.core.JavaExecutionEngine;
 import haidnor.jvm.rtda.Metaspace;
 import haidnor.jvm.runtime.JVMThread;
-import haidnor.jvm.util.JVMThreadHolder;
+import haidnor.jvm.core.JVMThreadHolder;
 import lombok.SneakyThrows;
 import org.apache.commons.cli.*;
 
@@ -84,7 +84,8 @@ public class HaidnorJVM {
     public static void testRun(Class<?> mainClass) {
         JVMThreadHolder.set(new JVMThread());
         JVMClassLoader bootClassLoader = new JVMClassLoader("ApplicationClassLoader");
-        JavaClass mainMeteKlass = bootClassLoader.loadWithClassPath(mainClass.getName().replace('.', '/'));
-        JavaExecutionEngine.callMain(mainMeteKlass);
+        JavaClass javaClass = bootClassLoader.loadWithClassPath(mainClass.getName().replace('.', '/'));
+        JavaExecutionEngine.callMain(javaClass);
     }
+
 }

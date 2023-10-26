@@ -3,7 +3,7 @@ package haidnor.jvm.instruction.comparisons;
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
 import haidnor.jvm.runtime.StackValue;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 public class IFGT extends Instruction {
     /**

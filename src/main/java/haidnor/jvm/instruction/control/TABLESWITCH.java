@@ -2,7 +2,7 @@ package haidnor.jvm.instruction.control;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 public class TABLESWITCH extends Instruction {
 

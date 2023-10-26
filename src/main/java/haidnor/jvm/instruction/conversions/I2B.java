@@ -2,7 +2,7 @@ package haidnor.jvm.instruction.conversions;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 /**
  * JVM中的I2B指令是用于执行将整数类型（int）转换为字节类型（byte）的指令。该指令将一个int类型的数值从操作数栈中弹出，并将其转换为一个字节（byte）。

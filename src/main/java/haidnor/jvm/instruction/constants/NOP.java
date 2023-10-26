@@ -2,7 +2,7 @@ package haidnor.jvm.instruction.constants;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 /**
  * Java VM opcode.

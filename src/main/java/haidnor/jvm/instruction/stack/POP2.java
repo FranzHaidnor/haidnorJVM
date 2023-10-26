@@ -2,7 +2,7 @@ package haidnor.jvm.instruction.stack;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 import lombok.SneakyThrows;
 
 public class POP2 extends Instruction {

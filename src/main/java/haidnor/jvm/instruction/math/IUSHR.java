@@ -2,7 +2,7 @@ package haidnor.jvm.instruction.math;
 
 import haidnor.jvm.instruction.Instruction;
 import haidnor.jvm.runtime.Frame;
-import haidnor.jvm.util.CodeStream;
+import haidnor.jvm.core.CodeStream;
 
 /**
  * JVM中的IUSHR指令是用于执行无符号右移操作的指令。该指令将两个整数值从操作数栈中弹出，
