@@ -158,6 +158,14 @@ public class TestJVM {
     public void test_Array() throws Exception {
         HaidnorJVM.testRun(Array.class);
     }
+    @Test
+    public void test_Switch_table() throws Exception {
+        HaidnorJVM.testRun(demo_switch_table.class);
+    }
+    @Test
+    public void test_Switch_lookup() throws Exception {
+        HaidnorJVM.testRun(demo_switch_lookup.class);
+    }
 
     @Test
     public void test_() throws Exception {
