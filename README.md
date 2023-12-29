@@ -28,8 +28,8 @@
 * 支持 JDK 中自带的 Java 类
 * 支持反射
 * 支持异常
+* switch
 * 枚举 (TODD...)
-* switch 语法 (TODD...)
 * lambda 表达式 (TODD...)
 
 # 局限性
