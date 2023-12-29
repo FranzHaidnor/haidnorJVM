@@ -526,10 +526,10 @@ public abstract class InstructionFactory {
                 return new RET(codeStream);
             }
             case Const.TABLESWITCH -> {
-                return new TABLESWITCH(codeStream); // TODO
+                return new TABLESWITCH(codeStream);
             }
             case Const.LOOKUPSWITCH -> {
-                return new LOOKUPSWITCH(codeStream); // TODO
+                return new LOOKUPSWITCH(codeStream);
             }
             case Const.IRETURN -> {
                 return new IRETURN(codeStream);
