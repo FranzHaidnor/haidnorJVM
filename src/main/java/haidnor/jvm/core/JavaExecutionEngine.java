@@ -32,8 +32,8 @@ public class JavaExecutionEngine {
     /**
      * 执行普通方法
      *
-     * @param lastFrame  方法调用者的栈帧
-     * @param method 方法元信息
+     * @param lastFrame 方法调用者的栈帧
+     * @param method    方法元信息
      */
     public static void callMethod(Frame lastFrame, JavaMethod method) {
         JVMThread thread = JVMThreadHolder.get();
@@ -47,19 +47,14 @@ public class JavaExecutionEngine {
 
             int argumentSlotSize = argumentTypes.length;
             if (!method.isStatic()) {
+                // 非静态方法 argumentSlotSize++ 的原因是第一个 slot 需要存放对象本身的引用
                 argumentSlotSize++;
             }
 
             // 方法调用传参 (原理: 将顶部栈帧的操作数栈中的数据弹出, 存入新栈帧的局部变量表中)
-            LocalVariableTable localVariableTable = method.getLocalVariableTable();
-            if (localVariableTable != null) {
-                for (int i = argumentSlotSize - 1; i >= 0; i--) {
-                    LocalVariable[] localVariableArr = localVariableTable.getLocalVariableTable();
-                    LocalVariable localVariable = localVariableArr[i];
-                    int slotIndex = localVariable.getIndex();
-                    StackValue stackValue = lastFrame.pop();
-                    newFrame.slotSet(slotIndex, stackValue);
-                }
+            for (int i = argumentSlotSize - 1; i >= 0; i--) {
+                StackValue stackValue = lastFrame.pop();
+                newFrame.slotSet(i, stackValue);
             }
         }
 
