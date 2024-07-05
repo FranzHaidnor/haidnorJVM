@@ -890,12 +890,15 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * 获取 main 方法
      */
     public JavaMethod getMainMethod() {
-        for (JavaMethod javaMethod : getMethods()) {
-            if (javaMethod.toString().startsWith("public static void main(String[] args)")) {
-                return javaMethod;
+        for (JavaMethod method : getMethods()) {
+            if (method.isPublic()
+                    && method.isStatic()
+                    && method.getName().equals("main")
+                    && method.getSignature().equals("([Ljava/lang/String;)V")) {
+                return method;
             }
         }
-        return null;
+        throw new RuntimeException("can not found main() method");
     }
 
     @SneakyThrows
